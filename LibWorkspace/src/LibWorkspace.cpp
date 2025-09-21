@@ -4,6 +4,7 @@
 #include <QString>
 #include <QMessageBox>
 
+
 LibWorkspace::LibWorkspace(QWidget *parent)
     : QMainWindow(parent)
 {
@@ -30,13 +31,15 @@ void LibWorkspace::setupUI()
     QLabel* label3 = new QLabel("ComponentEditor");
     QLabel* label4 = new QLabel("ParametrsList");
 
-    QWidget* centralWidget = new QWidget(this);
-    setCentralWidget(centralWidget);
-
     /*auto buttonLayout = new QHBoxLayout();*/
 
     //refreshButton = new QPushButton(QIcon("icons/refresh.svg"), "", this);
     //buttonLayout->addWidget(refreshButton);
+
+    setupToolBar();
+
+    QWidget* centralWidget = new QWidget(this);
+    setCentralWidget(centralWidget);
 
     QHBoxLayout* mainLayout = new QHBoxLayout(centralWidget);
     QSplitter* splitter = new QSplitter(Qt::Vertical);
@@ -47,6 +50,24 @@ void LibWorkspace::setupUI()
     mainLayout->addWidget(splitter);
     mainLayout->addWidget(label3);
     mainLayout->addWidget(label4);
+}
+
+void LibWorkspace::setupToolBar()
+{
+    toolBar = new QToolBar(QStringLiteral(u"Основные инструменты", this));
+    toolBar->setIconSize(QSize(32, 32));
+    toolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    addToolBar(Qt::TopToolBarArea, toolBar);
+
+    QAction* newAction = new QAction(QIcon("icons/plus.svg"), QStringLiteral(u"Добавить"), this);
+    QAction* deleteAction = new QAction(QIcon("icons/cross.svg"), QStringLiteral(u"Удалить"), this);
+    QAction* downAction = new QAction(QIcon("icons/arrow-down.svg"), QStringLiteral(u"Вниз"), this);
+    QAction* upAction = new QAction(QIcon("icons/arrow-up.svg"), QStringLiteral(u"Вверх"), this);
+
+    toolBar->addAction(newAction);
+    toolBar->addAction(deleteAction);
+    toolBar->addAction(downAction);
+    toolBar->addAction(upAction);
 }
 
 void LibWorkspace::setupConnections()

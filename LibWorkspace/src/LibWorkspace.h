@@ -10,7 +10,7 @@
 #include <QWidget>
 #include <QKeyEvent>
 #include <QPushButton>
-
+#include <QToolBar> 
 #include <QLabel>
 
 
@@ -29,10 +29,12 @@ private:
     LibraryManager* libraryManager;
     ComponentsTable* componentsTable;
     QPushButton* refreshButton;
+    QToolBar* toolBar;
 
 public slots:
     void RequestWithSelectedItem(const QModelIndex& index);
     //void refreshButtonClicked();
     void setupConnections();
+    void setupToolBar();
 };
 
