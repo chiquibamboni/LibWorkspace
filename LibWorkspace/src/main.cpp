@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[])
 {
-    //QApplication::setStyle(QStyleFactory::create("Windows"));
+    QApplication::setStyle(QStyleFactory::create("Windows"));
     QApplication app(argc, argv);
     LibWorkspace window;
     window.setWindowTitle(QStringLiteral(u"Редактор библиотек"));

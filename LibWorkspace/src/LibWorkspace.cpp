@@ -8,6 +8,10 @@ LibWorkspace::LibWorkspace(QWidget *parent)
     : QMainWindow(parent)
 {
     setupUI();
+    setupConnections();
+
+    //первое отправление запроса
+    libraryManager->request();
 }
 
 LibWorkspace::~LibWorkspace()
@@ -23,43 +27,35 @@ void LibWorkspace::setupUI()
     componentsTable = new ComponentsTable();
     componentsTable->setIconSize(iconSize);
 
-    QWidget* centralWidget = new QWidget(this);
-    setCentralWidget(centralWidget);
-
-    auto buttonLayout = new QHBoxLayout();
-
-   /* refreshButton = new QPushButton(QIcon("icons/refresh.svg"), "", this);
-    buttonLayout->addWidget(refreshButton);*/
-
-    QHBoxLayout* mainLayout = new QHBoxLayout(centralWidget);
-
-    //QLabel* label1 = new QLabel("LibManager", this);
-    //QLabel* label2 = new QLabel("ComponentTable", this);
     QLabel* label3 = new QLabel("ComponentEditor");
     QLabel* label4 = new QLabel("ParametrsList");
 
+    QWidget* centralWidget = new QWidget(this);
+    setCentralWidget(centralWidget);
+
+    /*auto buttonLayout = new QHBoxLayout();*/
+
+    //refreshButton = new QPushButton(QIcon("icons/refresh.svg"), "", this);
+    //buttonLayout->addWidget(refreshButton);
+
+    QHBoxLayout* mainLayout = new QHBoxLayout(centralWidget);
     QSplitter* splitter = new QSplitter(Qt::Vertical);
+
     splitter->addWidget(libraryManager);
     splitter->addWidget(componentsTable);
 
-
-    QVBoxLayout* leftLayout = new QVBoxLayout();
-    /*leftLayout->addWidget(label1);
-    leftLayout->addWidget(label2);
-    mainLayout->addLayout(leftLayout);*/
     mainLayout->addWidget(splitter);
     mainLayout->addWidget(label3);
     mainLayout->addWidget(label4);
+}
 
-    //привязка сигналов
+void LibWorkspace::setupConnections()
+{
     connect(libraryManager, &QTreeView::clicked, this, &LibWorkspace::RequestWithSelectedItem);
     connect(libraryManager, &QTreeView::expanded, this, &LibWorkspace::RequestWithSelectedItem);
 
     //привязка сигналов для кнопок
-    connect(refreshButton, &QPushButton::clicked, this, &LibWorkspace::refreshButtonClicked);
-
-    //первое отправление запроса
-    libraryManager->request();
+    //connect(refreshButton, &QPushButton::clicked, this, &LibWorkspace::refreshButtonClicked);
 }
 
 void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
@@ -94,9 +90,9 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
     }
 }
 
-void LibWorkspace::refreshButtonClicked()
-{
-    libraryManager->request();
-    componentsTable->setRowCount(0);
-}
+//void LibWorkspace::refreshButtonClicked()
+//{
+//    libraryManager->request();
+//    componentsTable->setRowCount(0);
+//}
 

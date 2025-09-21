@@ -32,6 +32,7 @@ private:
 
 public slots:
     void RequestWithSelectedItem(const QModelIndex& index);
-    void refreshButtonClicked();
+    //void refreshButtonClicked();
+    void setupConnections();
 };
 
