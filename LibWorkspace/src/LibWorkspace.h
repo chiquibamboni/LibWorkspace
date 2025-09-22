@@ -1,9 +1,10 @@
-#pragma once
+﻿#pragma once
 
 #include <QtWidgets/QMainWindow>
 
 #include "ComponentsTable.h"
 #include "LibraryManager.h"
+#include "ParametersList.h"
 #include "ComponentEditor.h"
 
 #include <QVBoxLayout>
@@ -28,10 +29,10 @@ private:
     void setupUI();
     LibraryManager* libraryManager;
     ComponentsTable* componentsTable;
+    ParametersList* parametersList;
     ComponentEditor* componentEditor;
    // QPushButton* refreshButton;
     QToolBar* toolBar;
-    QListWidget* parametrsList;
     QMenuBar* menuBar;
 
 public slots:

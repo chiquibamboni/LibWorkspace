@@ -1,4 +1,4 @@
-#include "LibWorkspace.h"
+ï»¿#include "LibWorkspace.h"
 #include <qheaderview.h>
 #include <QSplitter>
 #include <QString>
@@ -12,8 +12,8 @@ LibWorkspace::LibWorkspace(QWidget *parent)
     setupUI();
     setupConnections();
 
-    //ïåðâîå îòïðàâëåíèå çàïðîñà
-    libraryManager->request();
+    //Ð¿ÐµÑ€Ð²Ð¾Ðµ Ð¾Ñ‚Ð¿Ñ€Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ Ð·Ð°Ð¿Ñ€Ð¾ÑÐ°
+    libraryManager->request();    
 }
 
 LibWorkspace::~LibWorkspace()
@@ -34,12 +34,7 @@ void LibWorkspace::setupUI()
     //QLabel* label3 = new QLabel("ComponentEditor");
     //QLabel* label4 = new QLabel("ParametrsList");
 
-    parametrsList = new QListWidget();
-
-    QStringList items;
-    items << "par 1" << "par 2" << "par 3";
-
-    parametrsList->addItems(items);
+    parametersList = new ParametersList();
 
     /*auto buttonLayout = new QHBoxLayout();*/
 
@@ -60,7 +55,7 @@ void LibWorkspace::setupUI()
 
     mainLayout->addWidget(splitter);
     mainLayout->addWidget(componentEditor);
-    mainLayout->addWidget(parametrsList);
+    mainLayout->addWidget(parametersList);
 }
 
 void LibWorkspace::setupMenuBar()
@@ -68,32 +63,32 @@ void LibWorkspace::setupMenuBar()
     menuBar = new QMenuBar(this);
     setMenuBar(menuBar);
 
-    QMenu* fileMenu = menuBar->addMenu(QStringLiteral(u"Ôàéë"));
+    QMenu* fileMenu = menuBar->addMenu(QStringLiteral(u"Ð¤Ð°Ð¹Ð»"));
 
-    QAction* newAction = new QAction(QStringLiteral(u"Ñîçäàòü"), this);
+    QAction* newAction = new QAction(QStringLiteral(u"Ð¡Ð¾Ð·Ð´Ð°Ñ‚ÑŒ"), this);
     newAction->setShortcut(QKeySequence::New);
     fileMenu->addAction(newAction);
 
-    QAction* openAction = new QAction(QStringLiteral(u"Îòêðûòü"), this);
+    QAction* openAction = new QAction(QStringLiteral(u"ÐžÑ‚ÐºÑ€Ñ‹Ñ‚ÑŒ"), this);
     openAction->setShortcut(QKeySequence::Open);
     fileMenu->addAction(openAction);
 
     fileMenu->addSeparator(); 
 
-    QMenu* editMenu = menuBar->addMenu(QStringLiteral(u"Äîáàâèòü"));
+    QMenu* editMenu = menuBar->addMenu(QStringLiteral(u"Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ"));
 
-    QAction* libAction = new QAction(QStringLiteral(u"Áèáëèîòåêó"), this);
+    QAction* libAction = new QAction(QStringLiteral(u"Ð‘Ð¸Ð±Ð»Ð¸Ð¾Ñ‚ÐµÐºÑƒ"), this);
     editMenu->addAction(libAction);
 
-    QAction* catAction = new QAction(QStringLiteral(u"Êàòàëîã"), this);
+    QAction* catAction = new QAction(QStringLiteral(u"ÐšÐ°Ñ‚Ð°Ð»Ð¾Ð³"), this);
     editMenu->addAction(catAction);
 
-    QAction* compAction = new QAction(QStringLiteral(u"Êîìïîíåíò"), this);
+    QAction* compAction = new QAction(QStringLiteral(u"ÐšÐ¾Ð¼Ð¿Ð¾Ð½ÐµÐ½Ñ‚"), this);
     editMenu->addAction(compAction);
 
     fileMenu->addSeparator();
 
-    QMenu* helpMenu = menuBar->addMenu(QStringLiteral(u"Ïîìîùü"));
+    QMenu* helpMenu = menuBar->addMenu(QStringLiteral(u"ÐŸÐ¾Ð¼Ð¾Ñ‰ÑŒ"));
 }
 
 void LibWorkspace::setupToolBar()
@@ -103,10 +98,10 @@ void LibWorkspace::setupToolBar()
     toolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
     addToolBar(Qt::TopToolBarArea, toolBar);
 
-    QAction* newAction = new QAction(QIcon("icons/plus.svg"), QStringLiteral(u"Äîáàâèòü"), this);
-    QAction* deleteAction = new QAction(QIcon("icons/cross.svg"), QStringLiteral(u"Óäàëèòü"), this);
-    QAction* downAction = new QAction(QIcon("icons/arrow-down.svg"), QStringLiteral(u"Âíèç"), this);
-    QAction* upAction = new QAction(QIcon("icons/arrow-up.svg"), QStringLiteral(u"Ââåðõ"), this);
+    QAction* newAction = new QAction(QIcon("icons/plus.svg"), QStringLiteral(u"Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ"), this);
+    QAction* deleteAction = new QAction(QIcon("icons/cross.svg"), QStringLiteral(u"Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ"), this);
+    QAction* downAction = new QAction(QIcon("icons/arrow-down.svg"), QStringLiteral(u"Ð’Ð½Ð¸Ð·"), this);
+    QAction* upAction = new QAction(QIcon("icons/arrow-up.svg"), QStringLiteral(u"Ð’Ð²ÐµÑ€Ñ…"), this);
 
     toolBar->addAction(newAction);
     toolBar->addAction(deleteAction);
@@ -119,7 +114,7 @@ void LibWorkspace::setupConnections()
     connect(libraryManager, &QTreeView::clicked, this, &LibWorkspace::RequestWithSelectedItem);
     connect(libraryManager, &QTreeView::expanded, this, &LibWorkspace::RequestWithSelectedItem);
 
-    //ïðèâÿçêà ñèãíàëîâ äëÿ êíîïîê
+    //Ð¿Ñ€Ð¸Ð²ÑÐ·ÐºÐ° ÑÐ¸Ð³Ð½Ð°Ð»Ð¾Ð² Ð´Ð»Ñ ÐºÐ½Ð¾Ð¿Ð¾Ðº
     //connect(refreshButton, &QPushButton::clicked, this, &LibWorkspace::refreshButtonClicked);
 }
 
@@ -135,6 +130,8 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
             libraryManager->currentPath = fullPath;
             libraryManager->currentLibrary = &lib;
             libraryManager->request();
+            parametersList->location = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->components_location;
+            parametersList->setItems();
             componentsTable->setRowCount(0);
             return;
         }
@@ -143,7 +140,7 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
     {
         if (catalog.name == selectedItem) {
             libraryManager->currentCatalog = &catalog;
-            //Îáíîâëåíèå äàííûõ êîìïîíåíòîâ òàáëèöû
+            //ÐžÐ±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ Ð´Ð°Ð½Ð½Ñ‹Ñ… ÐºÐ¾Ð¼Ð¿Ð¾Ð½ÐµÐ½Ñ‚Ð¾Ð² Ñ‚Ð°Ð±Ð»Ð¸Ñ†Ñ‹
             if (!libraryManager->currentCatalog->components.isEmpty())
             {
                 componentsTable->updateComponents(libraryManager->currentCatalog->components);

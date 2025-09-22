@@ -1,4 +1,5 @@
-#include "LibraryManager.h"
+п»ї#include "LibraryManager.h"
+#include "readJson.h"
 
 LibraryManager::LibraryManager(QWidget* parent)
     : QTreeView(parent)
@@ -24,7 +25,7 @@ void LibraryManager::setupTree()
     installEventFilter(this);
 }
 
-//Обновление QTreeView после получения данных с сервера
+//РћР±РЅРѕРІР»РµРЅРёРµ QTreeView РїРѕСЃР»Рµ РїРѕР»СѓС‡РµРЅРёСЏ РґР°РЅРЅС‹С… СЃ СЃРµСЂРІРµСЂР°
 void LibraryManager::updateTree(const nlohmann::json& jsonData)
 {
     if (currentPath == "./Libraries")
@@ -112,7 +113,7 @@ void LibraryManager::CatalogFromJson(const nlohmann::json& jsonObj, Catalog& cat
         parentItem->appendRow(catalog.item);
     }
 
-    //Обработка вложенных каталогов
+    //РћР±СЂР°Р±РѕС‚РєР° РІР»РѕР¶РµРЅРЅС‹С… РєР°С‚Р°Р»РѕРіРѕРІ
     if (jsonObj.contains("catalogs") && jsonObj["catalogs"].is_array()) {
         for (const auto& subCatalogJson : jsonObj["catalogs"]) {
             Catalog subCat;
@@ -121,7 +122,7 @@ void LibraryManager::CatalogFromJson(const nlohmann::json& jsonObj, Catalog& cat
         }
     }
 
-    //Обработка компонентов (если есть)
+    //РћР±СЂР°Р±РѕС‚РєР° РєРѕРјРїРѕРЅРµРЅС‚РѕРІ (РµСЃР»Рё РµСЃС‚СЊ)
     if (jsonObj.contains("components") && jsonObj["components"].is_array()) {
         for (const auto& compJson : jsonObj["components"]) {
             Component comp;
@@ -149,41 +150,7 @@ void LibraryManager::ComponentFromJson(const nlohmann::json& jsonObj, Component&
     }
 }
 
-nlohmann::json LibraryManager::readJson() {
-
-    QFileInfo fileInfo(currentPath);
-
-    if (!fileInfo.exists()) {
-        QMessageBox::warning(this, "Ошибка", QStringLiteral(u"ресурсы не найдены"));
-        return nlohmann::json();
-    }
-
-    if (fileInfo.isDir()) {
-        QDir librariesDir(currentPath);
-        QStringList jsonFiles = librariesDir.entryList(QStringList() << "*.json", QDir::Files);
-
-        if (!jsonFiles.isEmpty()) {
-            QString jsonFilePath = librariesDir.filePath(jsonFiles.first());
-            QFile jsonFile(jsonFilePath);
-
-            if (jsonFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-                QByteArray jsonContent = jsonFile.readAll();
-                nlohmann::json j = nlohmann::json::parse(jsonContent);
-                jsonFile.close();
-                return j;
-            }
-            else {
-                QMessageBox::warning(this, QStringLiteral(u"Ошибка при открытии json файла: "), jsonFilePath);
-            }
-        }
-        else {
-            QMessageBox::warning(this, "Ошибка", QStringLiteral(u"json файл не найден"));
-        }
-    }
-    return nlohmann::json();
-}
-
 void LibraryManager::request()
 {
-    updateTree(readJson());
+    updateTree(readJson(currentPath, this));
 }

@@ -43,6 +43,12 @@
     <ClCompile Include="src\LibraryManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ParametersList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\readJson.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\ComponentEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -57,12 +63,21 @@
     <ClInclude Include="src\Library.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Parameters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\readJson.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\LibraryManager.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\ComponentsTable.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ParametersList.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\ComponentEditor.h">

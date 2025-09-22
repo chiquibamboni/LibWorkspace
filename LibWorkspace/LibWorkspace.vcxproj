@@ -92,8 +92,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\readJson.cpp" />
     <QtRcc Include="LibWorkspace.qrc" />
     <QtMoc Include="src\LibWorkspace.h" />
+    <ClCompile Include="src\ParametersList.cpp" />
     <ClCompile Include="src\ComponentEditor.cpp" />
     <ClCompile Include="src\ComponentsTable.cpp" />
     <ClCompile Include="src\LibraryManager.cpp" />
@@ -101,6 +103,9 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Parameters.h" />
+    <ClInclude Include="src\readJson.h" />
+    <QtMoc Include="src\ParametersList.h" />
     <QtMoc Include="src\ComponentEditor.h" />
     <ClInclude Include="src\Catalog.h" />
     <ClInclude Include="src\Component.h" />
