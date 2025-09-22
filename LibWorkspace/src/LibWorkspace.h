@@ -4,6 +4,7 @@
 
 #include "ComponentsTable.h"
 #include "LibraryManager.h"
+#include "ComponentEditor.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -15,8 +16,6 @@
 #include <QListWidget>
 #include <QMenuBar>
 
-
-
 class LibWorkspace : public QMainWindow
 {
     Q_OBJECT
@@ -27,10 +26,10 @@ public:
 
 private:
     void setupUI();
-    QTableWidget* table;
     LibraryManager* libraryManager;
     ComponentsTable* componentsTable;
-    QPushButton* refreshButton;
+    ComponentEditor* componentEditor;
+   // QPushButton* refreshButton;
     QToolBar* toolBar;
     QListWidget* parametrsList;
     QMenuBar* menuBar;

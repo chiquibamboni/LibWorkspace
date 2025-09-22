@@ -94,12 +94,14 @@
   <ItemGroup>
     <QtRcc Include="LibWorkspace.qrc" />
     <QtMoc Include="src\LibWorkspace.h" />
+    <ClCompile Include="src\ComponentEditor.cpp" />
     <ClCompile Include="src\ComponentsTable.cpp" />
     <ClCompile Include="src\LibraryManager.cpp" />
     <ClCompile Include="src\LibWorkspace.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="src\ComponentEditor.h" />
     <ClInclude Include="src\Catalog.h" />
     <ClInclude Include="src\Component.h" />
     <QtMoc Include="src\ComponentsTable.h" />

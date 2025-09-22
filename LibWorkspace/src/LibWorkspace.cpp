@@ -29,8 +29,10 @@ void LibWorkspace::setupUI()
     componentsTable = new ComponentsTable();
     componentsTable->setIconSize(iconSize);
 
-    QLabel* label3 = new QLabel("ComponentEditor");
-    QLabel* label4 = new QLabel("ParametrsList");
+    componentEditor = new ComponentEditor();
+
+    //QLabel* label3 = new QLabel("ComponentEditor");
+    //QLabel* label4 = new QLabel("ParametrsList");
 
     parametrsList = new QListWidget();
 
@@ -57,7 +59,7 @@ void LibWorkspace::setupUI()
     splitter->addWidget(componentsTable);
 
     mainLayout->addWidget(splitter);
-    mainLayout->addWidget(label3);
+    mainLayout->addWidget(componentEditor);
     mainLayout->addWidget(parametrsList);
 }
 
