@@ -12,6 +12,8 @@
 #include <QPushButton>
 #include <QToolBar> 
 #include <QLabel>
+#include <QListWidget>
+#include <QMenuBar>
 
 
 
@@ -30,11 +32,14 @@ private:
     ComponentsTable* componentsTable;
     QPushButton* refreshButton;
     QToolBar* toolBar;
+    QListWidget* parametrsList;
+    QMenuBar* menuBar;
 
 public slots:
     void RequestWithSelectedItem(const QModelIndex& index);
     //void refreshButtonClicked();
     void setupConnections();
     void setupToolBar();
+    void setupMenuBar();
 };
 

@@ -3,6 +3,7 @@
 #include <QSplitter>
 #include <QString>
 #include <QMessageBox>
+#include <QMenu>
 
 
 LibWorkspace::LibWorkspace(QWidget *parent)
@@ -31,11 +32,19 @@ void LibWorkspace::setupUI()
     QLabel* label3 = new QLabel("ComponentEditor");
     QLabel* label4 = new QLabel("ParametrsList");
 
+    parametrsList = new QListWidget();
+
+    QStringList items;
+    items << "par 1" << "par 2" << "par 3";
+
+    parametrsList->addItems(items);
+
     /*auto buttonLayout = new QHBoxLayout();*/
 
     //refreshButton = new QPushButton(QIcon("icons/refresh.svg"), "", this);
     //buttonLayout->addWidget(refreshButton);
 
+    setupMenuBar();
     setupToolBar();
 
     QWidget* centralWidget = new QWidget(this);
@@ -49,12 +58,45 @@ void LibWorkspace::setupUI()
 
     mainLayout->addWidget(splitter);
     mainLayout->addWidget(label3);
-    mainLayout->addWidget(label4);
+    mainLayout->addWidget(parametrsList);
+}
+
+void LibWorkspace::setupMenuBar()
+{
+    menuBar = new QMenuBar(this);
+    setMenuBar(menuBar);
+
+    QMenu* fileMenu = menuBar->addMenu(QStringLiteral(u"Файл"));
+
+    QAction* newAction = new QAction(QStringLiteral(u"Создать"), this);
+    newAction->setShortcut(QKeySequence::New);
+    fileMenu->addAction(newAction);
+
+    QAction* openAction = new QAction(QStringLiteral(u"Открыть"), this);
+    openAction->setShortcut(QKeySequence::Open);
+    fileMenu->addAction(openAction);
+
+    fileMenu->addSeparator(); 
+
+    QMenu* editMenu = menuBar->addMenu(QStringLiteral(u"Добавить"));
+
+    QAction* libAction = new QAction(QStringLiteral(u"Библиотеку"), this);
+    editMenu->addAction(libAction);
+
+    QAction* catAction = new QAction(QStringLiteral(u"Каталог"), this);
+    editMenu->addAction(catAction);
+
+    QAction* compAction = new QAction(QStringLiteral(u"Компонент"), this);
+    editMenu->addAction(compAction);
+
+    fileMenu->addSeparator();
+
+    QMenu* helpMenu = menuBar->addMenu(QStringLiteral(u"Помощь"));
 }
 
 void LibWorkspace::setupToolBar()
 {
-    toolBar = new QToolBar(QStringLiteral(u"Основные инструменты", this));
+    toolBar = new QToolBar(this);
     toolBar->setIconSize(QSize(32, 32));
     toolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
     addToolBar(Qt::TopToolBarArea, toolBar);
