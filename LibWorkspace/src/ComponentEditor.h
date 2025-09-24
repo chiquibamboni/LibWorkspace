@@ -8,6 +8,7 @@
 #include <QComboBox>
 #include <QGroupBox>
 #include <QFormLayout>
+#include <QCheckBox>
 
 class ComponentEditor : public QMainWindow
 {
@@ -19,4 +20,7 @@ public:
 
 private:
     void setupUi();
+    static const QStringList TYPE_ITEMS;
+    static const QStringList FEATURE_ITEMS;
+    static const QStringList UNIT_ITEMS;
 };

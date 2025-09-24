@@ -7,6 +7,20 @@
 
 #include <QLabel>
 
+const QStringList ComponentEditor::TYPE_ITEMS = {
+    "Real", "Integer", "Complex", "String", "Link"
+};
+
+const QStringList ComponentEditor::FEATURE_ITEMS = {
+    "No Unit", "Angle", "Capacitance", "Conductance", "Current",
+    "Datarate","dB", "Distance", "Frequency", "Inductance", "Length",
+    "Power", "Resistance", "String", "Temperature", "Time", "Voltage"
+};
+
+const QStringList ComponentEditor::UNIT_ITEMS = {
+    "Ohm", "Hz", "F"
+};
+
 ComponentEditor::ComponentEditor(QWidget* parent)
     : QMainWindow(parent)
 {
@@ -25,43 +39,60 @@ void ComponentEditor::setupUi()
     QHBoxLayout* mainLayout = new QHBoxLayout(centralWidget);
 
     QGroupBox* parametersGroup = new QGroupBox(QStringLiteral(u"Параметры"));
-    QFormLayout* formLayout = new QFormLayout(parametersGroup);
+    QVBoxLayout* parametersLayout = new QVBoxLayout(parametersGroup);
 
-    QLabel* linkLabel = new QLabel(QStringLiteral(u"Ссылка"));
-    QLabel* linkLabelContent = new QLabel("");
-    formLayout->addRow(linkLabel, linkLabelContent);
+    parametersLayout->setContentsMargins(0, 0, 0, 0);
+    parametersLayout->setSpacing(1);
 
-    QLabel* nameLabel = new QLabel(QStringLiteral(u"Имя"));
+    QWidget* formWidget = new QWidget();
+    QFormLayout* formLayout = new QFormLayout(formWidget);
+
+    QLabel* linkLabel = new QLabel("");
+    formLayout->addRow(new QLabel(QStringLiteral(u"Ссылка")), linkLabel);
+
     QLineEdit* nameEdit = new QLineEdit();
-    formLayout->addRow(nameLabel, nameEdit);
+    formLayout->addRow(new QLabel(QStringLiteral(u"Имя")), nameEdit);
 
-    QLabel* typeLabel = new QLabel(QStringLiteral(u"Тип"));
     QComboBox* typeCombo = new QComboBox();
-    typeCombo->addItems(QStringList() << "Real" << "Integer" << "Complex" << "String" << "Link");
-    formLayout->addRow(typeLabel, typeCombo);
+    typeCombo->addItems(TYPE_ITEMS);
+    formLayout->addRow(new QLabel(QStringLiteral(u"Тип")), typeCombo);
 
-    QLabel* defaultValueLabel = new QLabel(QStringLiteral(u"Значение по умолчанию"));
+    formLayout->addRow(new QLabel(""), new QLabel(QStringLiteral(u"Пример: 12.34e+6")));
+
     QLineEdit* defaultValueEdit = new QLineEdit();
-    formLayout->addRow(defaultValueLabel, defaultValueEdit);
+    formLayout->addRow(new QLabel(QStringLiteral(u"Значение по умолчанию")), defaultValueEdit);
 
-    QLabel* featureLabel = new QLabel(QStringLiteral(u"Характеристика"));
     QComboBox* featureCombo = new QComboBox();
-    featureCombo->addItems(QStringList() << "No Unit" << "Angle" << "Capacitance" << "Conductance" << "Current");
-    formLayout->addRow(featureLabel, featureCombo);
+    featureCombo->addItems(FEATURE_ITEMS);
+    formLayout->addRow(new QLabel(QStringLiteral(u"Характеристика")), featureCombo);
 
-    QLabel* unitLabel = new QLabel(QStringLiteral(u"Единица измерения"));
     QComboBox* unitCombo = new QComboBox();
-    unitCombo->addItems(QStringList() << "Ohm" << "Hz" << "F");
-    formLayout->addRow(unitLabel, unitCombo);
+    unitCombo->addItems(UNIT_ITEMS);
+    formLayout->addRow((QStringLiteral(u"Единица измерения")), unitCombo);
 
-    QLabel* descriptionLabel = new QLabel(QStringLiteral(u"Описание"));
     QLineEdit* descriptionEdit = new QLineEdit();
-    formLayout->addRow(descriptionLabel, descriptionEdit);
+    formLayout->addRow(new QLabel(QStringLiteral(u"Описание")), descriptionEdit);
 
-    // Добавляем группу в главный layout
+    QGroupBox* additionalGroup = new QGroupBox(QStringLiteral(u"Дополнительно"));
+    QVBoxLayout* additionalLayout = new QVBoxLayout(additionalGroup);
+
+    QCheckBox* displayCheckBox = new QCheckBox(QStringLiteral(u"Отображать на схеме"));
+    QCheckBox* optimizableCheckBox = new QCheckBox(QStringLiteral(u"Доступен для оптимизации"));
+    QCheckBox* editedCheckBox = new QCheckBox(QStringLiteral(u"Запретить редактирование"));
+    QCheckBox* netlistedCheckBox = new QCheckBox(QStringLiteral(u"Не добавлять в netlist"));
+
+    additionalLayout->addWidget(displayCheckBox);
+    additionalLayout->addWidget(optimizableCheckBox);
+    additionalLayout->addWidget(editedCheckBox);
+    additionalLayout->addWidget(netlistedCheckBox);
+
+    parametersLayout->addWidget(formWidget);
+    parametersLayout->addWidget(additionalGroup);
+
+    parametersLayout->addStretch(1);
+
     mainLayout->addWidget(parametersGroup);
 
-    // Устанавливаем отступы и растяжение
-    mainLayout->setContentsMargins(10, 10, 10, 10);
-    parametersGroup->setMinimumWidth(400);
+    mainLayout->setContentsMargins(5, 5, 5, 5);
+   parametersGroup->setMinimumWidth(400);
 }
