@@ -23,5 +23,6 @@ public:
 	void clearItems();
 private:
 	void addParametrFromJson(nlohmann::json jsonObj, Parameters& parametr);
+	bool containsParam(const Parameters& param) const;
 
 };
