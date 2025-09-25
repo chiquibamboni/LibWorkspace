@@ -88,57 +88,6 @@ void LibWorkspace::setupMenuBar()
     QMenu* helpMenu = menuBar->addMenu(QStringLiteral(u"Помощь"));
 }
 
-Parameters LibWorkspace::parseTooltip(const QString& tooltip)
-{
-
-    Parameters params;
-
-    if (tooltip.isEmpty()) {
-        return params;
-    }
-
-    QStringList lines = tooltip.split('\n', Qt::SkipEmptyParts);
-
-    QRegularExpression re("(\\w+):\\s*(.+)");
-
-    for (const QString& line : lines) {
-        QRegularExpressionMatch match = re.match(line);
-        if (match.hasMatch()) {
-            QString key = match.captured(1).trimmed();
-            QString value = match.captured(2).trimmed();
-
-            if (key == "name") {
-                params.name = value;
-            }
-            else if (key == "type") {
-                params.type = value;
-            }
-            else if (key == "sdefault") {
-                params.sdefault = value;
-            }
-            else if (key == "default") {
-                bool ok;
-                double doubleValue = value.toDouble(&ok);
-                if (ok) {
-                    params.rdefault = doubleValue;
-                }
-            }
-            else if (key == "factor") {
-                params.factor = value;
-            }
-            else if (key == "unit") {
-                params.unit = value;
-            }
-            else if (key == "display") {
-                params.display = (value == "1");
-            }
-
-        }
-    }
-    return params;
-
-}
-
 void LibWorkspace::setupToolBar()
 {
     toolBar = new QToolBar(this);
@@ -200,19 +149,93 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
     }
 }
 
+Parameters LibWorkspace::parseTooltip(const QString& tooltip)
+{
+    Parameters params;
+
+    if (tooltip.isEmpty()) {
+        return params;
+    }
+
+    QStringList lines = tooltip.split('\n', Qt::SkipEmptyParts);
+
+    QRegularExpression re("(\\w+):\\s*(.+)");
+
+    for (const QString& line : lines) {
+        QRegularExpressionMatch match = re.match(line);
+        if (match.hasMatch()) {
+            QString key = match.captured(1).trimmed();
+            QString value = match.captured(2).trimmed();
+
+            if (key == "ref") {
+                params.ref = value;
+            }
+            else if (key == "name") {
+                params.name = value;
+            }
+            else if (key == "type") {
+                params.type = value;
+            }
+            else if (key == "default") {
+                bool ok;
+                double doubleValue = value.toDouble(&ok);
+                if (ok) {
+                    params.rdefault = doubleValue;
+                }
+                else {
+                    params.sdefault = value;
+                }
+            }
+            else if (key == "factor") {
+                params.factor = value;
+            }
+            else if (key == "feature") {
+                params.feature = value;
+            }
+            else if (key == "unit") {
+                params.unit = value;
+            }
+            else if (key == "desc") {
+                params.desc = value;
+            }
+            else if (key == "display") {
+                params.display = (value == "1");
+            }
+            else if (key == "optimizable") {
+                params.optimizable = (value == "1");
+            }
+            else if (key == "edited") {
+                params.edited = (value == "1");
+            }
+            else if (key == "netlisted") {
+                params.netlisted = (value == "1");
+            }
+
+        }
+    }
+    return params;
+
+}
 void LibWorkspace::onItemDoubleClicked(QListWidgetItem* item)
 {
     Parameters сurrentParam = parseTooltip(item->toolTip());
     componentEditor->nameEdit->setText(сurrentParam.name);
     componentEditor->typeComboBox->setCurrentText(сurrentParam.type);
-    componentEditor->defaultValueLineEdit->setText(QString::number(сurrentParam.rdefault));
-    //componentEditor->featureComboBox->setCurrentText(сurrentParam.feature);
+    if (сurrentParam.rdefault.has_value())
+    {
+        componentEditor->defaultValueLineEdit->setText(QString::number(сurrentParam.rdefault.value()));
+    }
+    else
+    {
+        componentEditor->defaultValueLineEdit->setText(сurrentParam.sdefault);
+    }
+    componentEditor->featureComboBox->setCurrentText(сurrentParam.feature);
     componentEditor->unitComboBox->setCurrentText(сurrentParam.unit);
-    //componentEditor->descLineEdit->setText(сurrentParam.desc);
+    componentEditor->descLineEdit->setText(сurrentParam.desc);
     componentEditor->displayCheckBox->setChecked(сurrentParam.display);
-    //componentEditor->optimizableCheckBox->setChecked(сurrentParam.optimizable);
-    //componentEditor->editedCheckBox->setChecked(сurrentParam.edited);
-    //componentEditor->netlistedCheckBox->setChecked(сurrentParam.netlisted);
+    componentEditor->optimizableCheckBox->setChecked(сurrentParam.optimizable.value_or(false));
+    componentEditor->editedCheckBox->setChecked(сurrentParam.edited.value_or(false));
+    componentEditor->netlistedCheckBox->setChecked(сurrentParam.netlisted.value_or(false));
 }
 
 //void LibWorkspace::refreshButtonClicked()
