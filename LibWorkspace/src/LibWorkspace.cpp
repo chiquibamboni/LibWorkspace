@@ -31,9 +31,6 @@ void LibWorkspace::setupUI()
 
     componentEditor = new ComponentEditor();
 
-    //QLabel* label3 = new QLabel("ComponentEditor");
-    //QLabel* label4 = new QLabel("ParametrsList");
-
     parametersList = new ParametersList();
 
     /*auto buttonLayout = new QHBoxLayout();*/
@@ -91,6 +88,57 @@ void LibWorkspace::setupMenuBar()
     QMenu* helpMenu = menuBar->addMenu(QStringLiteral(u"Помощь"));
 }
 
+Parameters LibWorkspace::parseTooltip(const QString& tooltip)
+{
+
+    Parameters params;
+
+    if (tooltip.isEmpty()) {
+        return params;
+    }
+
+    QStringList lines = tooltip.split('\n', Qt::SkipEmptyParts);
+
+    QRegularExpression re("(\\w+):\\s*(.+)");
+
+    for (const QString& line : lines) {
+        QRegularExpressionMatch match = re.match(line);
+        if (match.hasMatch()) {
+            QString key = match.captured(1).trimmed();
+            QString value = match.captured(2).trimmed();
+
+            if (key == "name") {
+                params.name = value;
+            }
+            else if (key == "type") {
+                params.type = value;
+            }
+            else if (key == "sdefault") {
+                params.sdefault = value;
+            }
+            else if (key == "default") {
+                bool ok;
+                double doubleValue = value.toDouble(&ok);
+                if (ok) {
+                    params.rdefault = doubleValue;
+                }
+            }
+            else if (key == "factor") {
+                params.factor = value;
+            }
+            else if (key == "unit") {
+                params.unit = value;
+            }
+            else if (key == "display") {
+                params.display = (value == "1");
+            }
+
+        }
+    }
+    return params;
+
+}
+
 void LibWorkspace::setupToolBar()
 {
     toolBar = new QToolBar(this);
@@ -113,8 +161,8 @@ void LibWorkspace::setupConnections()
 {
     connect(libraryManager, &QTreeView::clicked, this, &LibWorkspace::RequestWithSelectedItem);
     connect(libraryManager, &QTreeView::expanded, this, &LibWorkspace::RequestWithSelectedItem);
+    connect(parametersList, &QListWidget::itemDoubleClicked, this, &LibWorkspace::onItemDoubleClicked);
 
-    //привязка сигналов для кнопок
     //connect(refreshButton, &QPushButton::clicked, this, &LibWorkspace::refreshButtonClicked);
 }
 
@@ -150,6 +198,21 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
             return;
         }
     }
+}
+
+void LibWorkspace::onItemDoubleClicked(QListWidgetItem* item)
+{
+    Parameters сurrentParam = parseTooltip(item->toolTip());
+    componentEditor->nameEdit->setText(сurrentParam.name);
+    componentEditor->typeComboBox->setCurrentText(сurrentParam.type);
+    componentEditor->defaultValueLineEdit->setText(QString::number(сurrentParam.rdefault));
+    //componentEditor->featureComboBox->setCurrentText(сurrentParam.feature);
+    componentEditor->unitComboBox->setCurrentText(сurrentParam.unit);
+    //componentEditor->descLineEdit->setText(сurrentParam.desc);
+    componentEditor->displayCheckBox->setChecked(сurrentParam.display);
+    //componentEditor->optimizableCheckBox->setChecked(сurrentParam.optimizable);
+    //componentEditor->editedCheckBox->setChecked(сurrentParam.edited);
+    //componentEditor->netlistedCheckBox->setChecked(сurrentParam.netlisted);
 }
 
 //void LibWorkspace::refreshButtonClicked()

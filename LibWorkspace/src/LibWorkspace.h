@@ -27,6 +27,10 @@ public:
 
 private:
     void setupUI();
+    void setupConnections();
+    void setupToolBar();
+    void setupMenuBar();
+    Parameters parseTooltip(const QString &tooltip);
     LibraryManager* libraryManager;
     ComponentsTable* componentsTable;
     ParametersList* parametersList;
@@ -38,8 +42,6 @@ private:
 public slots:
     void RequestWithSelectedItem(const QModelIndex& index);
     //void refreshButtonClicked();
-    void setupConnections();
-    void setupToolBar();
-    void setupMenuBar();
+    void onItemDoubleClicked(QListWidgetItem* item);
 };
 
