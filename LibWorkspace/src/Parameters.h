@@ -1,15 +1,21 @@
 ﻿#pragma once
 
+#include <iostream> 
 #include <QString>
 
 struct Parameters
 {
+    QString ref;
     QString name;
     QString type;
     QString sdefault;
-    double rdefault;
-    bool hasRdefault = false;
+    std::optional<double> rdefault;
     QString factor;
+    QString feature;
     QString unit;
+    QString desc;
     bool display;
+    std::optional<bool> optimizable;
+    std::optional<bool> edited;
+    std::optional<bool> netlisted;
 };

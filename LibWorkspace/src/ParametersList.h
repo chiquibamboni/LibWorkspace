@@ -2,6 +2,8 @@
 
 #include <QList>
 #include <QListWidget>
+#include <QStandardItemModel>
+
 #include <nlohmann/json.hpp>
 
 #include "Parameters.h"
@@ -18,7 +20,7 @@ public:
 	QList<Parameters>* parameters;
 
 	void setItems();
-	int getCurrentParametrIndex() const;
+	void clearItems();
 private:
 	void addParametrFromJson(nlohmann::json jsonObj, Parameters& parametr);
 
