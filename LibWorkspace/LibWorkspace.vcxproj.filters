@@ -52,6 +52,9 @@
     <ClCompile Include="src\ComponentEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ThumbSelectDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Catalog.h">
@@ -81,6 +84,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\ComponentEditor.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ThumbSelectDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>
