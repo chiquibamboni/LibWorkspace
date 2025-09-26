@@ -1,6 +1,6 @@
 ﻿#include "ThumbSelectDialog.h"
 
-ThumbSelectDialog::ThumbSelectDialog(QWidget* parent, const QString& iconsPath)
+ThumbSelectDialog::ThumbSelectDialog(const QString& iconsPath, QWidget* parent)
     : QDialog(parent)
 {
     setWindowTitle(QStringLiteral(u"Выберите иконку"));
@@ -9,7 +9,9 @@ ThumbSelectDialog::ThumbSelectDialog(QWidget* parent, const QString& iconsPath)
 
     listWidget = new QListWidget(this);
     listWidget->setViewMode(QListWidget::IconMode);
-    listWidget->setIconSize(QSize(64, 64));
+    listWidget->setIconSize(iconSize);
+    listWidget->setGridSize(gridSize);
+    listWidget->setSpacing(space);
     listWidget->setResizeMode(QListWidget::Adjust);
     listWidget->setSelectionMode(QAbstractItemView::SingleSelection);
 
@@ -18,6 +20,7 @@ ThumbSelectDialog::ThumbSelectDialog(QWidget* parent, const QString& iconsPath)
     connect(listWidget, &QListWidget::itemDoubleClicked, this, &ThumbSelectDialog::accept);
 
     loadIcons(iconsPath);
+    resize(dialogSize);
 }
 
 ThumbSelectDialog::~ThumbSelectDialog() 
@@ -45,7 +48,8 @@ void ThumbSelectDialog::loadIcons(const QString& path) {
     for (const QString& fileName : files) {
         QString filePath = dir.absoluteFilePath(fileName);
         QIcon icon(filePath);
-        QListWidgetItem* item = new QListWidgetItem(icon, "");
+        QString baseName = QFileInfo(fileName).fileName();
+        QListWidgetItem* item = new QListWidgetItem(icon, baseName);
         listWidget->addItem(item);
     }
 }

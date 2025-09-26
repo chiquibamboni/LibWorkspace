@@ -11,7 +11,7 @@
 class ThumbSelectDialog : public QDialog {
     Q_OBJECT
 public:
-    ThumbSelectDialog(QWidget* parent = nullptr, const QString& iconsPath = QString());
+    ThumbSelectDialog(const QString& iconsPath = QString(), QWidget* parent = nullptr);
     ~ThumbSelectDialog();
 
     QIcon selectedIcon() const;
@@ -21,4 +21,8 @@ private slots:
 
 private:
     QListWidget* listWidget;
+    QSize iconSize = QSize(64, 64);
+    QSize gridSize = QSize(100, 100);
+    int space = 10;
+    QSize dialogSize = QSize(350, 350);
 };

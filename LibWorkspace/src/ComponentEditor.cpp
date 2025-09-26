@@ -1,4 +1,4 @@
-#include "ComponentEditor.h"
+ï»¿#include "ComponentEditor.h"
 #include <qheaderview.h>
 #include <QSplitter>
 #include <QString>
@@ -27,20 +27,18 @@ void ComponentEditor::setupUi()
 
      parameters = new QList<Parameters>();
 
-     QPushButton* selectIconBtn = new QPushButton(QStringLiteral(u"Âûáðàòü èêîíêó"));
+     selectIconBtn = new QPushButton(QStringLiteral(u"Ð’Ñ‹Ð±Ñ€Ð°Ñ‚ÑŒ Ð¸ÐºÐ¾Ð½ÐºÑƒ"));
      hLayout->addWidget(selectIconBtn);
-     QLabel* currentIconDisplay = new QLabel();
+     /*currentIconDisplay = new QLabel();
      currentIconDisplay->setFixedSize(64, 64);
-     currentIconDisplay->setFrameShape(QFrame::Box);
+     currentIconDisplay->setFrameShape(QFrame::Box);*/
      mainLayout->addWidget(currentIconDisplay);
 
      mainLayout->addLayout(hLayout);
 
-     QLabel* iconDisplay = new QLabel();
+     iconDisplay = new QLabel();
      iconDisplay->setFixedSize(100, 100);
      mainLayout->addWidget(iconDisplay, 0, Qt::AlignHCenter);
-
-     QString iconsPath = "./icons";
 
      parameterEditor = new ParameterEditor();
      parametersList = new ParametersList(parameters);
@@ -52,51 +50,51 @@ void ComponentEditor::setupUi()
 void ComponentEditor::setupConnections()
 {
     connect(parametersList, &QListWidget::itemDoubleClicked, this, &ComponentEditor::onItemDoubleClicked);
-     //// Îáðàáîòêà êëèêà ïî êíîïêå
-     //QObject::connect(selectIconBtn, &QPushButton::clicked, [&]() {
-     //    ThumbSelectDialog dlg(nullptr, iconsPath);
-     //    if (dlg.exec() == QDialog::Accepted) {
-     //        QIcon icon = dlg.selectedIcon();
+     // ÐžÐ±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ° ÐºÐ»Ð¸ÐºÐ° Ð¿Ð¾ ÐºÐ½Ð¾Ð¿ÐºÐµ
+     QObject::connect(selectIconBtn, &QPushButton::clicked, [&]() {
+         ThumbSelectDialog dlg(iconsPath);
+         if (dlg.exec() == QDialog::Accepted) {
+             QIcon icon = dlg.selectedIcon();
 
-     //        // Îáíîâëÿåì îòîáðàæåíèå òåêóùåé èêîíêè
-     //        QPixmap pixmap = icon.pixmap(currentIconDisplay->size());
-     //        currentIconDisplay->setPixmap(pixmap);
+             //// ÐžÐ±Ð½Ð¾Ð²Ð»ÑÐµÐ¼ Ð¾Ñ‚Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ðµ Ð¸ÐºÐ¾Ð½ÐºÐ¸
+             //QPixmap pixmap = icon.pixmap(currentIconDisplay->size());
+             //currentIconDisplay->setPixmap(pixmap);
 
-     //        // Îáíîâëÿåì îñíîâíîå îòîáðàæåíèå
-     //        QPixmap mainPixmap = icon.pixmap(iconDisplay->size());
-     //        iconDisplay->setPixmap(mainPixmap);
-     //    }
-     //    });
+             // ÐžÐ±Ð½Ð¾Ð²Ð»ÑÐµÐ¼ Ð¾ÑÐ½Ð¾Ð²Ð½Ð¾Ðµ Ð¾Ñ‚Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ðµ
+             QPixmap mainPixmap = icon.pixmap(iconDisplay->size());
+             iconDisplay->setPixmap(mainPixmap);
+         }
+         });
 }
 
 void ComponentEditor::onItemDoubleClicked(QListWidgetItem* item)
 {
-    Parameters ñurrentParam;
+    Parameters ÑurrentParam;
     QString searchName = item->text();
 
     for (const Parameters& param : *parameters) {
         if (param.name == searchName) {
-            ñurrentParam = param;
+            ÑurrentParam = param;
             break;
         }
     }
-    parameterEditor->nameEdit->setText(ñurrentParam.name);
-    parameterEditor->typeComboBox->setCurrentText(ñurrentParam.type);
-    if (ñurrentParam.rdefault.has_value())
+    parameterEditor->nameEdit->setText(ÑurrentParam.name);
+    parameterEditor->typeComboBox->setCurrentText(ÑurrentParam.type);
+    if (ÑurrentParam.rdefault.has_value())
     {
-        parameterEditor->defaultValueLineEdit->setText(QString::number(ñurrentParam.rdefault.value()));
+        parameterEditor->defaultValueLineEdit->setText(QString::number(ÑurrentParam.rdefault.value()));
     }
     else
     {
-        parameterEditor->defaultValueLineEdit->setText(ñurrentParam.sdefault);
+        parameterEditor->defaultValueLineEdit->setText(ÑurrentParam.sdefault);
     }
-    parameterEditor->featureComboBox->setCurrentText(ñurrentParam.feature);
-    parameterEditor->unitComboBox->setCurrentText(ñurrentParam.unit);
-    parameterEditor->descLineEdit->setText(ñurrentParam.desc);
-    parameterEditor->displayCheckBox->setChecked(ñurrentParam.display);
-    parameterEditor->optimizableCheckBox->setChecked(ñurrentParam.optimizable.value_or(false));
-    parameterEditor->editedCheckBox->setChecked(ñurrentParam.edited.value_or(false));
-    parameterEditor->netlistedCheckBox->setChecked(ñurrentParam.netlisted.value_or(false));
+    parameterEditor->featureComboBox->setCurrentText(ÑurrentParam.feature);
+    parameterEditor->unitComboBox->setCurrentText(ÑurrentParam.unit);
+    parameterEditor->descLineEdit->setText(ÑurrentParam.desc);
+    parameterEditor->displayCheckBox->setChecked(ÑurrentParam.display);
+    parameterEditor->optimizableCheckBox->setChecked(ÑurrentParam.optimizable.value_or(false));
+    parameterEditor->editedCheckBox->setChecked(ÑurrentParam.edited.value_or(false));
+    parameterEditor->netlistedCheckBox->setChecked(ÑurrentParam.netlisted.value_or(false));
 
     QString link = parameterEditor->featureComboBox->currentText() + "." + parameterEditor->typeComboBox->currentText()
         + (parameterEditor->displayCheckBox->isChecked() ? ".D" : "")

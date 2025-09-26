@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <QtWidgets/QMainWindow>
 
@@ -19,10 +19,15 @@ public:
     ComponentEditor(QWidget* parent = nullptr);
     ~ComponentEditor();
     ParametersList* parametersList;
+    QString iconsPath;
 
 private:
     void setupUi();
     void setupConnections();
+
+    QPushButton* selectIconBtn;
+    QLabel* iconDisplay;
+    QLabel* currentIconDisplay;
 
     ParameterEditor* parameterEditor;
  

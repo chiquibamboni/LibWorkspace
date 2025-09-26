@@ -13,7 +13,7 @@ LibWorkspace::LibWorkspace(QWidget *parent)
     setupConnections();
 
     //первое отправление запроса
-    libraryManager->request();    
+    libraryManager->request();
 }
 
 LibWorkspace::~LibWorkspace()
@@ -111,7 +111,7 @@ void LibWorkspace::setupConnections()
 {
     connect(libraryManager, &QTreeView::clicked, this, &LibWorkspace::RequestWithSelectedItem);
     connect(libraryManager, &QTreeView::expanded, this, &LibWorkspace::RequestWithSelectedItem);
-    
+    connect(componentsTable, &QTableWidget::doubleClicked, this, &LibWorkspace::SelectComponent);
     //connect(refreshButton, &QPushButton::clicked, this, &LibWorkspace::refreshButtonClicked);
 }
 
@@ -129,6 +129,7 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
             libraryManager->request();
             componentEditor->parametersList->location = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->components_location;
             componentEditor->parametersList->setItems();
+            componentEditor->iconsPath = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->thumbnails_location;
             componentsTable->setRowCount(0);
             return;
         }
@@ -147,6 +148,34 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
             return;
         }
     }
+}
+
+void LibWorkspace::SelectComponent(const QModelIndex& index)
+{
+    //QModelIndex itemIndex = index.sibling(index.row(), 1);
+
+    //QVariant data = libraryManager->model->data(itemIndex, Qt::DisplayRole);
+    //QString selectedItem = data.toString();
+    //if (!index.isValid()) {
+    //    return;
+    //}
+    //for (auto& catalog : *catalogs)
+    //{
+    //    for (auto& component : catalog.components)
+    //    {
+    //        if (component.model == selectedItem) {
+    //            libraryManager->currentCatalog = &catalog;
+    //            //Обновление данных компонентов таблицы
+    //            if (!libraryManager->currentCatalog->components.isEmpty())
+    //            {
+    //                componentsTable->updateComponents(libraryManager->currentCatalog->components);
+    //                return;
+    //            }
+    //            componentsTable->setRowCount(0);
+    //            return;
+    //        }
+    //    }
+    //}
 }
 
 //void LibWorkspace::refreshButtonClicked()
