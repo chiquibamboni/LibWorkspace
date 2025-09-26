@@ -102,7 +102,7 @@
     <QtRcc Include="LibWorkspace.qrc" />
     <QtMoc Include="src\LibWorkspace.h" />
     <ClCompile Include="src\ParametersList.cpp" />
-    <ClCompile Include="src\ComponentEditor.cpp" />
+    <ClCompile Include="src\ParameterEditor.cpp" />
     <ClCompile Include="src\ComponentsTable.cpp" />
     <ClCompile Include="src\LibraryManager.cpp" />
     <ClCompile Include="src\LibWorkspace.cpp" />
@@ -113,7 +113,7 @@
     <ClInclude Include="src\readJson.h" />
     <QtMoc Include="src\ThumbSelectDialog.h" />
     <QtMoc Include="src\ParametersList.h" />
-    <QtMoc Include="src\ComponentEditor.h" />
+    <QtMoc Include="src\ParameterEditor.h" />
     <ClInclude Include="src\Catalog.h" />
     <ClInclude Include="src\Component.h" />
     <QtMoc Include="src\ComponentsTable.h" />

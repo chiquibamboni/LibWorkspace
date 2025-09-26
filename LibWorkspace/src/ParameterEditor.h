@@ -9,24 +9,30 @@
 #include <QGroupBox>
 #include <QFormLayout>
 #include <QCheckBox>
+#include <QTextEdit>
+#include <QLabel>
 
-class ComponentEditor : public QMainWindow
+class ParameterEditor : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    ComponentEditor(QWidget* parent = nullptr);
-    ~ComponentEditor();
+    ParameterEditor(QWidget* parent = nullptr);
+    ~ParameterEditor();
+    QString buildingLink(QString feature, QString type, bool display,
+        bool optimizable, bool edited, bool netlisted);
+    QLabel* linkLabel;
     QLineEdit* nameEdit;
     QComboBox* typeComboBox;
     QLineEdit* defaultValueLineEdit;
     QComboBox* featureComboBox;
     QComboBox* unitComboBox;
-    QLineEdit* descLineEdit;
+    QTextEdit* descLineEdit;
     QCheckBox* displayCheckBox;
     QCheckBox* optimizableCheckBox;
     QCheckBox* editedCheckBox;
     QCheckBox* netlistedCheckBox;
+    
 
 private:
     void setupUi();

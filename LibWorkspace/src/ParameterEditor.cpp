@@ -1,4 +1,4 @@
-#include "ComponentEditor.h"
+#include "ParameterEditor.h"
 #include <qheaderview.h>
 #include <QSplitter>
 #include <QString>
@@ -7,31 +7,31 @@
 
 #include <QLabel>
 
-const QStringList ComponentEditor::TYPE_ITEMS = {
+const QStringList ParameterEditor::TYPE_ITEMS = {
     "Real", "Integer", "Complex", "String", "Link"
 };
 
-const QStringList ComponentEditor::FEATURE_ITEMS = {
+const QStringList ParameterEditor::FEATURE_ITEMS = {
     "No Unit", "Angle", "Capacitance", "Conductance", "Current",
     "Datarate","dB", "Distance", "Frequency", "Inductance", "Length",
     "Power", "Resistance", "String", "Temperature", "Time", "Voltage"
 };
 
-const QStringList ComponentEditor::UNIT_ITEMS = {
+const QStringList ParameterEditor::UNIT_ITEMS = {
     "Ohm", "Hz", "F", "m", "H", "sec", "V", "A"
 };
 
-ComponentEditor::ComponentEditor(QWidget* parent)
+ParameterEditor::ParameterEditor(QWidget* parent)
     : QMainWindow(parent)
 {
     setupUi();
 }
 
-ComponentEditor::~ComponentEditor()
+ParameterEditor::~ParameterEditor()
 {
 }
 
-void ComponentEditor::setupUi()
+void ParameterEditor::setupUi()
 {
     QWidget* centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
@@ -47,7 +47,7 @@ void ComponentEditor::setupUi()
     QWidget* formWidget = new QWidget();
     QFormLayout* formLayout = new QFormLayout(formWidget);
 
-    QLabel* linkLabel = new QLabel("");
+    linkLabel = new QLabel("");
     formLayout->addRow(new QLabel(QStringLiteral(u"Ссылка")), linkLabel);
 
     nameEdit = new QLineEdit();
@@ -70,7 +70,7 @@ void ComponentEditor::setupUi()
     unitComboBox->addItems(UNIT_ITEMS);
     formLayout->addRow((QStringLiteral(u"Единица измерения")), unitComboBox);
 
-    descLineEdit = new QLineEdit();
+    descLineEdit = new QTextEdit();
     formLayout->addRow(new QLabel(QStringLiteral(u"Описание")), descLineEdit);
 
     QGroupBox* additionalGroup = new QGroupBox(QStringLiteral(u"Дополнительно"));
@@ -94,5 +94,16 @@ void ComponentEditor::setupUi()
     mainLayout->addWidget(parametersGroup);
 
     mainLayout->setContentsMargins(5, 5, 5, 5);
-   parametersGroup->setMinimumWidth(400);
+   parametersGroup->setMinimumWidth(300);   
+}
+
+QString ParameterEditor::buildingLink(QString feature, QString type, bool display,
+    bool optimizable, bool edited, bool netlisted)
+{
+    QString link = feature + "." + type + (display ? ".D" : "")
+        + (optimizable ? ".O" : "")
+        + (edited ? ".E" : "")
+        + (netlisted ? ".N" : "");
+
+    return link;
 }

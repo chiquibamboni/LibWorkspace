@@ -5,7 +5,7 @@
 #include "ComponentsTable.h"
 #include "LibraryManager.h"
 #include "ParametersList.h"
-#include "ComponentEditor.h"
+#include "ParameterEditor.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -34,7 +34,7 @@ private:
     LibraryManager* libraryManager;
     ComponentsTable* componentsTable;
     ParametersList* parametersList;
-    ComponentEditor* componentEditor;
+    ParameterEditor* parameterEditor;
    // QPushButton* refreshButton;
     QToolBar* toolBar;
     QMenuBar* menuBar;

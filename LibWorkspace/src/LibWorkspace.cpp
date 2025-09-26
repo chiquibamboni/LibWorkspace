@@ -29,7 +29,7 @@ void LibWorkspace::setupUI()
     componentsTable = new ComponentsTable();
     componentsTable->setIconSize(iconSize);
 
-    componentEditor = new ComponentEditor();
+    parameterEditor = new ParameterEditor();
 
     parametersList = new ParametersList();
 
@@ -51,7 +51,7 @@ void LibWorkspace::setupUI()
     splitter->addWidget(componentsTable);
 
     mainLayout->addWidget(splitter);
-    mainLayout->addWidget(componentEditor);
+    mainLayout->addWidget(parameterEditor);
     mainLayout->addWidget(parametersList);
 }
 
@@ -219,23 +219,30 @@ Parameters LibWorkspace::parseTooltip(const QString& tooltip)
 void LibWorkspace::onItemDoubleClicked(QListWidgetItem* item)
 {
     Parameters сurrentParam = parseTooltip(item->toolTip());
-    componentEditor->nameEdit->setText(сurrentParam.name);
-    componentEditor->typeComboBox->setCurrentText(сurrentParam.type);
+    parameterEditor->nameEdit->setText(сurrentParam.name);
+    parameterEditor->typeComboBox->setCurrentText(сurrentParam.type);
     if (сurrentParam.rdefault.has_value())
     {
-        componentEditor->defaultValueLineEdit->setText(QString::number(сurrentParam.rdefault.value()));
+        parameterEditor->defaultValueLineEdit->setText(QString::number(сurrentParam.rdefault.value()));
     }
     else
     {
-        componentEditor->defaultValueLineEdit->setText(сurrentParam.sdefault);
+        parameterEditor->defaultValueLineEdit->setText(сurrentParam.sdefault);
     }
-    componentEditor->featureComboBox->setCurrentText(сurrentParam.feature);
-    componentEditor->unitComboBox->setCurrentText(сurrentParam.unit);
-    componentEditor->descLineEdit->setText(сurrentParam.desc);
-    componentEditor->displayCheckBox->setChecked(сurrentParam.display);
-    componentEditor->optimizableCheckBox->setChecked(сurrentParam.optimizable.value_or(false));
-    componentEditor->editedCheckBox->setChecked(сurrentParam.edited.value_or(false));
-    componentEditor->netlistedCheckBox->setChecked(сurrentParam.netlisted.value_or(false));
+    parameterEditor->featureComboBox->setCurrentText(сurrentParam.feature);
+    parameterEditor->unitComboBox->setCurrentText(сurrentParam.unit);
+    parameterEditor->descLineEdit->setText(сurrentParam.desc);
+    parameterEditor->displayCheckBox->setChecked(сurrentParam.display);
+    parameterEditor->optimizableCheckBox->setChecked(сurrentParam.optimizable.value_or(false));
+    parameterEditor->editedCheckBox->setChecked(сurrentParam.edited.value_or(false));
+    parameterEditor->netlistedCheckBox->setChecked(сurrentParam.netlisted.value_or(false));
+    
+    QString link = parameterEditor->featureComboBox->currentText() + "." + parameterEditor->typeComboBox->currentText()
+        + (parameterEditor->displayCheckBox->isChecked() ? ".D" : "")
+        + (parameterEditor->optimizableCheckBox->isChecked() ? ".O" : "")
+        + (parameterEditor->editedCheckBox->isChecked() ? ".E" : "")
+        + (parameterEditor->netlistedCheckBox->isChecked() ? ".N" : "");
+    parameterEditor->linkLabel->setText(link);
 }
 
 //void LibWorkspace::refreshButtonClicked()
@@ -243,4 +250,3 @@ void LibWorkspace::onItemDoubleClicked(QListWidgetItem* item)
 //    libraryManager->request();
 //    componentsTable->setRowCount(0);
 //}
-
