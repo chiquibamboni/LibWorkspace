@@ -49,10 +49,13 @@
     <ClCompile Include="src\readJson.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ComponentEditor.cpp">
+    <ClCompile Include="src\ThumbSelectDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ThumbSelectDialog.cpp">
+    <ClCompile Include="src\ParameterEditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ComponentEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -83,10 +86,13 @@
     <QtMoc Include="src\ParametersList.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\ComponentEditor.h">
+    <QtMoc Include="src\ThumbSelectDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <QtMoc Include="src\ThumbSelectDialog.h">
+    <QtMoc Include="src\ParameterEditor.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\ComponentEditor.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

@@ -5,7 +5,7 @@
 #include "ComponentsTable.h"
 #include "LibraryManager.h"
 #include "ParametersList.h"
-#include "ParameterEditor.h"
+#include "ComponentEditor.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -30,22 +30,19 @@ private:
     void setupConnections();
     void setupToolBar();
     void setupMenuBar();
-    Parameters parseTooltip(const QString &tooltip);
     LibraryManager* libraryManager;
     ComponentsTable* componentsTable;
-    ParametersList* parametersList;
-    ParameterEditor* parameterEditor;
+    ComponentEditor* componentEditor;
    // QPushButton* refreshButton;
     QToolBar* toolBar;
     QMenuBar* menuBar;
 
     QList<Library>* libraries;
     QList<Catalog>* catalogs;
-    QList<Parameters>* parameters;
+    //QList<Parameters>* parameters;
 
 public slots:
     void RequestWithSelectedItem(const QModelIndex& index);
     //void refreshButtonClicked();
-    void onItemDoubleClicked(QListWidgetItem* item);
 };
 

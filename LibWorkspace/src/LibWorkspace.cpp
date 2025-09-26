@@ -25,7 +25,7 @@ void LibWorkspace::setupUI()
 
     libraries = new QList<Library>();
     catalogs = new QList<Catalog>();
-    parameters = new QList<Parameters>();
+    //parameters = new QList<Parameters>();
 
     libraryManager = new LibraryManager(libraries, catalogs);
     libraryManager->setIconSize(iconSize);
@@ -33,9 +33,7 @@ void LibWorkspace::setupUI()
     componentsTable = new ComponentsTable();
     componentsTable->setIconSize(iconSize);
 
-    parameterEditor = new ParameterEditor();
-
-    parametersList = new ParametersList(parameters);
+    componentEditor = new ComponentEditor();
 
     /*auto buttonLayout = new QHBoxLayout();*/
 
@@ -55,8 +53,7 @@ void LibWorkspace::setupUI()
     splitter->addWidget(componentsTable);
 
     mainLayout->addWidget(splitter);
-    mainLayout->addWidget(parameterEditor);
-    mainLayout->addWidget(parametersList);
+    mainLayout->addWidget(componentEditor);
 }
 
 void LibWorkspace::setupMenuBar()
@@ -114,8 +111,7 @@ void LibWorkspace::setupConnections()
 {
     connect(libraryManager, &QTreeView::clicked, this, &LibWorkspace::RequestWithSelectedItem);
     connect(libraryManager, &QTreeView::expanded, this, &LibWorkspace::RequestWithSelectedItem);
-    connect(parametersList, &QListWidget::itemDoubleClicked, this, &LibWorkspace::onItemDoubleClicked);
-
+    
     //connect(refreshButton, &QPushButton::clicked, this, &LibWorkspace::refreshButtonClicked);
 }
 
@@ -131,8 +127,8 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
             libraryManager->currentPath = fullPath;
             libraryManager->currentLibrary = &lib;
             libraryManager->request();
-            parametersList->location = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->components_location;
-            parametersList->setItems();
+            componentEditor->parametersList->location = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->components_location;
+            componentEditor->parametersList->setItems();
             componentsTable->setRowCount(0);
             return;
         }
@@ -151,102 +147,6 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
             return;
         }
     }
-}
-
-Parameters LibWorkspace::parseTooltip(const QString& tooltip)
-{
-    Parameters params;
-
-    if (tooltip.isEmpty()) {
-        return params;
-    }
-
-    QStringList lines = tooltip.split('\n', Qt::SkipEmptyParts);
-
-    QRegularExpression re("(\\w+):\\s*(.+)");
-
-    for (const QString& line : lines) {
-        QRegularExpressionMatch match = re.match(line);
-        if (match.hasMatch()) {
-            QString key = match.captured(1).trimmed();
-            QString value = match.captured(2).trimmed();
-
-            if (key == "ref") {
-                params.ref = value;
-            }
-            else if (key == "name") {
-                params.name = value;
-            }
-            else if (key == "type") {
-                params.type = value;
-            }
-            else if (key == "default") {
-                bool ok;
-                double doubleValue = value.toDouble(&ok);
-                if (ok) {
-                    params.rdefault = doubleValue;
-                }
-                else {
-                    params.sdefault = value;
-                }
-            }
-            else if (key == "factor") {
-                params.factor = value;
-            }
-            else if (key == "feature") {
-                params.feature = value;
-            }
-            else if (key == "unit") {
-                params.unit = value;
-            }
-            else if (key == "desc") {
-                params.desc = value;
-            }
-            else if (key == "display") {
-                params.display = (value == "1");
-            }
-            else if (key == "optimizable") {
-                params.optimizable = (value == "1");
-            }
-            else if (key == "edited") {
-                params.edited = (value == "1");
-            }
-            else if (key == "netlisted") {
-                params.netlisted = (value == "1");
-            }
-
-        }
-    }
-    return params;
-
-}
-void LibWorkspace::onItemDoubleClicked(QListWidgetItem* item)
-{
-    Parameters сurrentParam = parseTooltip(item->toolTip());
-    parameterEditor->nameEdit->setText(сurrentParam.name);
-    parameterEditor->typeComboBox->setCurrentText(сurrentParam.type);
-    if (сurrentParam.rdefault.has_value())
-    {
-        parameterEditor->defaultValueLineEdit->setText(QString::number(сurrentParam.rdefault.value()));
-    }
-    else
-    {
-        parameterEditor->defaultValueLineEdit->setText(сurrentParam.sdefault);
-    }
-    parameterEditor->featureComboBox->setCurrentText(сurrentParam.feature);
-    parameterEditor->unitComboBox->setCurrentText(сurrentParam.unit);
-    parameterEditor->descLineEdit->setText(сurrentParam.desc);
-    parameterEditor->displayCheckBox->setChecked(сurrentParam.display);
-    parameterEditor->optimizableCheckBox->setChecked(сurrentParam.optimizable.value_or(false));
-    parameterEditor->editedCheckBox->setChecked(сurrentParam.edited.value_or(false));
-    parameterEditor->netlistedCheckBox->setChecked(сurrentParam.netlisted.value_or(false));
-    
-    QString link = parameterEditor->featureComboBox->currentText() + "." + parameterEditor->typeComboBox->currentText()
-        + (parameterEditor->displayCheckBox->isChecked() ? ".D" : "")
-        + (parameterEditor->optimizableCheckBox->isChecked() ? ".O" : "")
-        + (parameterEditor->editedCheckBox->isChecked() ? ".E" : "")
-        + (parameterEditor->netlistedCheckBox->isChecked() ? ".N" : "");
-    parameterEditor->linkLabel->setText(link);
 }
 
 //void LibWorkspace::refreshButtonClicked()

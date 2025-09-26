@@ -97,6 +97,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\ComponentEditor.cpp" />
     <ClCompile Include="src\readJson.cpp" />
     <ClCompile Include="src\ThumbSelectDialog.cpp" />
     <QtRcc Include="LibWorkspace.qrc" />
@@ -109,6 +110,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="src\ComponentEditor.h" />
     <ClInclude Include="src\Parameters.h" />
     <ClInclude Include="src\readJson.h" />
     <QtMoc Include="src\ThumbSelectDialog.h" />
