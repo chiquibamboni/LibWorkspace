@@ -39,6 +39,10 @@ private:
     QToolBar* toolBar;
     QMenuBar* menuBar;
 
+    QList<Library>* libraries;
+    QList<Catalog>* catalogs;
+    QList<Parameters>* parameters;
+
 public slots:
     void RequestWithSelectedItem(const QModelIndex& index);
     //void refreshButtonClicked();

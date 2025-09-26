@@ -20,12 +20,10 @@ class LibraryManager : public QTreeView
     Q_OBJECT
 
 public:
-    LibraryManager(QWidget* parent = nullptr);
+    LibraryManager(QList<Library>* libraries, QList<Catalog>* catalogs, QWidget* parent = nullptr);
     ~LibraryManager();
 
     QStandardItemModel* model;
-    QList<Library>* libraries;
-    QList<Catalog>* catalogs;
     QString currentPath = "./Libraries";
     Library* currentLibrary = nullptr;
     Catalog* currentCatalog = nullptr;
@@ -36,6 +34,8 @@ private:
     QIcon defaultFolder = QIcon("./icons/folder.svg");
     bool firstRequest = true;
     QString iconPath;
+    QList<Library>* librariesList;
+    QList<Catalog>* catalogsList;
 
     void setupTree();
     void updateTree(const nlohmann::json& jsonData);

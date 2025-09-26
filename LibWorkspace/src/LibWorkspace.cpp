@@ -23,7 +23,11 @@ void LibWorkspace::setupUI()
 {
     QSize  iconSize(64, 64);
 
-    libraryManager = new LibraryManager();
+    libraries = new QList<Library>();
+    catalogs = new QList<Catalog>();
+    parameters = new QList<Parameters>();
+
+    libraryManager = new LibraryManager(libraries, catalogs);
     libraryManager->setIconSize(iconSize);
 
     componentsTable = new ComponentsTable();
@@ -31,7 +35,7 @@ void LibWorkspace::setupUI()
 
     parameterEditor = new ParameterEditor();
 
-    parametersList = new ParametersList();
+    parametersList = new ParametersList(parameters);
 
     /*auto buttonLayout = new QHBoxLayout();*/
 
@@ -121,7 +125,7 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
     if (!index.isValid()) {
         return;
     }
-    for (auto& lib : *libraryManager->libraries) {
+    for (auto& lib : *libraries) {
         if (lib.name == selectedItem) {
             QString fullPath = "./Libraries/" + lib.dir;
             libraryManager->currentPath = fullPath;
@@ -133,7 +137,7 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
             return;
         }
     }
-    for (auto& catalog : *libraryManager->catalogs)
+    for (auto& catalog : *catalogs)
     {
         if (catalog.name == selectedItem) {
             libraryManager->currentCatalog = &catalog;

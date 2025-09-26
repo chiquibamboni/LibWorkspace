@@ -1,14 +1,14 @@
 ﻿#include "ParametersList.h"
 #include "readJson.h"
 
-ParametersList::ParametersList(QWidget* parent) : QListWidget(parent)
+ParametersList::ParametersList(QList<Parameters>* parameters, QWidget* parent) : QListWidget(parent)
 {
-    parameters = new QList<Parameters>();
+    parametersList = parameters;
 }
 
 ParametersList::~ParametersList()
 {
-    delete parameters;
+
 }
 void ParametersList::setItems()
 {
@@ -25,7 +25,7 @@ void ParametersList::setItems()
             addParametrFromJson(par, parametr);
 
             if (!containsParam(parametr)) {
-                parameters->push_back(parametr);
+                parametersList->push_back(parametr);
 
                 QListWidgetItem* item = new QListWidgetItem(parametr.name);
                 QString tooltip = QString("%1"
@@ -107,7 +107,7 @@ void ParametersList::addParametrFromJson(nlohmann::json jsonObj, Parameters& par
 //Проверка на дубликаты только по имени
 bool ParametersList::containsParam(const Parameters& param) const
 {
-    for (const auto& p : *parameters) {
+    for (const auto& p : *parametersList) {
         if (p.name == param.name) {
             return true;
         }
@@ -142,5 +142,5 @@ bool ParametersList::containsParam(const Parameters& param) const
 void ParametersList::clearItems()
 {
     this->clear();
-    parameters->clear();
+    parametersList->clear();
 }

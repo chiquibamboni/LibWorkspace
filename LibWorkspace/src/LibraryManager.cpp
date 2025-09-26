@@ -1,22 +1,21 @@
 ﻿#include "LibraryManager.h"
 #include "readJson.h"
 
-LibraryManager::LibraryManager(QWidget* parent)
+LibraryManager::LibraryManager(QList<Library>* libraries, QList<Catalog>* catalogs, QWidget* parent)
     : QTreeView(parent)
 {
+    librariesList = libraries;
+    catalogsList = catalogs;
     setupTree();
 }
 
 LibraryManager::~LibraryManager()
 {
-    delete libraries;
-    delete catalogs;
+
 }
 
 void LibraryManager::setupTree()
 {
-    libraries = new QList<Library>();
-    catalogs = new QList<Catalog>();
     model = new QStandardItemModel(this);
     root = model->invisibleRootItem();
     setModel(model);
@@ -61,7 +60,7 @@ void LibraryManager::addRootJsonToModel(const nlohmann::json& jsonObj, QStandard
             library.item->appendRow(dummyChild);
 
             parentItem->appendRow(library.item);
-            libraries->append(library);
+            librariesList->append(library);
         }
     }
     firstRequest = false;
@@ -130,7 +129,7 @@ void LibraryManager::CatalogFromJson(const nlohmann::json& jsonObj, Catalog& cat
             catalog.components.push_back(comp);
         }
     }
-    catalogs->push_back(catalog);
+    catalogsList->push_back(catalog);
 }
 
 void LibraryManager::ComponentFromJson(const nlohmann::json& jsonObj, Component& component)
