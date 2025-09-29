@@ -16,9 +16,9 @@ class ComponentEditor : public QMainWindow
     Q_OBJECT
 
 public:
-    ComponentEditor(QWidget* parent = nullptr);
+    ComponentEditor(QList<Parameters>*  parameters, QWidget* parent = nullptr);
     ~ComponentEditor();
-    ParametersList* parametersList;
+    ParametersList* parametersListWidget;
     QString iconsPath;
 
 private:
@@ -28,10 +28,12 @@ private:
     QPushButton* selectIconBtn;
     QLabel* iconDisplay;
     QLabel* currentIconDisplay;
+    QComboBox* modelComboBox;
+    QStringList* modelsList;
 
     ParameterEditor* parameterEditor;
  
-    QList<Parameters>* parameters;
+    QList<Parameters>* parametersList;
 
     Parameters* currentParameter;
 

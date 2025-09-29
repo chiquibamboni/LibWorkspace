@@ -39,7 +39,7 @@ private:
 
     QList<Library>* libraries;
     QList<Catalog>* catalogs;
-    //QList<Parameters>* parameters;
+    QList<Parameters>* parameters;
 
 public slots:
     void RequestWithSelectedItem(const QModelIndex& index);

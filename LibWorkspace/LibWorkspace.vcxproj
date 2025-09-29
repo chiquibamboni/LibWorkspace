@@ -100,6 +100,7 @@
     <ClCompile Include="src\ComponentEditor.cpp" />
     <ClCompile Include="src\readJson.cpp" />
     <ClCompile Include="src\ThumbSelectDialog.cpp" />
+    <ClCompile Include="src\UgoTabs.cpp" />
     <QtRcc Include="LibWorkspace.qrc" />
     <QtMoc Include="src\LibWorkspace.h" />
     <ClCompile Include="src\ParametersList.cpp" />
@@ -113,6 +114,7 @@
     <QtMoc Include="src\ComponentEditor.h" />
     <ClInclude Include="src\Parameters.h" />
     <ClInclude Include="src\readJson.h" />
+    <QtMoc Include="src\UgoTabs.h" />
     <QtMoc Include="src\ThumbSelectDialog.h" />
     <QtMoc Include="src\ParametersList.h" />
     <QtMoc Include="src\ParameterEditor.h" />

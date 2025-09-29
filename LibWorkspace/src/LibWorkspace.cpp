@@ -25,7 +25,7 @@ void LibWorkspace::setupUI()
 
     libraries = new QList<Library>();
     catalogs = new QList<Catalog>();
-    //parameters = new QList<Parameters>();
+    parameters = new QList<Parameters>();
 
     libraryManager = new LibraryManager(libraries, catalogs);
     libraryManager->setIconSize(iconSize);
@@ -33,7 +33,7 @@ void LibWorkspace::setupUI()
     componentsTable = new ComponentsTable();
     componentsTable->setIconSize(iconSize);
 
-    componentEditor = new ComponentEditor();
+    componentEditor = new ComponentEditor(parameters);
 
     /*auto buttonLayout = new QHBoxLayout();*/
 
@@ -131,8 +131,8 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
             libraryManager->currentPath = fullPath;
             libraryManager->currentLibrary = &lib;
             libraryManager->request();
-            componentEditor->parametersList->location = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->components_location;
-            componentEditor->parametersList->setItems();
+            componentEditor->parametersListWidget->location = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->components_location;
+            componentEditor->parametersListWidget->setItems();
             componentEditor->iconsPath = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->thumbnails_location;
             componentsTable->setRowCount(0);
             return;

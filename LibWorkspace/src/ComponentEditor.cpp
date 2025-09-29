@@ -6,9 +6,10 @@
 #include <QMenu>
 
 
-ComponentEditor::ComponentEditor(QWidget* parent)
+ComponentEditor::ComponentEditor(QList<Parameters>* parameters, QWidget* parent)
     : QMainWindow(parent)
 {
+    parametersList = parameters;
     setupUi();
     setupConnections();
 }
@@ -24,7 +25,6 @@ void ComponentEditor::setupUi()
 
     QHBoxLayout* mainLayout = new QHBoxLayout(centralWidget);
 
-    parameters = new QList<Parameters>();
     currentParameter = new Parameters();
 
     QVBoxLayout* leftLayout = new QVBoxLayout();
@@ -35,6 +35,11 @@ void ComponentEditor::setupUi()
     iconDisplay->setFrameShape(QFrame::Box);
     iconDisplay->setAlignment(Qt::AlignCenter);
 
+    modelComboBox = new QComboBox();
+    modelsList = new QStringList();
+
+    leftLayout->addWidget(modelComboBox);
+
     leftLayout->addStretch();
 
     leftLayout->addWidget(selectIconBtn);
@@ -42,21 +47,22 @@ void ComponentEditor::setupUi()
 
     leftLayout->addSpacing(10);
 
+
     parameterEditor = new ParameterEditor();
-    parametersList = new ParametersList(parameters);
+    parametersListWidget = new ParametersList(parametersList);
 
     mainLayout->addLayout(leftLayout);
     mainLayout->addWidget(parameterEditor);
-    mainLayout->addWidget(parametersList);
+    mainLayout->addWidget(parametersListWidget);
 
     mainLayout->setStretchFactor(leftLayout, 1);
     mainLayout->setStretchFactor(parameterEditor, 4);
-    mainLayout->setStretchFactor(parametersList, 2);
+    mainLayout->setStretchFactor(parametersListWidget, 2);
 }
 
 void ComponentEditor::setupConnections()
 {
-    connect(parametersList, &QListWidget::itemDoubleClicked, this, &ComponentEditor::onItemDoubleClicked);
+    connect(parametersListWidget, &QListWidget::itemDoubleClicked, this, &ComponentEditor::onItemDoubleClicked);
     connect(parameterEditor->nameEdit, &QLineEdit::textChanged, this, &ComponentEditor::onParameterChanged);
     connect(parameterEditor->typeComboBox, &QComboBox::currentTextChanged, this, &ComponentEditor::onParameterChanged);
     connect(parameterEditor->defaultValueLineEdit, &QLineEdit::textChanged, this, &ComponentEditor::onParameterChanged);
@@ -68,7 +74,7 @@ void ComponentEditor::setupConnections()
     connect(parameterEditor->editedCheckBox, &QCheckBox::stateChanged, this, &ComponentEditor::onParameterChanged);
     connect(parameterEditor->netlistedCheckBox, &QCheckBox::stateChanged, this, &ComponentEditor::onParameterChanged);
 
-     QObject::connect(selectIconBtn, &QPushButton::clicked, [&]() {
+     connect(selectIconBtn, &QPushButton::clicked, [&]() {
          ThumbSelectDialog dlg(iconsPath);
          if (dlg.exec() == QDialog::Accepted) {
              QIcon icon = dlg.selectedIcon();
@@ -89,7 +95,7 @@ void ComponentEditor::onItemDoubleClicked(QListWidgetItem* item)
     Parameters сurrentParam;
     QString searchName = item->text();
 
-    for (const Parameters& param : *parameters) {
+    for (const Parameters& param : *parametersList) {
         if (param.name == searchName) {
             сurrentParam = param;
             break;
