@@ -1,4 +1,4 @@
-﻿#include "ComponentsTable.h"
+#include "ComponentsTable.h"
 
 ComponentsTable::ComponentsTable(QWidget* parent)
     : QTableWidget(parent)
@@ -31,26 +31,20 @@ void ComponentsTable::setupTable()
 
 void ComponentsTable::updateComponents(const QList<Component>& components)
 {
-    // Очищаем таблицу
     setRowCount(0);
 
-    // Добавляем компоненты в таблицу
     for (const auto& component : components)
     {
         int row = rowCount();
         insertRow(row);
 
-        // Иконка (пока пустая ячейка)
         setItem(row, 0, new QTableWidgetItem());
         item(row, 0)->setIcon(component.thumb);
 
-        // Модель
         setItem(row, 1, new QTableWidgetItem(component.model));
 
-        // Описание
         setItem(row, 2, new QTableWidgetItem(component.desc));
     }
 
-    // Автоподбор размера строк
     resizeRowsToContents();
 }

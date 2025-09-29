@@ -1,4 +1,4 @@
-﻿#include "ComponentEditor.h"
+#include "ComponentEditor.h"
 #include <qheaderview.h>
 #include <QSplitter>
 #include <QString>
@@ -127,39 +127,32 @@ void ComponentEditor::setupConnections()
 
 void ComponentEditor::onItemDoubleClicked(QListWidgetItem* item)
 {
-    Parameters сurrentParam;
+    //Parameters сurrentParam;
     QString searchName = item->text();
-
-    for (const Parameters& param : *parametersList) {
-        if (param.name == searchName) {
-            сurrentParam = param;
-            break;
-        }
-    }
-    parameterEditor->nameEdit->setText(сurrentParam.name);
-    parameterEditor->typeComboBox->setCurrentText(сurrentParam.type);
-    if (сurrentParam.rdefault.has_value())
-    {
-        parameterEditor->defaultValueLineEdit->setText(QString::number(сurrentParam.rdefault.value()));
-    }
-    else
-    {
-        parameterEditor->defaultValueLineEdit->setText(сurrentParam.sdefault);
-    }
-    parameterEditor->featureComboBox->setCurrentText(сurrentParam.feature);
-    parameterEditor->unitComboBox->setCurrentText(сurrentParam.unit);
-    parameterEditor->descLineEdit->setText(сurrentParam.desc);
-    parameterEditor->displayCheckBox->setChecked(сurrentParam.display);
-    parameterEditor->optimizableCheckBox->setChecked(сurrentParam.optimizable.value_or(false));
-    parameterEditor->editedCheckBox->setChecked(сurrentParam.edited.value_or(false));
-    parameterEditor->netlistedCheckBox->setChecked(сurrentParam.netlisted.value_or(false));
-
-    QString link = parameterEditor->featureComboBox->currentText() + "." + parameterEditor->typeComboBox->currentText()
-        + (parameterEditor->displayCheckBox->isChecked() ? ".D" : "")
-        + (parameterEditor->optimizableCheckBox->isChecked() ? ".O" : "")
-        + (parameterEditor->editedCheckBox->isChecked() ? ".E" : "")
-        + (parameterEditor->netlistedCheckBox->isChecked() ? ".N" : "");
-    parameterEditor->linkLabel->setText(link);
+    updateParameterEditor(searchName);
+    //for (const Parameters& param : *parametersList) {
+    //    if (param.name == searchName) {
+    //        сurrentParam = param;
+    //        break;
+    //    }
+    //}
+    //parameterEditor->nameEdit->setText(сurrentParam.name);
+    //parameterEditor->typeComboBox->setCurrentText(сurrentParam.type);
+    //if (сurrentParam.rdefault.has_value())
+    //{
+    //    parameterEditor->defaultValueLineEdit->setText(QString::number(сurrentParam.rdefault.value()));
+    //}
+    //else
+    //{
+    //    parameterEditor->defaultValueLineEdit->setText(сurrentParam.sdefault);
+    //}
+    //parameterEditor->featureComboBox->setCurrentText(сurrentParam.feature);
+    //parameterEditor->unitComboBox->setCurrentText(сurrentParam.unit);
+    //parameterEditor->descLineEdit->setText(сurrentParam.desc);
+    //parameterEditor->displayCheckBox->setChecked(сurrentParam.display);
+    //parameterEditor->optimizableCheckBox->setChecked(сurrentParam.optimizable.value_or(false));
+    //parameterEditor->editedCheckBox->setChecked(сurrentParam.edited.value_or(false));
+    //parameterEditor->netlistedCheckBox->setChecked(сurrentParam.netlisted.value_or(false));
 }
 
 void ComponentEditor::onParameterChanged()
@@ -195,4 +188,32 @@ void ComponentEditor::updateParameterLink()
     QString link = parameterEditor->buildingLink(currentParameter);
 
     parameterEditor->linkLabel->setText(link);
+}
+
+void ComponentEditor::updateParameterEditor(QString searchName) {
+    Parameters сurrentParam;
+
+    for (const Parameters& param : *parametersList) {
+        if (param.name == searchName) {
+            сurrentParam = param;
+            break;
+        }
+    }
+    parameterEditor->nameEdit->setText(сurrentParam.name);
+    parameterEditor->typeComboBox->setCurrentText(сurrentParam.type);
+    if (сurrentParam.rdefault.has_value())
+    {
+        parameterEditor->defaultValueLineEdit->setText(QString::number(сurrentParam.rdefault.value()));
+    }
+    else
+    {
+        parameterEditor->defaultValueLineEdit->setText(сurrentParam.sdefault);
+    }
+    parameterEditor->featureComboBox->setCurrentText(сurrentParam.feature);
+    parameterEditor->unitComboBox->setCurrentText(сurrentParam.unit);
+    parameterEditor->descLineEdit->setText(сurrentParam.desc);
+    parameterEditor->displayCheckBox->setChecked(сurrentParam.display);
+    parameterEditor->optimizableCheckBox->setChecked(сurrentParam.optimizable.value_or(false));
+    parameterEditor->editedCheckBox->setChecked(сurrentParam.edited.value_or(false));
+    parameterEditor->netlistedCheckBox->setChecked(сurrentParam.netlisted.value_or(false));
 }

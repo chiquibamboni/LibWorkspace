@@ -1,4 +1,4 @@
-﻿#include "LibWorkspace.h"
+#include "LibWorkspace.h"
 #include <qheaderview.h>
 #include <QSplitter>
 #include <QString>
@@ -156,6 +156,10 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
 
 void LibWorkspace::SelectComponent(const QModelIndex& index)
 {
+    int row = index.row();
+    QString searchName = componentsTable->item(row, 1)->text();
+    componentEditor->updateParameterEditor(searchName);
+    
     //QModelIndex itemIndex = index.sibling(index.row(), 1);
 
     //QVariant data = libraryManager->model->data(itemIndex, Qt::DisplayRole);

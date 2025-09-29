@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <QtWidgets/QMainWindow>
 
@@ -22,6 +22,7 @@ public:
     ~ComponentEditor();
     ParametersList* parametersListWidget;
     QString iconsPath;
+    void updateParameterEditor(QString searchName);
 
 private:
     void setupUi();
