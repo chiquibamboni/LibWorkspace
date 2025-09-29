@@ -76,13 +76,13 @@ void ComponentEditor::setupUi()
     QVBoxLayout* leftColumn = new QVBoxLayout();
     leftColumn->addWidget(new QPushButton("SCS"));
     leftColumn->addWidget(new QPushButton("QDS"));
-  
+
     QVBoxLayout* rightColumn = new QVBoxLayout();
     rightColumn->addWidget(new QPushButton("VA"));
     rightColumn->addWidget(new QPushButton("STD"));
 
     buttonsGroup->addLayout(leftColumn);
-    buttonsGroup->addSpacing(30); 
+    buttonsGroup->addSpacing(30);
     buttonsGroup->addLayout(rightColumn);
 
     containerLayout->addStretch();
@@ -109,20 +109,20 @@ void ComponentEditor::setupConnections()
     connect(parameterEditor->editedCheckBox, &QCheckBox::stateChanged, this, &ComponentEditor::onParameterChanged);
     connect(parameterEditor->netlistedCheckBox, &QCheckBox::stateChanged, this, &ComponentEditor::onParameterChanged);
 
-     connect(selectIconBtn, &QPushButton::clicked, [&]() {
-         ThumbSelectDialog dlg(iconsPath);
-         if (dlg.exec() == QDialog::Accepted) {
-             QIcon icon = dlg.selectedIcon();
+    connect(selectIconBtn, &QPushButton::clicked, [&]() {
+        ThumbSelectDialog dlg(iconsPath);
+        if (dlg.exec() == QDialog::Accepted) {
+            QIcon icon = dlg.selectedIcon();
 
-             //// Обновляем отображение иконки
-             //QPixmap pixmap = icon.pixmap(currentIconDisplay->size());
-             //currentIconDisplay->setPixmap(pixmap);
+            //// Обновляем отображение иконки
+            //QPixmap pixmap = icon.pixmap(currentIconDisplay->size());
+            //currentIconDisplay->setPixmap(pixmap);
 
-             // Обновляем основное отображение
-             QPixmap mainPixmap = icon.pixmap(iconDisplay->size());
-             iconDisplay->setPixmap(mainPixmap);
-         }
-         });
+            // Обновляем основное отображение
+            QPixmap mainPixmap = icon.pixmap(iconDisplay->size());
+            iconDisplay->setPixmap(mainPixmap);
+        }
+        });
 }
 
 void ComponentEditor::onItemDoubleClicked(QListWidgetItem* item)
