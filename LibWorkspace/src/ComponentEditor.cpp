@@ -29,7 +29,7 @@ void ComponentEditor::setupUi()
 
     currentParameter = new Parameters();
 
-    QVBoxLayout* leftLayout = new QVBoxLayout();
+    QVBoxLayout* imageLayout = new QVBoxLayout();
 
     selectIconBtn = new QPushButton(QStringLiteral(u"Выбрать иконку"));
     iconDisplay = new QLabel();
@@ -37,29 +37,62 @@ void ComponentEditor::setupUi()
     iconDisplay->setFrameShape(QFrame::Box);
     iconDisplay->setAlignment(Qt::AlignCenter);
 
+    imageLayout->addStretch();
     modelComboBox = new QComboBox();
     modelsList = new QStringList();
 
-    leftLayout->addWidget(modelComboBox);
+    imageLayout->addWidget(modelComboBox);
 
-    leftLayout->addStretch();
+    imageLayout->addStretch();
 
-    leftLayout->addWidget(selectIconBtn);
-    leftLayout->addWidget(iconDisplay, 0, Qt::AlignHCenter);
+    imageLayout->addWidget(selectIconBtn);
+    imageLayout->addWidget(iconDisplay, 0, Qt::AlignHCenter);
 
-    leftLayout->addSpacing(10);
-
+    imageLayout->addSpacing(10);
 
     parameterEditor = new ParameterEditor();
     parametersListWidget = new ParametersList(parametersList);
 
-    mainLayout->addLayout(leftLayout);
-    mainLayout->addWidget(parameterEditor);
-    mainLayout->addWidget(parametersListWidget);
+    QHBoxLayout* leftLayout = new QHBoxLayout();
 
-    mainLayout->setStretchFactor(leftLayout, 1);
-    mainLayout->setStretchFactor(parameterEditor, 4);
-    mainLayout->setStretchFactor(parametersListWidget, 2);
+    leftLayout->addLayout(imageLayout);
+    leftLayout->addWidget(parameterEditor);
+
+    leftLayout->setStretchFactor(imageLayout, 1);
+    leftLayout->setStretchFactor(parameterEditor, 3);
+
+    QVBoxLayout* VLayout = new QVBoxLayout();
+
+    VLayout->addLayout(leftLayout);
+    QLabel* label = new QLabel(QStringLiteral(u"Модель"));
+    label->setAlignment(Qt::AlignCenter);
+    VLayout->addWidget(label);
+
+    QWidget* buttonsContainer = new QWidget();
+    QHBoxLayout* containerLayout = new QHBoxLayout(buttonsContainer);
+
+    QHBoxLayout* buttonsGroup = new QHBoxLayout();
+
+    QVBoxLayout* leftColumn = new QVBoxLayout();
+    leftColumn->addWidget(new QPushButton("SCS"));
+    leftColumn->addWidget(new QPushButton("QDS"));
+  
+    QVBoxLayout* rightColumn = new QVBoxLayout();
+    rightColumn->addWidget(new QPushButton("VA"));
+    rightColumn->addWidget(new QPushButton("STD"));
+
+    buttonsGroup->addLayout(leftColumn);
+    buttonsGroup->addSpacing(30); 
+    buttonsGroup->addLayout(rightColumn);
+
+    containerLayout->addStretch();
+    containerLayout->addLayout(buttonsGroup);
+    containerLayout->addStretch();
+
+    VLayout->addWidget(buttonsContainer);
+
+    mainLayout->addLayout(VLayout);
+    mainLayout->addWidget(parametersListWidget);
 }
 
 void ComponentEditor::setupConnections()
