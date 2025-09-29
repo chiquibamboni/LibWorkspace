@@ -43,6 +43,6 @@ private:
 
 private slots:
     void onItemDoubleClicked(QListWidgetItem* item);
-    void onParameterChanged(); // Слот для обработки изменений
+    void onParameterChanged();
     void updateParameterLink();
 };
