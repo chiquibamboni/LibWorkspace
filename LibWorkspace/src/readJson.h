@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include <QString>;
+#include <QString>
 #include <QDir>
 #include <QMessageBox>
 #include <nlohmann/json.hpp>
