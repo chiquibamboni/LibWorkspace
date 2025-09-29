@@ -11,6 +11,7 @@
 #include <QCheckBox>
 #include <QTextEdit>
 #include <QLabel>
+#include "Parameters.h"
 
 class ParameterEditor : public QMainWindow
 {
@@ -19,8 +20,7 @@ class ParameterEditor : public QMainWindow
 public:
     ParameterEditor(QWidget* parent = nullptr);
     ~ParameterEditor();
-    QString buildingLink(QString feature, QString type, bool display,
-        bool optimizable, bool edited, bool netlisted);
+    QString buildingLink(Parameters* parameter);
     QLabel* linkLabel;
     QLineEdit* nameEdit;
     QComboBox* typeComboBox;
@@ -32,7 +32,6 @@ public:
     QCheckBox* optimizableCheckBox;
     QCheckBox* editedCheckBox;
     QCheckBox* netlistedCheckBox;
-    
 
 private:
     void setupUi();

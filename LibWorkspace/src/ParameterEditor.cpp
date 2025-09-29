@@ -97,13 +97,12 @@ void ParameterEditor::setupUi()
    parametersGroup->setMinimumWidth(300);   
 }
 
-QString ParameterEditor::buildingLink(QString feature, QString type, bool display,
-    bool optimizable, bool edited, bool netlisted)
+QString ParameterEditor::buildingLink(Parameters* parameter)
 {
-    QString link = feature + "." + type + (display ? ".D" : "")
-        + (optimizable ? ".O" : "")
-        + (edited ? ".E" : "")
-        + (netlisted ? ".N" : "");
+    QString link = parameter->feature + "." + parameter->type + (parameter->display ? ".D" : "")
+        + (parameter->optimizable.value_or(false) ? ".O" : "")
+        + (parameter->edited.value_or(false) ? ".E" : "")
+        + (parameter->netlisted.value_or(false) ? ".N" : "");
 
     return link;
 }

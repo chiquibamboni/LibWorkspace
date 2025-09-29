@@ -22,35 +22,52 @@ void ComponentEditor::setupUi()
     QWidget* centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
 
-     QHBoxLayout* mainLayout = new QHBoxLayout(centralWidget);
-     auto hLayout = new QHBoxLayout();
+    QHBoxLayout* mainLayout = new QHBoxLayout(centralWidget);
 
-     parameters = new QList<Parameters>();
+    parameters = new QList<Parameters>();
+    currentParameter = new Parameters();
 
-     selectIconBtn = new QPushButton(QStringLiteral(u"Выбрать иконку"));
-     hLayout->addWidget(selectIconBtn);
-     /*currentIconDisplay = new QLabel();
-     currentIconDisplay->setFixedSize(64, 64);
-     currentIconDisplay->setFrameShape(QFrame::Box);*/
-     mainLayout->addWidget(currentIconDisplay);
+    QVBoxLayout* leftLayout = new QVBoxLayout();
 
-     mainLayout->addLayout(hLayout);
+    selectIconBtn = new QPushButton(QStringLiteral(u"Выбрать иконку"));
+    iconDisplay = new QLabel();
+    iconDisplay->setFixedSize(100, 100);
+    iconDisplay->setFrameShape(QFrame::Box);
+    iconDisplay->setAlignment(Qt::AlignCenter);
 
-     iconDisplay = new QLabel();
-     iconDisplay->setFixedSize(100, 100);
-     mainLayout->addWidget(iconDisplay, 0, Qt::AlignHCenter);
+    leftLayout->addStretch();
 
-     parameterEditor = new ParameterEditor();
-     parametersList = new ParametersList(parameters);
+    leftLayout->addWidget(selectIconBtn);
+    leftLayout->addWidget(iconDisplay, 0, Qt::AlignHCenter);
 
-     mainLayout->addWidget(parameterEditor);
-     mainLayout->addWidget(parametersList);
+    leftLayout->addSpacing(10);
+
+    parameterEditor = new ParameterEditor();
+    parametersList = new ParametersList(parameters);
+
+    mainLayout->addLayout(leftLayout);
+    mainLayout->addWidget(parameterEditor);
+    mainLayout->addWidget(parametersList);
+
+    mainLayout->setStretchFactor(leftLayout, 1);
+    mainLayout->setStretchFactor(parameterEditor, 4);
+    mainLayout->setStretchFactor(parametersList, 2);
 }
 
 void ComponentEditor::setupConnections()
 {
     connect(parametersList, &QListWidget::itemDoubleClicked, this, &ComponentEditor::onItemDoubleClicked);
-     // Обработка клика по кнопке
+    connect(parameterEditor->nameEdit, &QLineEdit::textChanged, this, &ComponentEditor::onParameterChanged);
+    connect(parameterEditor->typeComboBox, &QComboBox::currentTextChanged, this, &ComponentEditor::onParameterChanged);
+    connect(parameterEditor->defaultValueLineEdit, &QLineEdit::textChanged, this, &ComponentEditor::onParameterChanged);
+    connect(parameterEditor->featureComboBox, &QComboBox::currentTextChanged, this, &ComponentEditor::onParameterChanged);
+    connect(parameterEditor->unitComboBox, &QComboBox::currentTextChanged, this, &ComponentEditor::onParameterChanged);
+    connect(parameterEditor->descLineEdit, &QTextEdit::textChanged, this, &ComponentEditor::onParameterChanged);
+    connect(parameterEditor->displayCheckBox, &QCheckBox::stateChanged, this, &ComponentEditor::onParameterChanged);
+    connect(parameterEditor->optimizableCheckBox, &QCheckBox::stateChanged, this, &ComponentEditor::onParameterChanged);
+    connect(parameterEditor->editedCheckBox, &QCheckBox::stateChanged, this, &ComponentEditor::onParameterChanged);
+    connect(parameterEditor->netlistedCheckBox, &QCheckBox::stateChanged, this, &ComponentEditor::onParameterChanged);
+
      QObject::connect(selectIconBtn, &QPushButton::clicked, [&]() {
          ThumbSelectDialog dlg(iconsPath);
          if (dlg.exec() == QDialog::Accepted) {
@@ -101,5 +118,40 @@ void ComponentEditor::onItemDoubleClicked(QListWidgetItem* item)
         + (parameterEditor->optimizableCheckBox->isChecked() ? ".O" : "")
         + (parameterEditor->editedCheckBox->isChecked() ? ".E" : "")
         + (parameterEditor->netlistedCheckBox->isChecked() ? ".N" : "");
+    parameterEditor->linkLabel->setText(link);
+}
+
+void ComponentEditor::onParameterChanged()
+{
+    currentParameter->name = parameterEditor->nameEdit->text();
+    currentParameter->type = parameterEditor->typeComboBox->currentText();
+
+    QString defaultText = parameterEditor->defaultValueLineEdit->text();
+    bool ok;
+    double numericValue = defaultText.toDouble(&ok);
+    if (ok && !defaultText.isEmpty()) {
+        currentParameter->rdefault = numericValue;
+        currentParameter->sdefault = QString();
+    }
+    else {
+        currentParameter->rdefault = std::nullopt;
+        currentParameter->sdefault = defaultText;
+    }
+
+    currentParameter->feature = parameterEditor->featureComboBox->currentText();
+    currentParameter->unit = parameterEditor->unitComboBox->currentText();
+    currentParameter->desc = parameterEditor->descLineEdit->toPlainText();
+    currentParameter->display = parameterEditor->displayCheckBox->isChecked();
+    currentParameter->optimizable = parameterEditor->optimizableCheckBox->isChecked();
+    currentParameter->edited = parameterEditor->editedCheckBox->isChecked();
+    currentParameter->netlisted = parameterEditor->netlistedCheckBox->isChecked();
+
+    updateParameterLink();
+}
+
+void ComponentEditor::updateParameterLink()
+{
+    QString link = parameterEditor->buildingLink(currentParameter);
+
     parameterEditor->linkLabel->setText(link);
 }

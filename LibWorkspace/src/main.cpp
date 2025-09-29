@@ -9,6 +9,6 @@ int main(int argc, char *argv[])
     LibWorkspace window;
     window.setWindowTitle(QStringLiteral(u"Редактор библиотек"));
     window.show();
-    window.resize(900, 700);
+    window.resize(1000, 700);
     return app.exec();
 }

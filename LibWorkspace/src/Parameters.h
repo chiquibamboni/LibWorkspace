@@ -2,6 +2,7 @@
 
 #include <iostream> 
 #include <QString>
+#include <optional>
 
 struct Parameters
 {

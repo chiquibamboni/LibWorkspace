@@ -54,6 +54,10 @@ void LibWorkspace::setupUI()
 
     mainLayout->addWidget(splitter);
     mainLayout->addWidget(componentEditor);
+
+    mainLayout->setStretchFactor(splitter, 3);
+    mainLayout->setStretchFactor(componentEditor, 7);
+
 }
 
 void LibWorkspace::setupMenuBar()
