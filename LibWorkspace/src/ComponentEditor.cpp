@@ -1,4 +1,4 @@
-#include "ComponentEditor.h"
+﻿#include "ComponentEditor.h"
 #include <qheaderview.h>
 #include <QSplitter>
 #include <QString>

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <QtWidgets/QMainWindow>
 
@@ -23,13 +23,13 @@ public:
     ParametersList* parametersListWidget;
     QString iconsPath;
     void updateParameterEditor(QString searchName);
+    QLabel* iconDisplay;
 
 private:
     void setupUi();
     void setupConnections();
 
     QPushButton* selectIconBtn;
-    QLabel* iconDisplay;
     QLabel* currentIconDisplay;
     QComboBox* modelComboBox;
     QStringList* modelsList;

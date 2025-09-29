@@ -1,4 +1,4 @@
-#include "LibWorkspace.h"
+﻿#include "LibWorkspace.h"
 #include <qheaderview.h>
 #include <QSplitter>
 #include <QString>
@@ -159,31 +159,12 @@ void LibWorkspace::SelectComponent(const QModelIndex& index)
     int row = index.row();
     QString searchName = componentsTable->item(row, 1)->text();
     componentEditor->updateParameterEditor(searchName);
-    
-    //QModelIndex itemIndex = index.sibling(index.row(), 1);
+    QString fullPath = componentEditor->iconsPath + "/" + searchName + ".svg";
 
-    //QVariant data = libraryManager->model->data(itemIndex, Qt::DisplayRole);
-    //QString selectedItem = data.toString();
-    //if (!index.isValid()) {
-    //    return;
-    //}
-    //for (auto& catalog : *catalogs)
-    //{
-    //    for (auto& component : catalog.components)
-    //    {
-    //        if (component.model == selectedItem) {
-    //            libraryManager->currentCatalog = &catalog;
-    //            //Обновление данных компонентов таблицы
-    //            if (!libraryManager->currentCatalog->components.isEmpty())
-    //            {
-    //                componentsTable->updateComponents(libraryManager->currentCatalog->components);
-    //                return;
-    //            }
-    //            componentsTable->setRowCount(0);
-    //            return;
-    //        }
-    //    }
-    //}
+    QIcon icon = QIcon(fullPath);
+
+    QPixmap mainPixmap = icon.pixmap(componentEditor->iconDisplay->size());
+    componentEditor->iconDisplay->setPixmap(mainPixmap);
 }
 
 //void LibWorkspace::refreshButtonClicked()
