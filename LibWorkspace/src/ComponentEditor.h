@@ -2,6 +2,8 @@
 
 #include <QtWidgets/QMainWindow>
 
+#include "Library.h"
+#include "Catalog.h"
 #include "ParametersList.h"
 #include "ParameterEditor.h"
 #include "ThumbSelectDialog.h"
@@ -16,7 +18,7 @@ class ComponentEditor : public QMainWindow
     Q_OBJECT
 
 public:
-    ComponentEditor(QList<Parameters>*  parameters, QWidget* parent = nullptr);
+    ComponentEditor(QList<Library>* libraries, QList<Catalog>* catalogs, QList<Parameters>*  parameters, QWidget* parent = nullptr);
     ~ComponentEditor();
     ParametersList* parametersListWidget;
     QString iconsPath;
@@ -33,6 +35,8 @@ private:
 
     ParameterEditor* parameterEditor;
  
+    QList<Library>* librariesList;
+    QList<Catalog>* catalogsList;
     QList<Parameters>* parametersList;
 
     Parameters* currentParameter;

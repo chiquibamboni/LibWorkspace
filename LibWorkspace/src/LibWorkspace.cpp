@@ -33,7 +33,7 @@ void LibWorkspace::setupUI()
     componentsTable = new ComponentsTable();
     componentsTable->setIconSize(iconSize);
 
-    componentEditor = new ComponentEditor(parameters);
+    componentEditor = new ComponentEditor(libraries, catalogs, parameters);
 
     /*auto buttonLayout = new QHBoxLayout();*/
 

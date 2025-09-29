@@ -6,9 +6,11 @@
 #include <QMenu>
 
 
-ComponentEditor::ComponentEditor(QList<Parameters>* parameters, QWidget* parent)
+ComponentEditor::ComponentEditor(QList<Library>* libraries, QList<Catalog>* catalogs, QList<Parameters>* parameters, QWidget* parent)
     : QMainWindow(parent)
 {
+    librariesList = libraries;
+    catalogsList = catalogs;
     parametersList = parameters;
     setupUi();
     setupConnections();
