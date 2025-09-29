@@ -1,4 +1,4 @@
-#include "ParameterEditor.h"
+ï»¿#include "ParameterEditor.h"
 #include <qheaderview.h>
 #include <QSplitter>
 #include <QString>
@@ -38,7 +38,7 @@ void ParameterEditor::setupUi()
 
     QHBoxLayout* mainLayout = new QHBoxLayout(centralWidget);
 
-    QGroupBox* parametersGroup = new QGroupBox(QStringLiteral(u"Ïàðàìåòðû"));
+    QGroupBox* parametersGroup = new QGroupBox(QStringLiteral(u"ÐŸÐ°Ñ€Ð°Ð¼ÐµÑ‚Ñ€Ñ‹"));
     QVBoxLayout* parametersLayout = new QVBoxLayout(parametersGroup);
 
     parametersLayout->setContentsMargins(0, 0, 0, 0);
@@ -48,38 +48,38 @@ void ParameterEditor::setupUi()
     QFormLayout* formLayout = new QFormLayout(formWidget);
 
     linkLabel = new QLabel("");
-    formLayout->addRow(new QLabel(QStringLiteral(u"Ññûëêà")), linkLabel);
+    formLayout->addRow(new QLabel(QStringLiteral(u"Ð¡ÑÑ‹Ð»ÐºÐ°")), linkLabel);
 
     nameEdit = new QLineEdit();
-    formLayout->addRow(new QLabel(QStringLiteral(u"Èìÿ")), nameEdit);
+    formLayout->addRow(new QLabel(QStringLiteral(u"Ð˜Ð¼Ñ")), nameEdit);
 
     typeComboBox = new QComboBox();
     typeComboBox->addItems(TYPE_ITEMS);
-    formLayout->addRow(new QLabel(QStringLiteral(u"Òèï")), typeComboBox);
+    formLayout->addRow(new QLabel(QStringLiteral(u"Ð¢Ð¸Ð¿")), typeComboBox);
 
-    formLayout->addRow(new QLabel(""), new QLabel(QStringLiteral(u"Ïðèìåð: 12.34e+6")));
+    formLayout->addRow(new QLabel(""), new QLabel(QStringLiteral(u"ÐŸÑ€Ð¸Ð¼ÐµÑ€: 12.34e+6")));
 
     defaultValueLineEdit = new QLineEdit();
-    formLayout->addRow(new QLabel(QStringLiteral(u"Çíà÷åíèå ïî óìîë÷àíèþ")), defaultValueLineEdit);
+    formLayout->addRow(new QLabel(QStringLiteral(u"Ð—Ð½Ð°Ñ‡ÐµÐ½Ð¸Ðµ Ð¿Ð¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ")), defaultValueLineEdit);
 
     featureComboBox = new QComboBox();
     featureComboBox->addItems(FEATURE_ITEMS);
-    formLayout->addRow(new QLabel(QStringLiteral(u"Õàðàêòåðèñòèêà")), featureComboBox);
+    formLayout->addRow(new QLabel(QStringLiteral(u"Ð¥Ð°Ñ€Ð°ÐºÑ‚ÐµÑ€Ð¸ÑÑ‚Ð¸ÐºÐ°")), featureComboBox);
 
     unitComboBox = new QComboBox();
     unitComboBox->addItems(UNIT_ITEMS);
-    formLayout->addRow((QStringLiteral(u"Åäèíèöà èçìåðåíèÿ")), unitComboBox);
+    formLayout->addRow((QStringLiteral(u"Ð•Ð´Ð¸Ð½Ð¸Ñ†Ð° Ð¸Ð·Ð¼ÐµÑ€ÐµÐ½Ð¸Ñ")), unitComboBox);
 
     descLineEdit = new QTextEdit();
-    formLayout->addRow(new QLabel(QStringLiteral(u"Îïèñàíèå")), descLineEdit);
+    formLayout->addRow(new QLabel(QStringLiteral(u"ÐžÐ¿Ð¸ÑÐ°Ð½Ð¸Ðµ")), descLineEdit);
 
-    QGroupBox* additionalGroup = new QGroupBox(QStringLiteral(u"Äîïîëíèòåëüíî"));
+    QGroupBox* additionalGroup = new QGroupBox(QStringLiteral(u"Ð”Ð¾Ð¿Ð¾Ð»Ð½Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾"));
     QVBoxLayout* additionalLayout = new QVBoxLayout(additionalGroup);
 
-    displayCheckBox = new QCheckBox(QStringLiteral(u"Îòîáðàæàòü íà ñõåìå"));
-    optimizableCheckBox = new QCheckBox(QStringLiteral(u"Äîñòóïåí äëÿ îïòèìèçàöèè"));
-    editedCheckBox = new QCheckBox(QStringLiteral(u"Çàïðåòèòü ðåäàêòèðîâàíèå"));
-    netlistedCheckBox = new QCheckBox(QStringLiteral(u"Íå äîáàâëÿòü â netlist"));
+    displayCheckBox = new QCheckBox(QStringLiteral(u"ÐžÑ‚Ð¾Ð±Ñ€Ð°Ð¶Ð°Ñ‚ÑŒ Ð½Ð° ÑÑ…ÐµÐ¼Ðµ"));
+    optimizableCheckBox = new QCheckBox(QStringLiteral(u"Ð”Ð¾ÑÑ‚ÑƒÐ¿ÐµÐ½ Ð´Ð»Ñ Ð¾Ð¿Ñ‚Ð¸Ð¼Ð¸Ð·Ð°Ñ†Ð¸Ð¸"));
+    editedCheckBox = new QCheckBox(QStringLiteral(u"Ð—Ð°Ð¿Ñ€ÐµÑ‚Ð¸Ñ‚ÑŒ Ñ€ÐµÐ´Ð°ÐºÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ðµ"));
+    netlistedCheckBox = new QCheckBox(QStringLiteral(u"ÐÐµ Ð´Ð¾Ð±Ð°Ð²Ð»ÑÑ‚ÑŒ Ð² netlist"));
 
     additionalLayout->addWidget(displayCheckBox);
     additionalLayout->addWidget(optimizableCheckBox);

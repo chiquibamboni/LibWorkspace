@@ -1,4 +1,4 @@
-#include "ComponentsTable.h"
+п»ї#include "ComponentsTable.h"
 
 ComponentsTable::ComponentsTable(QWidget* parent)
     : QTableWidget(parent)
@@ -31,26 +31,26 @@ void ComponentsTable::setupTable()
 
 void ComponentsTable::updateComponents(const QList<Component>& components)
 {
-    // Очищаем таблицу
+    // РћС‡РёС‰Р°РµРј С‚Р°Р±Р»РёС†Сѓ
     setRowCount(0);
 
-    // Добавляем компоненты в таблицу
+    // Р”РѕР±Р°РІР»СЏРµРј РєРѕРјРїРѕРЅРµРЅС‚С‹ РІ С‚Р°Р±Р»РёС†Сѓ
     for (const auto& component : components)
     {
         int row = rowCount();
         insertRow(row);
 
-        // Иконка (пока пустая ячейка)
+        // РРєРѕРЅРєР° (РїРѕРєР° РїСѓСЃС‚Р°СЏ СЏС‡РµР№РєР°)
         setItem(row, 0, new QTableWidgetItem());
         item(row, 0)->setIcon(component.thumb);
 
-        // Модель
+        // РњРѕРґРµР»СЊ
         setItem(row, 1, new QTableWidgetItem(component.model));
 
-        // Описание
+        // РћРїРёСЃР°РЅРёРµ
         setItem(row, 2, new QTableWidgetItem(component.desc));
     }
 
-    // Автоподбор размера строк
+    // РђРІС‚РѕРїРѕРґР±РѕСЂ СЂР°Р·РјРµСЂР° СЃС‚СЂРѕРє
     resizeRowsToContents();
 }
