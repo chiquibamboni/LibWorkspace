@@ -12,12 +12,17 @@ ComponentEditor::ComponentEditor(QList<Library>* libraries, QList<Catalog>* cata
     librariesList = libraries;
     catalogsList = catalogs;
     parametersList = parameters;
+    tabs = new QList<QString>();
     setupUi();
     setupConnections();
 }
 
 ComponentEditor::~ComponentEditor()
 {
+    delete librariesList;
+    delete catalogsList;
+    delete parametersList;
+    delete tabs;
 }
 
 void ComponentEditor::setupUi()
@@ -39,13 +44,14 @@ void ComponentEditor::setupUi()
 
     imageLayout->addStretch();
 
-    modelsComboBox = new QComboBox();
-    for (auto& catalog : *catalogsList)
-        for (auto& component : catalog.components)
-        {
-            modelsComboBox->addItem(component.model);
-        }
+    ugoTabs = new UgoTabs();
+    ugoTabs->setTab("ANSI");
+    ugoTabs->setTab(QStringLiteral(u"ГОСТ"));
 
+    modelsComboBox = new QComboBox();
+    modelsComboBox->setPlaceholderText(QStringLiteral(u"Выберите модель"));
+
+    imageLayout->addWidget(ugoTabs);
     imageLayout->addWidget(modelsComboBox);
 
     imageLayout->addStretch();
@@ -113,7 +119,7 @@ void ComponentEditor::setupConnections()
     connect(parameterEditor->optimizableCheckBox, &QCheckBox::stateChanged, this, &ComponentEditor::onParameterChanged);
     connect(parameterEditor->editedCheckBox, &QCheckBox::stateChanged, this, &ComponentEditor::onParameterChanged);
     connect(parameterEditor->netlistedCheckBox, &QCheckBox::stateChanged, this, &ComponentEditor::onParameterChanged);
-
+    connect(modelsComboBox, &QComboBox::currentTextChanged, this, &ComponentEditor::selectModel);
     connect(selectIconBtn, &QPushButton::clicked, [&]() {
         ThumbSelectDialog dlg(iconsPath);
         if (dlg.exec() == QDialog::Accepted) {
@@ -221,4 +227,13 @@ void ComponentEditor::updateParameterEditor(QString searchName) {
     parameterEditor->optimizableCheckBox->setChecked(сurrentParam.optimizable.value_or(false));
     parameterEditor->editedCheckBox->setChecked(сurrentParam.edited.value_or(false));
     parameterEditor->netlistedCheckBox->setChecked(сurrentParam.netlisted.value_or(false));
+}
+
+void ComponentEditor::selectModel(const QString& text)
+{
+    if (symbolsPath != "")
+    {
+        QString fullPuth = symbolsPath + "/" + text + ".svg";
+        ugoTabs->setTabImage("ANSI", fullPuth);
+    }
 }

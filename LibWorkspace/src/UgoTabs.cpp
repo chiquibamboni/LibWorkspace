@@ -1,4 +1,5 @@
 ﻿#include "UgoTabs.h"
+#include <QDebug>
 
 UgoTabs::UgoTabs(QWidget* parent) :QTabWidget(parent)
 {
@@ -10,13 +11,23 @@ UgoTabs::~UgoTabs()
 
 }
 
-void UgoTabs::setTab(QString ugoPath, QString tabName)
+void UgoTabs::setTab(QString tabName)
 {
-	QWidget* tab = new QWidget;
-	QVBoxLayout* layout = new QVBoxLayout(tab);
-	QLabel* label = new QLabel;
-	QPixmap pixmap(ugoPath);
-	label->setPixmap(pixmap.scaled(400, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-	layout->addWidget(label);
-	addTab(tab, tabName);
+    QWidget* tab = new QWidget;
+    QVBoxLayout* layout = new QVBoxLayout(tab);
+    QLabel* label = new QLabel;
+    layout->addWidget(label);
+    addTab(tab, tabName);
+
+    tabLabels[tabName] = label;
+}
+
+void UgoTabs::setTabImage(const QString& tabName, const QString& UgoPath)
+{
+	if (tabLabels.contains(tabName)) {
+		QLabel* label = tabLabels[tabName];
+		QPixmap pixmap(UgoPath);
+		label->setPixmap(pixmap.scaled(400, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+        label->update();
+	}
 }

@@ -7,6 +7,7 @@
 #include "ParametersList.h"
 #include "ParameterEditor.h"
 #include "ThumbSelectDialog.h"
+#include "UgoTabs.h"
 
 #include <QPushButton>
 #include <QLabel>
@@ -24,25 +25,28 @@ public:
     QString iconsPath;
     void updateParameterEditor(QString searchName);
     QLabel* iconDisplay;
+    QString symbolsPath;
+    QComboBox* modelsComboBox;
 
 private:
     void setupUi();
     void setupConnections();
 
     QPushButton* selectIconBtn;
-    QLabel* currentIconDisplay;
-    QComboBox* modelsComboBox;
 
     ParameterEditor* parameterEditor;
+    UgoTabs* ugoTabs;
  
     QList<Library>* librariesList;
     QList<Catalog>* catalogsList;
     QList<Parameters>* parametersList;
 
     Parameters* currentParameter;
+    QList<QString>* tabs;
 
 private slots:
     void onItemDoubleClicked(QListWidgetItem* item);
     void onParameterChanged();
     void updateParameterLink();
+    void selectModel(const QString& text);
 };

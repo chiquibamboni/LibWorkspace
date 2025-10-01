@@ -3,6 +3,7 @@
 #include <QTabWidget>
 #include <QWidget>
 #include <QLabel>
+#include <QMap>
 #include <QVBoxLayout>
 #include <QPixmap>
 
@@ -14,8 +15,10 @@ public:
     UgoTabs(QWidget* parent = nullptr);
     ~UgoTabs();
 
-    void setTab(QString ugoPath, QString tabName);
-private:
+    void setTab(QString tabName);
+    void setTabImage(const QString& tabName, const QString& UgoPath);
 
+private:
+    QMap<QString, QLabel*> tabLabels;
 };
 
