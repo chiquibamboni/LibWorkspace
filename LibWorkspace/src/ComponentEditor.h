@@ -31,8 +31,7 @@ private:
 
     QPushButton* selectIconBtn;
     QLabel* currentIconDisplay;
-    QComboBox* modelComboBox;
-    QStringList* modelsList;
+    QComboBox* modelsComboBox;
 
     ParameterEditor* parameterEditor;
  

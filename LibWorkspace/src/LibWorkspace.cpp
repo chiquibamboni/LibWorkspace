@@ -14,6 +14,16 @@ LibWorkspace::LibWorkspace(QWidget *parent)
 
     //первое отправление запроса
     libraryManager->request();
+    //Заполнение библиотек
+    for (auto& lib : *libraries) {
+        QString fullPath = "./Libraries/" + lib.dir;
+        libraryManager->currentPath = fullPath;
+        libraryManager->currentLibrary = &lib;
+        libraryManager->request();
+        componentEditor->parametersListWidget->location = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->components_location;
+        componentEditor->parametersListWidget->setItems();
+        componentsTable->setRowCount(0);
+    }
 }
 
 LibWorkspace::~LibWorkspace()
@@ -130,12 +140,12 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
             QString fullPath = "./Libraries/" + lib.dir;
             libraryManager->currentPath = fullPath;
             libraryManager->currentLibrary = &lib;
-            libraryManager->request();
-            componentEditor->parametersListWidget->location = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->components_location;
-            componentEditor->parametersListWidget->setItems();
+            //libraryManager->request();
+            //componentEditor->parametersListWidget->location = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->components_location;
+            //componentEditor->parametersListWidget->setItems();
             componentEditor->iconsPath = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->thumbnails_location;
-            componentsTable->setRowCount(0);
-            return;
+            //componentsTable->setRowCount(0);
+            //return;
         }
     }
     for (auto& catalog : *catalogs)

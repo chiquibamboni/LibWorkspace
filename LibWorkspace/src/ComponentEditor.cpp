@@ -38,10 +38,15 @@ void ComponentEditor::setupUi()
     iconDisplay->setAlignment(Qt::AlignCenter);
 
     imageLayout->addStretch();
-    modelComboBox = new QComboBox();
-    modelsList = new QStringList();
 
-    imageLayout->addWidget(modelComboBox);
+    modelsComboBox = new QComboBox();
+    for (auto& catalog : *catalogsList)
+        for (auto& component : catalog.components)
+        {
+            modelsComboBox->addItem(component.model);
+        }
+
+    imageLayout->addWidget(modelsComboBox);
 
     imageLayout->addStretch();
 
