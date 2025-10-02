@@ -148,6 +148,7 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
             //libraryManager->request();
             //componentEditor->parametersListWidget->location = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->components_location;
             //componentEditor->parametersListWidget->setItems();
+            componentEditor->iconsPath = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->thumbnails_location;
             componentEditor->symbolsPath = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->symbols_location;
             //componentsTable->setRowCount(0);
             //return;
