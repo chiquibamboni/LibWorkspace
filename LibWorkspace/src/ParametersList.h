@@ -24,6 +24,7 @@ public:
 private:
 	QList<Parameters>* parametersList;
 
+	QString  pdefaultToString(const std::optional<QVariant>& pdefault);
 	void addParametrFromJson(nlohmann::json jsonObj, Parameters& parametr);
 	bool containsParam(const Parameters& param) const;
 

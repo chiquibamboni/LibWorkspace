@@ -175,12 +175,16 @@ void ComponentEditor::onParameterChanged()
     bool ok;
     double numericValue = defaultText.toDouble(&ok);
     if (ok && !defaultText.isEmpty()) {
-        currentParameter->rdefault = numericValue;
-        currentParameter->sdefault = QString();
+        currentParameter->pdefault = QVariant(numericValue); // число
     }
+    //для массива
+    /*else if (jsonObj["default"].is_array()) {
+        auto arr = jsonObj["default"].get<std::vector<double>>();
+        QVector<double> qvec(arr.begin(), arr.end());
+        pdefault = QVariant(qvec);
+    }*/
     else {
-        currentParameter->rdefault = std::nullopt;
-        currentParameter->sdefault = defaultText;
+        currentParameter->pdefault = QVariant(defaultText);
     }
 
     currentParameter->feature = parameterEditor->featureComboBox->currentText();
@@ -212,14 +216,26 @@ void ComponentEditor::updateParameterEditor(QString searchName) {
     }
     parameterEditor->nameEdit->setText(сurrentParam.name);
     parameterEditor->typeComboBox->setCurrentText(сurrentParam.type);
-    if (сurrentParam.rdefault.has_value())
-    {
-        parameterEditor->defaultValueLineEdit->setText(QString::number(сurrentParam.rdefault.value()));
+
+    if (сurrentParam.pdefault.has_value()) {
+        const QVariant& val = сurrentParam.pdefault.value();
+
+        if (val.canConvert<double>()) {
+            parameterEditor->defaultValueLineEdit->setText(QString::number(val.toDouble()));
+        }
+        else if (val.canConvert<QString>()) {
+            parameterEditor->defaultValueLineEdit->setText(val.toString());
+        }
+        else {
+            // Для других типов или массива — можете задать пустой или обработать иначе
+            parameterEditor->defaultValueLineEdit->setText("");
+        }
     }
-    else
-    {
-        parameterEditor->defaultValueLineEdit->setText(сurrentParam.sdefault);
+    else {
+        // Значения нет, можно очистить или задать значение по умолчанию
+        parameterEditor->defaultValueLineEdit->setText("");
     }
+
     parameterEditor->featureComboBox->setCurrentText(сurrentParam.feature);
     parameterEditor->unitComboBox->setCurrentText(сurrentParam.unit);
     parameterEditor->descLineEdit->setText(сurrentParam.desc);

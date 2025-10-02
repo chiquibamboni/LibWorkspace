@@ -1,6 +1,8 @@
 ﻿#include "ParametersList.h"
 #include "readJson.h"
 
+#include <QVector>
+
 ParametersList::ParametersList(QList<Parameters>* parameters, QWidget* parent) : QListWidget(parent)
 {
     parametersList = parameters;
@@ -44,8 +46,7 @@ void ParametersList::setItems()
                     .arg(parametr.ref.isEmpty() ? "" : "ref: " + parametr.ref + "\n")
                     .arg(parametr.name)
                     .arg(parametr.type)
-                    .arg(parametr.sdefault.isEmpty() ? "" : "default: " + parametr.sdefault + "\n")
-                    .arg(parametr.rdefault.has_value() ? "default: " + QString::number(parametr.rdefault.value()) + "\n" : "")
+                    .arg(pdefaultToString(parametr.pdefault))
                     .arg(parametr.factor.isEmpty() ? "" : "factor: " + parametr.factor + "\n")
                     .arg(parametr.feature.isEmpty() ? "" : "feature: " + parametr.feature + "\n")
                     .arg(parametr.unit.isEmpty() ? "" : "unit: " + parametr.unit + "\n")
@@ -65,17 +66,52 @@ void ParametersList::setItems()
     }
 }
 
+QString ParametersList::pdefaultToString(const std::optional<QVariant>& pdefault) {
+    if (!pdefault.has_value())
+        return "";
+
+    const QVariant& val = *pdefault;
+    if (val.type() == QVariant::List || val.canConvert<QVariantList>()) {
+        QVariantList list = val.toList();
+        QStringList items;
+        for (const QVariant& item : list) {
+            items << item.toString();
+        }
+        return "default: [" + items.join(", ") + "]\n";
+    }
+    else {
+        return "default: " + val.toString() + "\n";
+    }
+}
+
 void ParametersList::addParametrFromJson(nlohmann::json jsonObj, Parameters& parametr)
 {
     parametr.name = QString::fromStdString(jsonObj["name"].get<std::string>());
     parametr.type = QString::fromStdString(jsonObj["type"].get<std::string>());
     parametr.display = jsonObj["display"].get<bool>();
 
-    if (jsonObj["type"] == "String" || jsonObj["default"] == "" || jsonObj["type"] == "Equation") {
-        parametr.sdefault = QString::fromStdString(jsonObj["default"].get<std::string>());
+    if (parametr.type == "String" || (jsonObj.contains("default") && jsonObj["default"].is_string()) || parametr.type == "Equation") {
+        if (jsonObj.contains("default")) {
+            parametr.pdefault = QString::fromStdString(jsonObj["default"].get<std::string>());
+        }
+        else {
+            parametr.pdefault = QString();
+        }
+    }
+    else if (jsonObj.contains("default") && jsonObj["default"].is_array()) {
+        //Для массива
+        std::vector<double> arr = jsonObj["default"].get<std::vector<double>>();
+        QVariantList qlist;
+        for (double v : arr) {
+            qlist << v;
+        }
+        parametr.pdefault = qlist;
+    }
+    else if (jsonObj.contains("default") && jsonObj["default"].is_number()) {
+        parametr.pdefault = jsonObj["default"].get<double>();
     }
     else {
-        parametr.rdefault = jsonObj["default"].get<double>();
+        parametr.pdefault = std::nullopt;
     }
 
     if (jsonObj.contains("ref")) {

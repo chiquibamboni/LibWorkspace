@@ -9,8 +9,8 @@ struct Parameters
     QString ref;
     QString name;
     QString type;
-    QString sdefault;
-    std::optional<double> rdefault;
+    //QString sdefault;
+    std::optional<QVariant> pdefault;
     QString factor;
     QString feature;
     QString unit;
