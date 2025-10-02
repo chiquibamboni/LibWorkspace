@@ -13,16 +13,16 @@ class ParametersList : public QListWidget
 	Q_OBJECT
 
 public:
-	ParametersList(QList<Parameters>* parameters, QWidget* parent = nullptr);
+	ParametersList(QWidget* parent = nullptr);
 	~ParametersList();
 
 	QString location;
+	QList<Parameters>* parameters;
 
 	void setItems();
 	void clearItems();
 
 private:
-	QList<Parameters>* parametersList;
 
 	QString  pdefaultToString(const std::optional<QVariant>& pdefault);
 	void addParametrFromJson(nlohmann::json jsonObj, Parameters& parametr);

@@ -62,8 +62,8 @@ void ComponentEditor::setupUi()
     imageLayout->addSpacing(10);
 
     parameterEditor = new ParameterEditor();
-    parametersListWidget = new ParametersList(parametersList);
-
+    parametersListWidget = new ParametersList();
+    parametersListWidget->parameters = parametersList;
     QHBoxLayout* leftLayout = new QHBoxLayout();
 
     leftLayout->addLayout(imageLayout);
@@ -103,7 +103,20 @@ void ComponentEditor::setupUi()
     VLayout->addWidget(buttonsContainer);
 
     mainLayout->addLayout(VLayout);
-    mainLayout->addWidget(parametersListWidget);
+
+    QVBoxLayout* listLayout = new QVBoxLayout();
+    
+    currentParameterListWidget = new ParametersList;
+    listLayout->addWidget(parametersListWidget);
+    listLayout->addWidget(currentParameterListWidget);
+
+    listLayout->setStretchFactor(parametersListWidget, 2);
+    listLayout->setStretchFactor(currentParameterListWidget, 1);
+
+    QPushButton* delButton = new QPushButton(QStringLiteral(u"Удалить"));
+    listLayout->addWidget(delButton);
+
+    mainLayout->addLayout(listLayout);
 }
 
 void ComponentEditor::setupConnections()

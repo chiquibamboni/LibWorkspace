@@ -12,7 +12,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QVBoxLayout>
-#include <QHBoxLayout>
+# include <QHBoxLayout>
 
 class ComponentEditor : public QMainWindow
 {
@@ -25,6 +25,8 @@ public:
     QList<QString> iconPaths;
     QList<QString> symbolPaths;
 
+    ParametersList* currentParameterListWidget;
+    QString iconsPath;
     void updateParameterEditor(QString searchName);
 
     QLabel* iconDisplay;

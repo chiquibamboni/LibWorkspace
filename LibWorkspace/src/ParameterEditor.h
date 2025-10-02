@@ -11,6 +11,7 @@
 #include <QCheckBox>
 #include <QTextEdit>
 #include <QLabel>
+#include <QPushButton>
 #include "Parameters.h"
 
 class ParameterEditor : public QMainWindow

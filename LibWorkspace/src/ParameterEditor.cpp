@@ -86,12 +86,17 @@ void ParameterEditor::setupUi()
     additionalLayout->addWidget(editedCheckBox);
     additionalLayout->addWidget(netlistedCheckBox);
 
+    QPushButton* addButton = new QPushButton(QStringLiteral(u"Добавить"));
+    
     parametersLayout->addWidget(formWidget);
     parametersLayout->addWidget(additionalGroup);
+
+    parametersLayout->addWidget(addButton);
 
     parametersLayout->addStretch(1);
 
     mainLayout->addWidget(parametersGroup);
+
 
     mainLayout->setContentsMargins(5, 5, 5, 5);
    parametersGroup->setMinimumWidth(300);   
