@@ -11,7 +11,7 @@
 class ThumbSelectDialog : public QDialog {
     Q_OBJECT
 public:
-    ThumbSelectDialog(const QString& iconsPath = QString(), QWidget* parent = nullptr);
+    ThumbSelectDialog(const QList<QString>& iconsPaths, QWidget* parent = nullptr);
     ~ThumbSelectDialog();
 
     QIcon selectedIcon() const;

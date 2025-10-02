@@ -69,17 +69,20 @@ void LibraryManager::addRootJsonToModel(const nlohmann::json& jsonObj, QStandard
 void LibraryManager::addLibraryToModel(const nlohmann::json& jsonObj, QStandardItem* parentItem)
 {
     parentItem->removeRows(0, parentItem->rowCount());
-    currentLibrary->components_location = QString::fromStdString(jsonObj["components_location"].get<std::string>());
-    currentLibrary->layouts_location = QString::fromStdString(jsonObj["layouts_location"].get<std::string>());
-    currentLibrary->sparam_location = QString::fromStdString(jsonObj["sparam_location"].get<std::string>());
-    currentLibrary->symbols_location = QString::fromStdString(jsonObj["symbols_location"].get<std::string>());
-    currentLibrary->thumbnails_location = QString::fromStdString(jsonObj["thumbnails_location"].get<std::string>());
-    currentLibrary->ugos_location = QString::fromStdString(jsonObj["ugos_location"].get<std::string>());
-    currentLibrary->veriloga_location = QString::fromStdString(jsonObj["veriloga_location"].get<std::string>());
-    if (jsonObj.contains("catalogs") && jsonObj["catalogs"].is_array()) {
-        for (const auto& catalogJson : jsonObj["catalogs"]) {
-            Catalog catalog;
-            CatalogFromJson(catalogJson, catalog, parentItem);
+    if (jsonObj.contains("components_location"))
+    {
+        currentLibrary->components_location = QString::fromStdString(jsonObj["components_location"].get<std::string>());
+        currentLibrary->layouts_location = QString::fromStdString(jsonObj["layouts_location"].get<std::string>());
+        currentLibrary->sparam_location = QString::fromStdString(jsonObj["sparam_location"].get<std::string>());
+        currentLibrary->symbols_location = QString::fromStdString(jsonObj["symbols_location"].get<std::string>());
+        currentLibrary->thumbnails_location = QString::fromStdString(jsonObj["thumbnails_location"].get<std::string>());
+        currentLibrary->ugos_location = QString::fromStdString(jsonObj["ugos_location"].get<std::string>());
+        currentLibrary->veriloga_location = QString::fromStdString(jsonObj["veriloga_location"].get<std::string>());
+        if (jsonObj.contains("catalogs") && jsonObj["catalogs"].is_array()) {
+            for (const auto& catalogJson : jsonObj["catalogs"]) {
+                Catalog catalog;
+                CatalogFromJson(catalogJson, catalog, parentItem);
+            }
         }
     }
 }

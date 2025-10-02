@@ -22,7 +22,7 @@ public:
     ComponentEditor(QList<Library>* libraries, QList<Catalog>* catalogs, QList<Parameters>*  parameters, QWidget* parent = nullptr);
     ~ComponentEditor();
     ParametersList* parametersListWidget;
-    QString iconsPath;
+    QList<QString> iconsPaths;
     void updateParameterEditor(QString searchName);
     QLabel* iconDisplay;
     QString symbolsPath;

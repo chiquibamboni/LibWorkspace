@@ -4,6 +4,7 @@
 #include <QString>
 #include <QMessageBox>
 #include <QMenu>
+#include <QDir>
 
 
 LibWorkspace::LibWorkspace(QWidget *parent)
@@ -20,8 +21,17 @@ LibWorkspace::LibWorkspace(QWidget *parent)
         libraryManager->currentPath = fullPath;
         libraryManager->currentLibrary = &lib;
         libraryManager->request();
-        componentEditor->parametersListWidget->location = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->components_location;
-        componentEditor->parametersListWidget->setItems();
+        QString location = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->components_location;
+        QDir dir(location);
+        if (dir.exists()) {
+            componentEditor->parametersListWidget->location = location;
+            componentEditor->parametersListWidget->setItems();
+        }
+        QString iconsPath = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->thumbnails_location;
+        QDir dirp(iconsPath);
+        if (dirp.exists()) {
+            componentEditor->iconsPaths.append(iconsPath);
+        }
         for (auto& catalog : *catalogs)
             for (auto& component : catalog.components)
             {
@@ -148,7 +158,7 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
             //libraryManager->request();
             //componentEditor->parametersListWidget->location = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->components_location;
             //componentEditor->parametersListWidget->setItems();
-            componentEditor->iconsPath = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->thumbnails_location;
+            /*componentEditor->iconsPaths = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->thumbnails_location;*/
             componentEditor->symbolsPath = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->symbols_location;
             //componentsTable->setRowCount(0);
             //return;
@@ -172,7 +182,7 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
 
 void LibWorkspace::SelectComponent(const QModelIndex& index)
 {
-    int row = index.row();
+   /* int row = index.row();
     QString searchName = componentsTable->item(row, 1)->text();
     componentEditor->updateParameterEditor(searchName);
     QString fullPath = componentEditor->iconsPath + "/" + searchName + ".svg";
@@ -180,7 +190,7 @@ void LibWorkspace::SelectComponent(const QModelIndex& index)
     QIcon icon = QIcon(fullPath);
 
     QPixmap mainPixmap = icon.pixmap(componentEditor->iconDisplay->size());
-    componentEditor->iconDisplay->setPixmap(mainPixmap);
+    componentEditor->iconDisplay->setPixmap(mainPixmap);*/
 }
 
 //void LibWorkspace::refreshButtonClicked()

@@ -1,6 +1,6 @@
 ﻿#include "ThumbSelectDialog.h"
 
-ThumbSelectDialog::ThumbSelectDialog(const QString& iconsPath, QWidget* parent)
+ThumbSelectDialog::ThumbSelectDialog(const QList<QString>& iconsPaths, QWidget* parent)
     : QDialog(parent)
 {
     setWindowTitle(QStringLiteral(u"Выберите иконку"));
@@ -18,8 +18,10 @@ ThumbSelectDialog::ThumbSelectDialog(const QString& iconsPath, QWidget* parent)
     layout->addWidget(listWidget);
 
     connect(listWidget, &QListWidget::itemDoubleClicked, this, &ThumbSelectDialog::accept);
-
-    loadIcons(iconsPath);
+    for (auto& iconsPath : iconsPaths)
+    {
+        loadIcons(iconsPath);
+    }
     resize(dialogSize);
 }
 
@@ -43,7 +45,6 @@ void ThumbSelectDialog::loadIcons(const QString& path) {
     dir.setNameFilters(filters);
 
     QStringList files = dir.entryList(QDir::Files);
-    listWidget->clear();
 
     for (const QString& fileName : files) {
         QString filePath = dir.absoluteFilePath(fileName);
