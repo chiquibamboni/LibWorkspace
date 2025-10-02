@@ -79,7 +79,7 @@ void LibraryManager::addLibraryToModel(const nlohmann::json& jsonObj, QStandardI
         currentLibrary->ugos_location = QString::fromStdString(jsonObj["ugos_location"].get<std::string>());
         currentLibrary->veriloga_location = QString::fromStdString(jsonObj["veriloga_location"].get<std::string>());
         if (jsonObj.contains("catalogs") && jsonObj["catalogs"].is_array()) {
-            for (const auto& catalogJson : jsonObj["catalogs"]) {
+            for (auto& catalogJson : jsonObj["catalogs"]) {
                 Catalog catalog;
                 CatalogFromJson(catalogJson, catalog, parentItem);
             }

@@ -15,30 +15,47 @@ LibWorkspace::LibWorkspace(QWidget *parent)
 
     //первое отправление запроса
     libraryManager->request();
+
     //Заполнение библиотек
     for (auto& lib : *libraries) {
         QString fullPath = "./Libraries/" + lib.dir;
         libraryManager->currentPath = fullPath;
         libraryManager->currentLibrary = &lib;
         libraryManager->request();
+
+        //добавление пути для параметров в parametersListWidget
         QString location = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->components_location;
         QDir dir(location);
         if (dir.exists()) {
             componentEditor->parametersListWidget->location = location;
             componentEditor->parametersListWidget->setItems();
         }
+        //добавление пути для иконок в thumbSelectDialog
         QString iconsPath = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->thumbnails_location;
         QDir dirp(iconsPath);
         if (dirp.exists()) {
-            componentEditor->iconsPaths.append(iconsPath);
+            componentEditor->iconPaths.append(iconsPath);
         }
-        for (auto& catalog : *catalogs)
-            for (auto& component : catalog.components)
+        //добавление пути для УГО в ugoTabs
+        QString symbolsPath = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->symbols_location;
+        QDir dirs(symbolsPath);
+        if (dirs.exists()) {
+            QStringList folderNames = dirs.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+            for (const QString& folderName : folderNames)
             {
-                componentEditor->modelsComboBox->addItem(component.model);
+                componentEditor->symbolPaths.append(symbolsPath + "/" + folderName);
             }
-        componentsTable->setRowCount(0);
+        }
     }
+    //Заполнение компонентами
+    for (auto& catalog : *catalogs)
+    {
+        for (auto& component : catalog.components)
+        {
+            componentEditor->modelsComboBox->addItem(component.model);
+        }
+    }
+    componentsTable->setRowCount(0);
 }
 
 LibWorkspace::~LibWorkspace()
@@ -159,7 +176,6 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
             //componentEditor->parametersListWidget->location = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->components_location;
             //componentEditor->parametersListWidget->setItems();
             /*componentEditor->iconsPaths = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->thumbnails_location;*/
-            componentEditor->symbolsPath = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->symbols_location;
             //componentsTable->setRowCount(0);
             //return;
         }

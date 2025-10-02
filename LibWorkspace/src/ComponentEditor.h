@@ -22,10 +22,13 @@ public:
     ComponentEditor(QList<Library>* libraries, QList<Catalog>* catalogs, QList<Parameters>*  parameters, QWidget* parent = nullptr);
     ~ComponentEditor();
     ParametersList* parametersListWidget;
-    QList<QString> iconsPaths;
+    QList<QString> iconPaths;
+    QList<QString> symbolPaths;
+
     void updateParameterEditor(QString searchName);
+
     QLabel* iconDisplay;
-    QString symbolsPath;
+    QList<QString> ugoDirsSymbolsPaths;
     QComboBox* modelsComboBox;
 
 private:

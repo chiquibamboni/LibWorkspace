@@ -121,7 +121,7 @@ void ComponentEditor::setupConnections()
     connect(parameterEditor->netlistedCheckBox, &QCheckBox::stateChanged, this, &ComponentEditor::onParameterChanged);
     connect(modelsComboBox, &QComboBox::currentTextChanged, this, &ComponentEditor::selectModel);
     connect(selectIconBtn, &QPushButton::clicked, [&]() {
-        ThumbSelectDialog dlg(iconsPaths);
+        ThumbSelectDialog dlg(iconPaths);
         if (dlg.exec() == QDialog::Accepted) {
             QIcon icon = dlg.selectedIcon();
 
@@ -231,9 +231,20 @@ void ComponentEditor::updateParameterEditor(QString searchName) {
 
 void ComponentEditor::selectModel(const QString& text)
 {
-    if (symbolsPath != "")
+    for (auto& symbolsPath : symbolPaths)
     {
-        QString fullPuth = symbolsPath + "/" + text + ".svg";
-        ugoTabs->setTabImage("ANSI", fullPuth);
+        QFileInfo info(symbolsPath);
+        QString fullPath = symbolsPath + "/" + text + ".svg";
+        if (QFile::exists(fullPath))
+        {
+            if (info.fileName() == "ansi")
+            {
+                ugoTabs->setTabImage("ANSI", fullPath);
+            }
+            if (info.fileName() == "gost")
+            {
+                ugoTabs->setTabImage(QStringLiteral(u"ГОСТ"), fullPath);
+            }
+        }
     }
 }
