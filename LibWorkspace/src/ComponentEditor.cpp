@@ -275,5 +275,10 @@ void ComponentEditor::selectModel(const QString& text)
                 ugoTabs->setTabImage(QStringLiteral(u"ГОСТ"), fullPath);
             }
         }
+        else
+        {
+            ugoTabs->clearTabImage("ANSI");
+            ugoTabs->clearTabImage(QStringLiteral(u"ГОСТ"));
+        }
     }
 }

@@ -32,3 +32,11 @@ void UgoTabs::setTabImage(const QString& tabName, const QString& UgoPath)
         label->update();
 	}
 }
+
+void UgoTabs::clearTabImage(const QString& tabName)
+{
+    if (tabLabels.contains(tabName)) {
+        QLabel* label = tabLabels[tabName];
+        label->clear();
+    }
+}

@@ -198,15 +198,24 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
 
 void LibWorkspace::SelectComponent(const QModelIndex& index)
 {
-   /* int row = index.row();
+    int row = index.row();
     QString searchName = componentsTable->item(row, 1)->text();
     componentEditor->updateParameterEditor(searchName);
-    QString fullPath = componentEditor->iconsPath + "/" + searchName + ".svg";
-
-    QIcon icon = QIcon(fullPath);
-
-    QPixmap mainPixmap = icon.pixmap(componentEditor->iconDisplay->size());
-    componentEditor->iconDisplay->setPixmap(mainPixmap);*/
+    int modelIndex = componentEditor->modelsComboBox->findText(searchName);
+    if (modelIndex != -1) {
+        componentEditor->modelsComboBox->setCurrentIndex(modelIndex);
+    }
+    componentEditor->selectModel(searchName);
+    QString fullPath;
+    for (auto& component : libraryManager->currentCatalog->components)
+    {
+        if (component.model == searchName)
+        {
+            QIcon icon = component.thumb;
+            QPixmap pixmap = icon.pixmap(componentEditor->iconDisplay->size());
+            componentEditor->iconDisplay->setPixmap(pixmap);
+        }
+    }
 }
 
 //void LibWorkspace::refreshButtonClicked()

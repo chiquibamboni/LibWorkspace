@@ -17,6 +17,7 @@ public:
 
     void setTab(QString tabName);
     void setTabImage(const QString& tabName, const QString& UgoPath);
+    void clearTabImage(const QString& tabName);
 
 private:
     QMap<QString, QLabel*> tabLabels;

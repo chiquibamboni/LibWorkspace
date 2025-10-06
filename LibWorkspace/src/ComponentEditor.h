@@ -48,10 +48,11 @@ private:
 
     Parameters* currentParameter;
     QList<QString>* tabs;
+public slots:
+    void selectModel(const QString& text);
 
 private slots:
     void onItemDoubleClicked(QListWidgetItem* item);
     void onParameterChanged();
     void updateParameterLink();
-    void selectModel(const QString& text);
 };
