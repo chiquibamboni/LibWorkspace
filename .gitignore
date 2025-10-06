@@ -361,5 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/LibWorkspace/build
-/LibWorkspace/Libraries
+/LibWorkspace/build/
+/LibWorkspace/Libraries/
