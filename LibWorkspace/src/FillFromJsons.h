@@ -7,6 +7,7 @@
 #include <QStandardItem>
 
 #include "Library.h"
+#include "Parameters.h"
 
 class FillFromJsons {
 public:
@@ -16,5 +17,6 @@ public:
 		Library* currentLibrary, QList<Catalog>* catalogsList);
 	static void ComponentFromJson(const nlohmann::json& jsonObj,
 		Component& component, Library* currentLibrary);
+	static void addParametrFromJson(nlohmann::json jsonObj, Parameters& parametr);
 };
 

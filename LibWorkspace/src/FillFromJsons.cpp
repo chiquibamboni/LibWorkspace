@@ -6,7 +6,7 @@ nlohmann::json FillFromJsons::readJson(QString currentPath, QWidget* parent)
     QFileInfo fileInfo(currentPath);
 
     if (!fileInfo.exists()) {
-        QMessageBox::warning(parent, "Ошибка", QStringLiteral(u"ресурсы не найдены"));
+        QMessageBox::warning(parent, QStringLiteral(u"Ошибка"), QStringLiteral(u"ресурсы не найдены"));
         return nlohmann::json();
     }
 
@@ -132,11 +132,69 @@ void FillFromJsons::ComponentFromJson(const nlohmann::json& jsonObj, Component& 
     QIcon icon;
     if (jsonObj["thumb"] != "")
     {
-        QString iconPath = "./Libraries/" + currentLibrary->dir + "/" + currentLibrary->thumbnails_location + "/" + QString::fromStdString(jsonObj["thumb"].get<std::string>()) + ".svg";
+        QString iconPath = "./Libraries/" + currentLibrary->dir + "/" + 
+            currentLibrary->thumbnails_location + "/" +
+            QString::fromStdString(jsonObj["thumb"].get<std::string>()) + ".svg";
         if (QFile::exists(iconPath))
         {
             icon = QIcon(iconPath);
             component.thumb = icon;
         }
+    }
+}
+
+void FillFromJsons::addParametrFromJson(nlohmann::json jsonObj, Parameters& parametr)
+{
+    parametr.name = QString::fromStdString(jsonObj["name"].get<std::string>());
+    parametr.type = QString::fromStdString(jsonObj["type"].get<std::string>());
+    parametr.display = jsonObj["display"].get<bool>();
+
+    if (parametr.type == "String" || (jsonObj.contains("default") && jsonObj["default"].is_string()) || parametr.type == "Equation") {
+        if (jsonObj.contains("default")) {
+            parametr.pdefault = QString::fromStdString(jsonObj["default"].get<std::string>());
+        }
+        else {
+            parametr.pdefault = QString();
+        }
+    }
+    else if (jsonObj.contains("default") && jsonObj["default"].is_array()) {
+        //Для массива
+        std::vector<double> arr = jsonObj["default"].get<std::vector<double>>();
+        QVariantList qlist;
+        for (double v : arr) {
+            qlist << v;
+        }
+        parametr.pdefault = qlist;
+    }
+    else if (jsonObj.contains("default") && jsonObj["default"].is_number()) {
+        parametr.pdefault = jsonObj["default"].get<double>();
+    }
+    else {
+        parametr.pdefault = std::nullopt;
+    }
+
+    if (jsonObj.contains("ref")) {
+        parametr.ref = QString::fromStdString(jsonObj["ref"].get<std::string>());
+    }
+    if (jsonObj.contains("factor")) {
+        parametr.factor = QString::fromStdString(jsonObj["factor"].get<std::string>());
+    }
+    if (jsonObj.contains("feature")) {
+        parametr.feature = QString::fromStdString(jsonObj["feature"].get<std::string>());
+    }
+    if (jsonObj.contains("unit")) {
+        parametr.unit = QString::fromStdString(jsonObj["unit"].get<std::string>());
+    }
+    if (jsonObj.contains("desc")) {
+        parametr.desc = QString::fromStdString(jsonObj["desc"].get<std::string>());
+    }
+    if (jsonObj.contains("optimizable")) {
+        parametr.optimizable = jsonObj["optimizable"].get<bool>();
+    }
+    if (jsonObj.contains("edited")) {
+        parametr.edited = jsonObj["edited"].get<bool>();
+    }
+    if (jsonObj.contains("netlisted")) {
+        parametr.netlisted = jsonObj["netlisted"].get<bool>();
     }
 }

@@ -7,6 +7,7 @@
 #include <nlohmann/json.hpp>
 
 #include "Parameters.h"
+#include "FillFromJsons.h"
 
 class ParametersList : public QListWidget
 {
@@ -25,7 +26,5 @@ public:
 private:
 
 	QString  pdefaultToString(const std::optional<QVariant>& pdefault);
-	void addParametrFromJson(nlohmann::json jsonObj, Parameters& parametr);
 	bool containsParam(const Parameters& param) const;
-
 };
