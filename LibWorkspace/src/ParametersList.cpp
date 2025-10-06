@@ -1,14 +1,12 @@
 ﻿#include "ParametersList.h"
 #include "readJson.h"
 
-ParametersList::ParametersList(QWidget* parent) : QListWidget(parent)
 #include <QVector>
 
-ParametersList::ParametersList(QList<Parameters>* parameters, QWidget* parent) : QListWidget(parent)
+ParametersList::ParametersList(QWidget* parent) : QListWidget(parent)
 {
-    parametersList = parameters;
-}
 
+}
 ParametersList::~ParametersList()
 {
 
