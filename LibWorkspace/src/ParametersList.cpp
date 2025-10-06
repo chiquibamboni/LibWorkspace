@@ -37,11 +37,10 @@ void ParametersList::setItems()
                     "%6"
                     "%7"
                     "%8"
-                    "%9"
-                    "display: %10"
+                    "display: %9"
+                    "%10"
                     "%11"
-                    "%12"
-                    "%13")
+                    "%12")
                     .arg(parametr.ref.isEmpty() ? "" : "ref: " + parametr.ref + "\n")
                     .arg(parametr.name)
                     .arg(parametr.type)
@@ -52,11 +51,11 @@ void ParametersList::setItems()
                     .arg(parametr.desc.isEmpty() ? "" : "desc: " + parametr.desc + "\n")
                     .arg(parametr.display)
                     .arg(parametr.optimizable.has_value()
-                        ? "optimizable: " + (parametr.optimizable.value() ? QString("true") : QString("false")) + "\n" : "")
+                        ? "\noptimizable: " + (parametr.optimizable.value() ? QString("true") : QString("false")) : "")
                     .arg(parametr.edited.has_value()
-                        ? "edited: " + (parametr.edited.value() ? QString("true") : QString("false")) + "\n" : "")
+                        ? "\nedited: " + (parametr.edited.value() ? QString("true") : QString("false")): "")
                     .arg(parametr.netlisted.has_value()
-                        ? "netlisted: " + (parametr.netlisted.value() ? QString("true") : QString("false")) + "\n" : "");
+                        ? "\nnetlisted: " + (parametr.netlisted.value() ? QString("true") : QString("false")): "");
 
                 item->setToolTip(tooltip);
                 addItem(item);
