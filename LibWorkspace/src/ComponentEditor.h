@@ -26,7 +26,7 @@ public:
     QList<QString> symbolPaths;
 
     ParametersList* currentParameterListWidget;
-    QString iconsPath;
+    QList<QString> iconsPaths;
     void updateParameterEditor(QString searchName);
 
     QLabel* iconDisplay;
