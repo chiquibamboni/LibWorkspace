@@ -128,7 +128,7 @@ void FillFromJsons::ComponentFromJson(const nlohmann::json& jsonObj, Component& 
 {
     component.model = QString::fromStdString(jsonObj["model"].get<std::string>());
     component.desc = QString::fromStdString(jsonObj["desc"].get<std::string>());
-    component.parameters = FillFromJsons::addParametersInComp(component.model, currentLibrary);
+    addComponentRest(component.model, component, currentLibrary);
 
     QIcon icon;
     if (jsonObj["thumb"] != "")
@@ -200,25 +200,71 @@ void FillFromJsons::addParametrFromJson(nlohmann::json jsonObj, Parameters& para
     }
 }
 
-QList<Parameters> FillFromJsons::addParametersInComp(QString& componentModel, Library* currentLibrary)
+void FillFromJsons::addComponentRest(QString& componentModel, Component& component, Library* currentLibrary)
 {
     Parameters parameter;
     QList<Parameters> paramList;
 
     QString location = "./Libraries/" + currentLibrary->dir + "/" +
         currentLibrary->components_location + "/" + componentModel + ".json";
+
     QFile jsonFile(location);
 
     if (jsonFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QByteArray jsonContent = jsonFile.readAll();
-        nlohmann::json parametersJson = nlohmann::json::parse(jsonContent);
+        nlohmann::json componentJson = nlohmann::json::parse(jsonContent);
         jsonFile.close();
-        for (auto& par : parametersJson["parameters"])
+        component.name = QString::fromStdString(componentJson["name"].get<std::string>());
+        component.library = QString::fromStdString(componentJson["library"].get<std::string>());
+        component.group = QString::fromStdString(componentJson["group"].get<std::string>());
+        for (auto& par : componentJson["parameters"])
         {
             addParametrFromJson(par, parameter);
             paramList.push_back(parameter);
         }
-    }
+        for (auto& pin : componentJson["pins"]) {
+            component.pins.push_back(QString::fromStdString(pin.get<std::string>()));
+        }
 
-    return paramList;
+        if (componentJson.contains("schematic") && componentJson["schematic"].contains("netlist")) {
+            auto& netlistJson = componentJson["schematic"]["netlist"];
+
+            if (netlistJson.contains("model")) {
+                component.schematic.netlist.model = QString::fromStdString(netlistJson["model"].get<std::string>());
+            }
+
+            if (netlistJson.contains("params")) {
+                auto& paramsJson = netlistJson["params"];
+                for (auto it = paramsJson.begin(); it != paramsJson.end(); ++it) {
+                    QString key = QString::fromStdString(it.key());
+                    QString value = QString::fromStdString(it.value().get<std::string>());
+                    component.schematic.netlist.params.insert(key, value);
+                }
+            }
+        }
+        if (componentJson.contains("layout") && componentJson["layout"].contains("model")) {
+            component.layout.model = QString::fromStdString(componentJson["layout"]["model"].get<std::string>());
+        }
+
+        if (componentJson.contains("ugo") && componentJson["ugo"].contains("model")) {
+            component.ugo.model = QString::fromStdString(componentJson["ugo"]["model"].get<std::string>());
+        }
+
+        if (componentJson.contains("veriloga") && componentJson["veriloga"].contains("model")) {
+            component.veriloga.model = QString::fromStdString(componentJson["veriloga"]["model"].get<std::string>());
+        }
+    }
+    component.parameters = paramList;
+}
+
+void FillFromJsons::AddNewComponentToJson(nlohmann::json jsonObj, Component& component)
+{
+}
+
+void FillFromJsons::MoveComponentUp(nlohmann::json jsonObj, Component& component)
+{
+}
+
+void FillFromJsons::MoveComponentDown(nlohmann::json jsonObj, Component& component)
+{
 }
