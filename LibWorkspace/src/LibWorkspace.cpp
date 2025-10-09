@@ -213,7 +213,7 @@ void LibWorkspace::SelectComponent(const QModelIndex& index)
             QIcon icon = component.thumb;
             QPixmap pixmap = icon.pixmap(componentEditor->iconDisplay->size());
             componentEditor->iconDisplay->setPixmap(pixmap);
-            componentEditor->currentParameterListWidget->clear();
+            componentEditor->currentParameterListWidget->clearItems();;
             for (Parameters par : component.parameters)
             {
                 componentEditor->currentParameterListWidget->ParametersList::insertItem(par);

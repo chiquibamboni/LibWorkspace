@@ -34,6 +34,7 @@ public:
     QLabel* iconDisplay;
     QList<QString> ugoDirsSymbolsPaths;
     QComboBox* modelsComboBox;
+    QPushButton* delButton;
 
 private:
     void setupUi();
@@ -57,4 +58,6 @@ private slots:
     void onItemDoubleClicked(QListWidgetItem* item);
     void onParameterChanged();
     void updateParameterLink();
+    void addNewParameter();
+    void delParameter();
 };

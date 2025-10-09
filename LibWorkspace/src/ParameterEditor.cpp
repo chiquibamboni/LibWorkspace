@@ -86,7 +86,7 @@ void ParameterEditor::setupUi()
     additionalLayout->addWidget(editedCheckBox);
     additionalLayout->addWidget(netlistedCheckBox);
 
-    QPushButton* addButton = new QPushButton(QStringLiteral(u"Добавить"));
+    addButton = new QPushButton(QStringLiteral(u"Добавить"));
     
     parametersLayout->addWidget(formWidget);
     parametersLayout->addWidget(additionalGroup);
