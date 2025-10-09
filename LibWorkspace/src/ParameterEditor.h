@@ -33,7 +33,7 @@ public:
     QCheckBox* optimizableCheckBox;
     QCheckBox* editedCheckBox;
     QCheckBox* netlistedCheckBox;
-
+    QPushButton* addButton;
 private:
     void setupUi();
     static const QStringList TYPE_ITEMS;

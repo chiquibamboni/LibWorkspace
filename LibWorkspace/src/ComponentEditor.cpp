@@ -114,7 +114,7 @@ void ComponentEditor::setupUi()
     listLayout->setStretchFactor(parametersListWidget, 2);
     listLayout->setStretchFactor(currentParameterListWidget, 1);
 
-    QPushButton* delButton = new QPushButton(QStringLiteral(u"Удалить"));
+    delButton = new QPushButton(QStringLiteral(u"Удалить"));
     listLayout->addWidget(delButton);
 
     mainLayout->addLayout(listLayout);
@@ -148,36 +148,15 @@ void ComponentEditor::setupConnections()
             iconDisplay->setPixmap(mainPixmap);
         }
         });
+    connect(parameterEditor->addButton, &QPushButton::clicked, this, &ComponentEditor::addNewParameter);
+    connect(currentParameterListWidget, &QListWidget::itemDoubleClicked, this, &ComponentEditor::onItemDoubleClicked);
+    connect(delButton, &QPushButton::clicked, this, &ComponentEditor::delParameter);
 }
 
 void ComponentEditor::onItemDoubleClicked(QListWidgetItem* item)
 {
-    //Parameters сurrentParam;
     QString searchName = item->text();
     updateParameterEditor(searchName);
-    //for (const Parameters& param : *parametersList) {
-    //    if (param.name == searchName) {
-    //        сurrentParam = param;
-    //        break;
-    //    }
-    //}
-    //parameterEditor->nameEdit->setText(сurrentParam.name);
-    //parameterEditor->typeComboBox->setCurrentText(сurrentParam.type);
-    //if (сurrentParam.rdefault.has_value())
-    //{
-    //    parameterEditor->defaultValueLineEdit->setText(QString::number(сurrentParam.rdefault.value()));
-    //}
-    //else
-    //{
-    //    parameterEditor->defaultValueLineEdit->setText(сurrentParam.sdefault);
-    //}
-    //parameterEditor->featureComboBox->setCurrentText(сurrentParam.feature);
-    //parameterEditor->unitComboBox->setCurrentText(сurrentParam.unit);
-    //parameterEditor->descLineEdit->setText(сurrentParam.desc);
-    //parameterEditor->displayCheckBox->setChecked(сurrentParam.display);
-    //parameterEditor->optimizableCheckBox->setChecked(сurrentParam.optimizable.value_or(false));
-    //parameterEditor->editedCheckBox->setChecked(сurrentParam.edited.value_or(false));
-    //parameterEditor->netlistedCheckBox->setChecked(сurrentParam.netlisted.value_or(false));
 }
 
 void ComponentEditor::onParameterChanged()
@@ -219,6 +198,32 @@ void ComponentEditor::updateParameterLink()
     parameterEditor->linkLabel->setText(link);
 }
 
+void ComponentEditor::addNewParameter()
+{
+    currentParameterListWidget->ParametersList::insertItem(*currentParameter);
+}
+
+void ComponentEditor::delParameter()
+{
+    QListWidgetItem* selectedItem = currentParameterListWidget->currentItem();
+
+    if (selectedItem) {
+        for (int i = 0; i < currentParameterListWidget->parameters->size(); ++i) {
+            Parameters par = currentParameterListWidget->parameters->at(i);
+            if (par.name == selectedItem->text()) {
+                currentParameterListWidget->parameters->removeAt(i);
+                break;
+            }
+        }
+        delete currentParameterListWidget->takeItem(currentParameterListWidget->row(selectedItem));
+    }
+    else {
+        QMessageBox::information(this, QStringLiteral(u"Удаление"),
+            QStringLiteral(u"Пожалуйста, выберите элемент для удаления"));
+    }
+
+}
+
 void ComponentEditor::updateParameterEditor(QString searchName) {
     Parameters сurrentParam;
 
@@ -246,7 +251,6 @@ void ComponentEditor::updateParameterEditor(QString searchName) {
         }
     }
     else {
-        // Значения нет, можно очистить или задать значение по умолчанию
         parameterEditor->defaultValueLineEdit->setText("");
     }
 

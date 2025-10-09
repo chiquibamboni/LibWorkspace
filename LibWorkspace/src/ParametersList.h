@@ -23,9 +23,10 @@ public:
 	void setItems();
 	void clearItems();
 	void insertItem(Parameters parametr);
+	bool containsParam(const Parameters& param) const;
 
 private:
 
 	QString  pdefaultToString(const std::optional<QVariant>& pdefault);
-	bool containsParam(const Parameters& param) const;
+
 };
