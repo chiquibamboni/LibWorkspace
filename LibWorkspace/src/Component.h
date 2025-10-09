@@ -9,6 +9,7 @@ struct Component
 {
     QString name;
     QString model;
+    bool view_model;
     QString library;
     QString group;
     QIcon thumb;

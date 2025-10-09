@@ -217,6 +217,11 @@ void FillFromJsons::addComponentRest(QString& componentModel, Component& compone
         component.name = QString::fromStdString(componentJson["name"].get<std::string>());
         component.library = QString::fromStdString(componentJson["library"].get<std::string>());
         component.group = QString::fromStdString(componentJson["group"].get<std::string>());
+
+        if (componentJson.contains("view_model")) {
+            component.view_model = componentJson["view_model"].get<bool>();
+        }
+
         for (auto& par : componentJson["parameters"])
         {
             addParametrFromJson(par, parameter);
