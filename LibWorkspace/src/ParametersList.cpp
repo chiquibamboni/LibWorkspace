@@ -1,5 +1,4 @@
 ﻿#include "ParametersList.h"
-#include "readJson.h"
 
 #include <QVector>
 
@@ -18,47 +17,50 @@ void ParametersList::setItems()
 
     for (const QString& fileName : fileList) {
         QString filePath = dir.filePath(fileName);
-        nlohmann::json parametersJson = readJson(filePath, this);
+        nlohmann::json parametersJson = FillFromJsons::readJson(filePath, this);
 
         for (auto& par : parametersJson["parameters"])
         {
             Parameters parametr;
             FillFromJsons::addParametrFromJson(par, parametr);
 
+
+
             if (!containsParam(parametr)) {
                 parameters->push_back(parametr);
 
-                QListWidgetItem* item = new QListWidgetItem(parametr.name);
-                QString tooltip = QString("%1"
-                    "name: %2\n"
-                    "type: %3\n"
-                    "%4"
-                    "%5"
-                    "%6"
-                    "%7"
-                    "%8"
-                    "display: %9"
-                    "%10"
-                    "%11"
-                    "%12")
-                    .arg(parametr.ref.isEmpty() ? "" : "ref: " + parametr.ref + "\n")
-                    .arg(parametr.name)
-                    .arg(parametr.type)
-                    .arg(pdefaultToString(parametr.pdefault))
-                    .arg(parametr.factor.isEmpty() ? "" : "factor: " + parametr.factor + "\n")
-                    .arg(parametr.feature.isEmpty() ? "" : "feature: " + parametr.feature + "\n")
-                    .arg(parametr.unit.isEmpty() ? "" : "unit: " + parametr.unit + "\n")
-                    .arg(parametr.desc.isEmpty() ? "" : "desc: " + parametr.desc + "\n")
-                    .arg(parametr.display)
-                    .arg(parametr.optimizable.has_value()
-                        ? "\noptimizable: " + (parametr.optimizable.value() ? QString("true") : QString("false")) : "")
-                    .arg(parametr.edited.has_value()
-                        ? "\nedited: " + (parametr.edited.value() ? QString("true") : QString("false")): "")
-                    .arg(parametr.netlisted.has_value()
-                        ? "\nnetlisted: " + (parametr.netlisted.value() ? QString("true") : QString("false")): "");
+                insertItem(parametr);
+                //QListWidgetItem* item = new QListWidgetItem(parametr.name);
+                //QString tooltip = QString("%1"
+                //    "name: %2\n"
+                //    "type: %3\n"
+                //    "%4"
+                //    "%5"
+                //    "%6"
+                //    "%7"
+                //    "%8"
+                //    "display: %9"
+                //    "%10"
+                //    "%11"
+                //    "%12")
+                //    .arg(parametr.ref.isEmpty() ? "" : "ref: " + parametr.ref + "\n")
+                //    .arg(parametr.name)
+                //    .arg(parametr.type)
+                //    .arg(pdefaultToString(parametr.pdefault))
+                //    .arg(parametr.factor.isEmpty() ? "" : "factor: " + parametr.factor + "\n")
+                //    .arg(parametr.feature.isEmpty() ? "" : "feature: " + parametr.feature + "\n")
+                //    .arg(parametr.unit.isEmpty() ? "" : "unit: " + parametr.unit + "\n")
+                //    .arg(parametr.desc.isEmpty() ? "" : "desc: " + parametr.desc + "\n")
+                //    .arg(parametr.display)
+                //    .arg(parametr.optimizable.has_value()
+                //        ? "\noptimizable: " + (parametr.optimizable.value() ? QString("true") : QString("false")) : "")
+                //    .arg(parametr.edited.has_value()
+                //        ? "\nedited: " + (parametr.edited.value() ? QString("true") : QString("false")): "")
+                //    .arg(parametr.netlisted.has_value()
+                //        ? "\nnetlisted: " + (parametr.netlisted.value() ? QString("true") : QString("false")): "");
 
-                item->setToolTip(tooltip);
-                addItem(item);
+                //item->setToolTip(tooltip);
+                //addItem(item);
             }
         }
     }
@@ -121,4 +123,39 @@ void ParametersList::clearItems()
 {
     this->clear();
     parameters->clear();
+}
+
+void ParametersList::insertItem(Parameters parametr)
+{
+    QListWidgetItem* item = new QListWidgetItem(parametr.name);
+    QString tooltip = QString("%1"
+        "name: %2\n"
+        "type: %3\n"
+        "%4"
+        "%5"
+        "%6"
+        "%7"
+        "%8"
+        "display: %9"
+        "%10"
+        "%11"
+        "%12")
+        .arg(parametr.ref.isEmpty() ? "" : "ref: " + parametr.ref + "\n")
+        .arg(parametr.name)
+        .arg(parametr.type)
+        .arg(pdefaultToString(parametr.pdefault))
+        .arg(parametr.factor.isEmpty() ? "" : "factor: " + parametr.factor + "\n")
+        .arg(parametr.feature.isEmpty() ? "" : "feature: " + parametr.feature + "\n")
+        .arg(parametr.unit.isEmpty() ? "" : "unit: " + parametr.unit + "\n")
+        .arg(parametr.desc.isEmpty() ? "" : "desc: " + parametr.desc + "\n")
+        .arg(parametr.display)
+        .arg(parametr.optimizable.has_value()
+            ? "\noptimizable: " + (parametr.optimizable.value() ? QString("true") : QString("false")) : "")
+        .arg(parametr.edited.has_value()
+            ? "\nedited: " + (parametr.edited.value() ? QString("true") : QString("false")) : "")
+        .arg(parametr.netlisted.has_value()
+            ? "\nnetlisted: " + (parametr.netlisted.value() ? QString("true") : QString("false")) : "");
+
+    item->setToolTip(tooltip);
+    addItem(item);
 }

@@ -46,9 +46,6 @@
     <ClCompile Include="src\ParametersList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\readJson.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\ThumbSelectDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -56,6 +53,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ComponentEditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FillFromJsons.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UgoTabs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -72,7 +75,7 @@
     <ClInclude Include="src\Parameters.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\readJson.h">
+    <ClInclude Include="src\FillFromJsons.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -93,6 +96,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\ComponentEditor.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\UgoTabs.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

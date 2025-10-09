@@ -107,6 +107,7 @@ void ComponentEditor::setupUi()
     QVBoxLayout* listLayout = new QVBoxLayout();
     
     currentParameterListWidget = new ParametersList;
+
     listLayout->addWidget(parametersListWidget);
     listLayout->addWidget(currentParameterListWidget);
 

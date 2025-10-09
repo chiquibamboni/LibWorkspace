@@ -128,6 +128,7 @@ void FillFromJsons::ComponentFromJson(const nlohmann::json& jsonObj, Component& 
 {
     component.model = QString::fromStdString(jsonObj["model"].get<std::string>());
     component.desc = QString::fromStdString(jsonObj["desc"].get<std::string>());
+    component.parameters = FillFromJsons::addParametersInComp(component.model, currentLibrary);
 
     QIcon icon;
     if (jsonObj["thumb"] != "")
@@ -197,4 +198,27 @@ void FillFromJsons::addParametrFromJson(nlohmann::json jsonObj, Parameters& para
     if (jsonObj.contains("netlisted")) {
         parametr.netlisted = jsonObj["netlisted"].get<bool>();
     }
+}
+
+QList<Parameters> FillFromJsons::addParametersInComp(QString& componentModel, Library* currentLibrary)
+{
+    Parameters parameter;
+    QList<Parameters> paramList;
+
+    QString location = "./Libraries/" + currentLibrary->dir + "/" +
+        currentLibrary->components_location + "/" + componentModel + ".json";
+    QFile jsonFile(location);
+
+    if (jsonFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QByteArray jsonContent = jsonFile.readAll();
+        nlohmann::json parametersJson = nlohmann::json::parse(jsonContent);
+        jsonFile.close();
+        for (auto& par : parametersJson["parameters"])
+        {
+            addParametrFromJson(par, parameter);
+            paramList.push_back(parameter);
+        }
+    }
+
+    return paramList;
 }

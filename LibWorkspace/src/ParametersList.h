@@ -22,6 +22,7 @@ public:
 
 	void setItems();
 	void clearItems();
+	void insertItem(Parameters parametr);
 
 private:
 
