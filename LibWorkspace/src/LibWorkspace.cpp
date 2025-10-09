@@ -7,7 +7,7 @@
 #include <QDir>
 
 
-LibWorkspace::LibWorkspace(QWidget *parent)
+LibWorkspace::LibWorkspace(QWidget* parent)
     : QMainWindow(parent)
 {
     setupUI();
@@ -16,6 +16,16 @@ LibWorkspace::LibWorkspace(QWidget *parent)
     //первое отправление запроса
     libraryManager->request();
 
+    setupPath();
+    componentsTable->setRowCount(0);
+}
+
+LibWorkspace::~LibWorkspace()
+{
+}
+
+void LibWorkspace::setupPath()
+{
     //Заполнение библиотек
     for (auto& lib : *libraries) {
         QString fullPath = "./Libraries/" + lib.dir;
@@ -58,9 +68,6 @@ LibWorkspace::LibWorkspace(QWidget *parent)
     componentsTable->setRowCount(0);
 }
 
-LibWorkspace::~LibWorkspace()
-{}
-
 void LibWorkspace::setupUI()
 {
     QSize  iconSize(64, 64);
@@ -76,11 +83,6 @@ void LibWorkspace::setupUI()
     componentsTable->setIconSize(iconSize);
 
     componentEditor = new ComponentEditor(libraries, catalogs, parameters);
-
-    /*auto buttonLayout = new QHBoxLayout();*/
-
-    //refreshButton = new QPushButton(QIcon("icons/refresh.svg"), "", this);
-    //buttonLayout->addWidget(refreshButton);
 
     setupMenuBar();
     setupToolBar();
@@ -117,7 +119,7 @@ void LibWorkspace::setupMenuBar()
     openAction->setShortcut(QKeySequence::Open);
     fileMenu->addAction(openAction);
 
-    fileMenu->addSeparator(); 
+    fileMenu->addSeparator();
 
     QMenu* editMenu = menuBar->addMenu(QStringLiteral(u"Добавить"));
 
@@ -158,7 +160,6 @@ void LibWorkspace::setupConnections()
     connect(libraryManager, &QTreeView::clicked, this, &LibWorkspace::RequestWithSelectedItem);
     connect(libraryManager, &QTreeView::expanded, this, &LibWorkspace::RequestWithSelectedItem);
     connect(componentsTable, &QTableWidget::doubleClicked, this, &LibWorkspace::SelectComponent);
-    //connect(refreshButton, &QPushButton::clicked, this, &LibWorkspace::refreshButtonClicked);
 }
 
 void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
@@ -171,19 +172,13 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
         if (lib.name == selectedItem) {
             QString fullPath = "./Libraries/" + lib.dir;
             libraryManager->currentPath = fullPath;
-            libraryManager->currentLibrary = &lib;
-            //libraryManager->request();
-            //componentEditor->parametersListWidget->location = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->components_location;
-            //componentEditor->parametersListWidget->setItems();
-            /*componentEditor->iconsPaths = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->thumbnails_location;*/
-            //componentsTable->setRowCount(0);
-            //return;
+            currentLibrary = libraryManager->currentLibrary = &lib;
         }
     }
     for (auto& catalog : *catalogs)
     {
         if (catalog.name == selectedItem) {
-            libraryManager->currentCatalog = &catalog;
+            currentCatalog = libraryManager->currentCatalog = &catalog;
             //Обновление данных компонентов таблицы
             if (!libraryManager->currentCatalog->components.isEmpty())
             {
@@ -200,17 +195,25 @@ void LibWorkspace::SelectComponent(const QModelIndex& index)
 {
     int row = index.row();
     QString searchName = componentsTable->item(row, 1)->text();
-    componentEditor->updateParameterEditor(searchName);
-    QString fullPath = componentEditor->iconsPath + "/" + searchName + ".svg";
-
-    QIcon icon = QIcon(fullPath);
-
-    QPixmap mainPixmap = icon.pixmap(componentEditor->iconDisplay->size());
-    componentEditor->iconDisplay->setPixmap(mainPixmap);*/
+    
+    int modelIndex = componentEditor->modelsComboBox->findText(searchName);
+    if (modelIndex != -1) {
+        componentEditor->modelsComboBox->setCurrentIndex(modelIndex);
+    }
+    componentEditor->selectModel(searchName);
+    QString fullPath;
+    for (auto& component : currentCatalog->components)
+    {
+        if (component.model == searchName)
+        {
+            QIcon icon = component.thumb;
+            QPixmap pixmap = icon.pixmap(componentEditor->iconDisplay->size());
+            componentEditor->iconDisplay->setPixmap(pixmap);
+            componentEditor->currentParameterListWidget->clear();
+            for (Parameters par : component.parameters)
+            {
+                componentEditor->currentParameterListWidget->ParametersList::insertItem(par);
+            }
+        }
+    }
 }
-
-//void LibWorkspace::refreshButtonClicked()
-//{
-//    libraryManager->request();
-//    componentsTable->setRowCount(0);
-//}

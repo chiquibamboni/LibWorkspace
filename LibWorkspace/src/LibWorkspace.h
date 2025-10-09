@@ -26,6 +26,7 @@ public:
     ~LibWorkspace();
 
 private:
+    void setupPath();
     void setupUI();
     void setupConnections();
     void setupToolBar();
@@ -33,9 +34,11 @@ private:
     LibraryManager* libraryManager;
     ComponentsTable* componentsTable;
     ComponentEditor* componentEditor;
-   // QPushButton* refreshButton;
     QToolBar* toolBar;
     QMenuBar* menuBar;
+
+    Library* currentLibrary;
+    Catalog* currentCatalog;
 
     QList<Library>* libraries;
     QList<Catalog>* catalogs;
@@ -44,6 +47,5 @@ private:
 public slots:
     void RequestWithSelectedItem(const QModelIndex& index);
     void SelectComponent(const QModelIndex& index);
-    //void refreshButtonClicked();
 };
 

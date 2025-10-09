@@ -40,8 +40,5 @@ private:
 
     void setupTree();
     void updateTree(const nlohmann::json& jsonData);
-    //void addRootJsonToModel(const nlohmann::json& jsonObj, QStandardItem* parentItem);
     void addLibraryToModel(const nlohmann::json& jsonObj, QStandardItem* parentItem);
-    //void CatalogFromJson(const nlohmann::json& jsonObj, Catalog& catalog, QStandardItem* parentItem);
-    //void ComponentFromJson(const nlohmann::json& jsonObj, Component& component);
 };
