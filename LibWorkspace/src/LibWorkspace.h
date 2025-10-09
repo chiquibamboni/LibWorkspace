@@ -26,7 +26,7 @@ public:
     ~LibWorkspace();
 
 private:
-    void setupPath();
+    void setupFields();
     void setupUI();
     void setupConnections();
     void setupToolBar();

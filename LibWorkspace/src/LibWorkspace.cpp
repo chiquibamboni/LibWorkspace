@@ -16,7 +16,7 @@ LibWorkspace::LibWorkspace(QWidget* parent)
     //первое отправление запроса
     libraryManager->request();
 
-    setupPath();
+    setupFields();
     componentsTable->setRowCount(0);
 }
 
@@ -24,7 +24,7 @@ LibWorkspace::~LibWorkspace()
 {
 }
 
-void LibWorkspace::setupPath()
+void LibWorkspace::setupFields()
 {
     //Заполнение библиотек
     for (auto& lib : *libraries) {
@@ -159,6 +159,7 @@ void LibWorkspace::setupConnections()
 {
     connect(libraryManager, &QTreeView::clicked, this, &LibWorkspace::RequestWithSelectedItem);
     connect(libraryManager, &QTreeView::expanded, this, &LibWorkspace::RequestWithSelectedItem);
+    connect(libraryManager, &QTreeView::collapsed, this, &LibWorkspace::RequestWithSelectedItem);
     connect(componentsTable, &QTableWidget::doubleClicked, this, &LibWorkspace::SelectComponent);
 }
 
@@ -168,11 +169,15 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
     if (!index.isValid()) {
         return;
     }
+    componentsTable->setRowCount(0);
+    componentEditor->clearUgo();
+    componentEditor->clearIcons();
     for (auto& lib : *libraries) {
         if (lib.name == selectedItem) {
             QString fullPath = "./Libraries/" + lib.dir;
             libraryManager->currentPath = fullPath;
             currentLibrary = libraryManager->currentLibrary = &lib;
+            return;
         }
     }
     for (auto& catalog : *catalogs)
@@ -185,7 +190,6 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
                 componentsTable->updateComponents(libraryManager->currentCatalog->components);
                 return;
             }
-            componentsTable->setRowCount(0);
             return;
         }
     }

@@ -259,6 +259,18 @@ void ComponentEditor::updateParameterEditor(QString searchName) {
     parameterEditor->netlistedCheckBox->setChecked(сurrentParam.netlisted.value_or(false));
 }
 
+void ComponentEditor::clearUgo()
+{
+    modelsComboBox->setPlaceholderText(QStringLiteral(u"Выберите модель"));
+    ugoTabs->clearTabImage("ANSI");
+    ugoTabs->clearTabImage(QStringLiteral(u"ГОСТ"));
+}
+
+void ComponentEditor::clearIcons()
+{
+    iconDisplay->clear();
+}
+
 void ComponentEditor::selectModel(const QString& text)
 {
     for (auto& symbolsPath : symbolPaths)
@@ -275,6 +287,7 @@ void ComponentEditor::selectModel(const QString& text)
             {
                 ugoTabs->setTabImage(QStringLiteral(u"ГОСТ"), fullPath);
             }
+            return;
         }
         else
         {

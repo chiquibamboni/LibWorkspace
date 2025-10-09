@@ -28,6 +28,8 @@ public:
     ParametersList* currentParameterListWidget;
     QList<QString> iconsPaths;
     void updateParameterEditor(QString searchName);
+    void clearUgo();
+    void clearIcons();
 
     QLabel* iconDisplay;
     QList<QString> ugoDirsSymbolsPaths;
