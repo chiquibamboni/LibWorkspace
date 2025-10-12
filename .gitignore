@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /LibWorkspace/build/
 /LibWorkspace/Libraries/
+/LibWorkspace/DefaultLibraries
