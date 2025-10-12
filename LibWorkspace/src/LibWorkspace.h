@@ -44,8 +44,15 @@ private:
     QList<Catalog>* catalogs;
     QList<Parameters>* parameters;
 
-public slots:
+    QPushButton* resetButton;
+
+    bool clearDirectory(const QString& dirPath);
+    bool copyDirectoryContents(const QString& sourceDirPath, const QString& targetDirPath);
+
+
+private slots:
     void RequestWithSelectedItem(const QModelIndex& index);
     void SelectComponent(const QModelIndex& index);
+    void resetButtonClicked();
 };
 

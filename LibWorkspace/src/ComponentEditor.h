@@ -30,6 +30,7 @@ public:
     void updateParameterEditor(QString searchName);
     void clearUgo();
     void clearIcons();
+    void clearWidget();
 
     QLabel* iconDisplay;
     QList<QString> ugoDirsSymbolsPaths;

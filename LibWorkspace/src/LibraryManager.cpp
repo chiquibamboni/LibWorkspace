@@ -77,3 +77,13 @@ void LibraryManager::request()
 {
     updateTree(FillFromJsons::readJson(currentPath, this));
 }
+
+void LibraryManager::clearLibraries()
+{
+    model->clear();
+    currentPath = "./Libraries";
+    firstRequest = true;
+    root = model->invisibleRootItem();
+    librariesList->clear();
+    catalogsList->clear();
+}

@@ -139,10 +139,6 @@ void ComponentEditor::setupConnections()
         if (dlg.exec() == QDialog::Accepted) {
             QIcon icon = dlg.selectedIcon();
 
-            //// Обновляем отображение иконки
-            //QPixmap pixmap = icon.pixmap(currentIconDisplay->size());
-            //currentIconDisplay->setPixmap(pixmap);
-
             // Обновляем основное отображение
             QPixmap mainPixmap = icon.pixmap(iconDisplay->size());
             iconDisplay->setPixmap(mainPixmap);
@@ -273,6 +269,18 @@ void ComponentEditor::clearUgo()
 void ComponentEditor::clearIcons()
 {
     iconDisplay->clear();
+}
+
+void ComponentEditor::clearWidget()
+{
+    clearUgo();
+    clearIcons();
+    modelsComboBox->clear();
+    librariesList->clear();
+    catalogsList->clear();
+    parametersList->clear();
+    parametersListWidget->clearItems();
+    currentParameterListWidget->clearItems();
 }
 
 void ComponentEditor::selectModel(const QString& text)

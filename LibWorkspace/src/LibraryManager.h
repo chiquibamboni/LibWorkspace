@@ -30,6 +30,7 @@ public:
     Catalog* currentCatalog = nullptr;
 
     void request();
+    void clearLibraries();
 private:
     QStandardItem* root;
     QIcon defaultFolder = QIcon("./icons/folder.svg");

@@ -96,7 +96,15 @@ void LibWorkspace::setupUI()
     splitter->addWidget(libraryManager);
     splitter->addWidget(componentsTable);
 
-    mainLayout->addWidget(splitter);
+    QVBoxLayout* libLayout = new QVBoxLayout();
+
+    libLayout->addWidget(splitter);
+
+    resetButton = new QPushButton(QStringLiteral(u"Сброс"));
+
+    libLayout->addWidget(resetButton);
+
+    mainLayout->addLayout(libLayout);
     mainLayout->addWidget(componentEditor);
 
     mainLayout->setStretchFactor(splitter, 3);
@@ -161,6 +169,7 @@ void LibWorkspace::setupConnections()
     connect(libraryManager, &QTreeView::expanded, this, &LibWorkspace::RequestWithSelectedItem);
     connect(libraryManager, &QTreeView::collapsed, this, &LibWorkspace::RequestWithSelectedItem);
     connect(componentsTable, &QTableWidget::doubleClicked, this, &LibWorkspace::SelectComponent);
+    connect(resetButton, &QPushButton::clicked, this, &LibWorkspace::resetButtonClicked);
 }
 
 void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
@@ -220,4 +229,76 @@ void LibWorkspace::SelectComponent(const QModelIndex& index)
             }
         }
     }
+}
+void LibWorkspace::resetButtonClicked()
+{
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this,
+        QStringLiteral(u"Подтверждение"),
+        QStringLiteral(u"Вы действительно хотите сбросить библиотеки до начальных?"),
+        QMessageBox::Yes | QMessageBox::No);
+    if (reply == QMessageBox::Yes) {
+        clearDirectory("./Libraries");
+        copyDirectoryContents("./DefaultLibraries", "./Libraries");
+        componentEditor->clearWidget();
+        libraryManager->clearLibraries();
+        parameters->clear();
+        libraries->clear();
+        catalogs->clear();
+        libraryManager->request();
+        setupFields();
+        componentsTable->setRowCount(0);
+    }
+    return;
+}
+
+bool LibWorkspace::clearDirectory(const QString& dirPath)
+{
+    QDir dir(dirPath);
+    if (!dir.exists()) return false;
+
+    QFileInfoList list = dir.entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot);
+    for (const QFileInfo& info : list) {
+        if (info.isFile())
+            dir.remove(info.fileName());
+        else if (info.isDir())
+            dir.rmdir(info.fileName());
+    }
+    return true;
+}
+
+bool LibWorkspace::copyDirectoryContents(const QString& sourceDirPath, const QString& targetDirPath)
+{
+    QDir sourceDir(sourceDirPath);
+    QDir targetDir(targetDirPath);
+
+    if (!sourceDir.exists()) {
+        QMessageBox::warning(nullptr,
+            "Ошибка",
+            "Источник не существует: " + sourceDirPath);
+        return false;
+    }
+    if (!targetDir.exists()) {
+        if (!targetDir.mkpath(".")) {
+            QMessageBox::warning(nullptr,
+                "Ошибка",
+                "Не удалось создать папку назначения: " + targetDirPath);
+            return false;
+        }
+    }
+
+    QFileInfoList list = sourceDir.entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot);
+    for (const QFileInfo& info : list) {
+        QString srcPath = info.absoluteFilePath();
+        QString destPath = QDir(targetDir).filePath(info.fileName());
+
+        if (info.isDir()) {
+            QDir().mkpath(destPath);
+            copyDirectoryContents(srcPath, destPath);
+        }
+        else if (info.isFile()) {
+            QFile::copy(srcPath, destPath);
+        }
+    }
+    return true;
 }
