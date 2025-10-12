@@ -131,10 +131,11 @@ void FillFromJsons::ComponentFromJson(const nlohmann::json& jsonObj, Component& 
     addComponentRest(component.model, component, currentLibrary);
 
     QIcon icon;
-    if (jsonObj["thumb"] != "")
+    if (jsonObj.contains("thumb") && jsonObj["thumb"].is_string() && !jsonObj["thumb"].get<std::string>().empty())
     {
         component.thumbName = QString::fromStdString(jsonObj["thumb"].get<std::string>());
-        QString iconPath = "./Libraries/" + currentLibrary->dir + "/" + 
+        QString iconPath = QString("./Libraries/") +
+            currentLibrary->dir + "/" +
             currentLibrary->thumbnails_location + "/" +
             QString::fromStdString(jsonObj["thumb"].get<std::string>()) + ".svg";
         if (QFile::exists(iconPath))
@@ -267,7 +268,7 @@ void FillFromJsons::AddNewComponentToJson(nlohmann::json& jsonObj, Component& co
 {
     for (auto& catalog : jsonObj["catalogs"])
     {
-        if (catalog.contains("name") && catalog["name"] == catalogName)
+        if (catalog.contains("name") && catalog["name"] == catalogName.toStdString())
         {
             // Создаем новый компонент, приводя QString к std::string
             nlohmann::json newComponent = {
