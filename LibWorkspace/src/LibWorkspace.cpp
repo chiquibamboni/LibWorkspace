@@ -259,10 +259,13 @@ bool LibWorkspace::clearDirectory(const QString& dirPath)
 
     QFileInfoList list = dir.entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot);
     for (const QFileInfo& info : list) {
-        if (info.isFile())
+        if (info.isFile()) {
             dir.remove(info.fileName());
-        else if (info.isDir())
+        }
+        else if (info.isDir()) {
+            clearDirectory(info.filePath());
             dir.rmdir(info.fileName());
+        }
     }
     return true;
 }
