@@ -133,6 +133,7 @@ void FillFromJsons::ComponentFromJson(const nlohmann::json& jsonObj, Component& 
     QIcon icon;
     if (jsonObj["thumb"] != "")
     {
+        component.thumbName = QString::fromStdString(jsonObj["thumb"].get<std::string>());
         QString iconPath = "./Libraries/" + currentLibrary->dir + "/" + 
             currentLibrary->thumbnails_location + "/" +
             QString::fromStdString(jsonObj["thumb"].get<std::string>()) + ".svg";
@@ -262,12 +263,152 @@ void FillFromJsons::addComponentRest(QString& componentModel, Component& compone
     component.parameters = paramList;
 }
 
-void FillFromJsons::AddNewComponentToJson(nlohmann::json jsonObj, Component& component)
+void FillFromJsons::AddNewComponentToJson(nlohmann::json& jsonObj, Component& component, QString catalogName, QString componentsPath)
 {
+    for (auto& catalog : jsonObj["catalogs"])
+    {
+        if (catalog.contains("name") && catalog["name"] == catalogName)
+        {
+            // Создаем новый компонент, приводя QString к std::string
+            nlohmann::json newComponent = {
+                {"model", component.model.toStdString()},
+                {"thumb", component.thumbName.toStdString()},
+                {"desc", component.desc.toStdString()}
+            };
+
+            if (!catalog.contains("components") || !catalog["components"].is_array())
+            {
+                catalog["components"] = nlohmann::json::array();
+            }
+            catalog["components"].push_back(newComponent);
+            // создание нового json
+            nlohmann::json fullComponentJson = CreateComponentJson(component);
+            QString filePath = componentsPath + "/" + component.name + ".json";
+            saveJsonToFile(fullComponentJson, filePath);
+            return;
+        }
+    }
+
+}
+
+// Функция для преобразования QVariant в json
+nlohmann::json FillFromJsons::QVariantToJson(const QVariant& var)
+{
+    switch (var.type())
+    {
+    case QVariant::Int:
+        return var.toInt();
+    case QVariant::Double:
+        return var.toDouble();
+    case QVariant::String:
+        return var.toString().toStdString();
+    case QVariant::Bool:
+        return var.toBool();
+    default:
+        return var.toString().toStdString();
+    }
+}
+
+nlohmann::json FillFromJsons::ParametersToJson(QList<Parameters>& params)
+{
+    nlohmann::json arr = nlohmann::json::array();
+    for (const auto& param : params)
+    {
+        nlohmann::json jParam;
+        jParam["ref"] = param.ref.toStdString();
+        jParam["name"] = param.name.toStdString();
+        jParam["type"] = param.type.toStdString();
+
+        if (param.pdefault.has_value())
+        {
+            jParam["default"] = QVariantToJson(*param.pdefault);
+        }
+
+        if (!param.factor.isEmpty())
+            jParam["factor"] = param.factor.toStdString();
+        if (!param.feature.isEmpty())
+            jParam["feature"] = param.feature.toStdString();
+        if (!param.unit.isEmpty())
+            jParam["unit"] = param.unit.toStdString();
+        if (!param.desc.isEmpty())
+            jParam["desc"] = param.desc.toStdString();
+
+        jParam["display"] = param.display;
+
+        if (param.optimizable.has_value())
+            jParam["optimizable"] = *param.optimizable;
+
+        if (param.edited.has_value())
+            jParam["edited"] = *param.edited;
+
+        if (param.netlisted.has_value())
+            jParam["netlisted"] = *param.netlisted;
+
+        arr.push_back(jParam);
+    }
+    return arr;
+}
+
+nlohmann::json FillFromJsons::CreateComponentJson(Component& comp)
+{
+    nlohmann::json paramsJson = ParametersToJson(comp.parameters);
+
+    nlohmann::json j = {
+        {"library", comp.library.toStdString()},
+        {"name", comp.name.toStdString()},
+        {"model", comp.model.toStdString()},
+        {"group", comp.group.toStdString()},
+        {"desc", comp.desc.toStdString()},
+        {"parameters", paramsJson}
+    };
+
+    // Обработка pins как QList<QString>
+    nlohmann::json pinsJson = nlohmann::json::array();
+    for (const auto& pin : comp.pins) {
+        pinsJson.push_back(pin.toStdString());
+    }
+    j["pins"] = pinsJson;
+
+    j["thumbName"] = comp.thumbName.toStdString();
+
+    // schematics
+    j["schematic"] = {
+        {"netlist", {
+            {"model", comp.schematic.netlist.model.toStdString()},
+            {"params", nlohmann::json::object()}
+        }}
+    };
+
+    // layout
+    j["layout"] = { {"model", comp.layout.model.toStdString()} };
+    // ugo
+    j["ugo"] = { {"model", comp.ugo.model.toStdString()} };
+    // veriloga
+    j["veriloga"] = { {"model", comp.veriloga.model.toStdString()} };
+
+    // netlist params
+    for (auto it = comp.schematic.netlist.params.cbegin(); it != comp.schematic.netlist.params.cend(); ++it)
+    {
+        j["schematic"]["netlist"]["params"][it.key().toStdString()] = it.value().toStdString();
+    }
+
+    return j;
+}
+
+void FillFromJsons::saveJsonToFile(const nlohmann::json& j, const QString& filePath) 
+{
+    QFile file(filePath);
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QString jsonString = QString::fromStdString(j.dump(4)); 
+        QTextStream out(&file);
+        out << jsonString;
+        file.close();
+    }
 }
 
 void FillFromJsons::MoveComponentUp(nlohmann::json jsonObj, Component& component)
 {
+
 }
 
 void FillFromJsons::MoveComponentDown(nlohmann::json jsonObj, Component& component)

@@ -13,6 +13,7 @@ struct Component
     QString library;
     QString group;
     QIcon thumb;
+    QString thumbName;
     QString desc;
     QList<Parameters> parameters;
     QList<QString> pins;
