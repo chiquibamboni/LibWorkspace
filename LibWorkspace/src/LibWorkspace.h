@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <QtWidgets/QMainWindow>
 
@@ -7,6 +7,7 @@
 #include "ParametersList.h"
 #include "ComponentEditor.h"
 #include "FullTableDialog.h"
+#include "NewComponentDialog.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -38,8 +39,12 @@ private:
     ComponentEditor* componentEditor;
     QToolBar* toolBar;
     QMenuBar* menuBar;
+    QAction* newAction;
+    NewComponentDialog* dialog;
     QAction* showFullTableAction;
     QStatusBar* statusBar; // Добавляем статус бар
+
+    void createNewComponent(QString name, QString library, QString directory, QString category);
 
     Library* currentLibrary;
     Catalog* currentCatalog;
@@ -61,4 +66,6 @@ private slots:
     void SelectComponent(const QModelIndex& index);
     void resetButtonClicked();
     void onShowFullTable();
+    void openNewComponentDialog();
 };
+
