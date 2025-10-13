@@ -1,4 +1,4 @@
-#include "LibWorkspace.h"
+﻿#include "LibWorkspace.h"
 #include <qheaderview.h>
 #include <QSplitter>
 #include <QString>
@@ -187,7 +187,7 @@ void LibWorkspace::setupToolBar()
     toolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
     addToolBar(Qt::TopToolBarArea, toolBar);
 
-    QAction* newAction = new QAction(QIcon("icons/plus.svg"), QStringLiteral(u"Добавить"), this);
+    newAction = new QAction(QIcon("icons/plus.svg"), QStringLiteral(u"Добавить"), this);
     QAction* deleteAction = new QAction(QIcon("icons/cross.svg"), QStringLiteral(u"Удалить"), this);
     QAction* downAction = new QAction(QIcon("icons/arrow-down.svg"), QStringLiteral(u"Вниз"), this);
     QAction* upAction = new QAction(QIcon("icons/arrow-up.svg"), QStringLiteral(u"Вверх"), this);
@@ -206,6 +206,7 @@ void LibWorkspace::setupConnections()
     connect(componentsTable, &QTableWidget::doubleClicked, this, &LibWorkspace::SelectComponent);
     connect(resetButton, &QPushButton::clicked, this, &LibWorkspace::resetButtonClicked);
     connect(showFullTableAction, &QAction::triggered, this, &LibWorkspace::onShowFullTable);
+    connect(newAction, &QAction::triggered, this, &LibWorkspace::openNewComponentDialog);
 }
 
 void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
@@ -373,4 +374,33 @@ bool LibWorkspace::copyDirectoryContents(const QString& sourceDirPath, const QSt
         }
     }
     return true;
+    }
+}
+
+void LibWorkspace::openNewComponentDialog()
+{
+    dialog = new NewComponentDialog(this);
+
+    if (dialog->exec() == QDialog::Accepted) {
+        QString name = dialog->getName();
+        QString library = dialog->getLibrary();
+        QString directory = dialog->getDirectory();
+        QString category = dialog->getCategory();
+
+        createNewComponent(name, library, directory, category);
+    }
+
+    delete dialog; // Не забудьте очистить память
+}
+
+void LibWorkspace::createNewComponent(QString name, QString library, QString directory, QString category)
+{
+    Component* newComponent = new Component();
+
+    newComponent->name = name;
+    newComponent->library = library;
+    newComponent->model = name;
+    newComponent->parameters = *componentEditor->currentParameterListWidget->parameters;
+    //newComponent->thumb = QIcon(name);
+
 }
