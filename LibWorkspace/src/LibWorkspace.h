@@ -6,6 +6,7 @@
 #include "LibraryManager.h"
 #include "ParametersList.h"
 #include "ComponentEditor.h"
+#include "FullTableDialog.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -36,13 +37,16 @@ private:
     ComponentEditor* componentEditor;
     QToolBar* toolBar;
     QMenuBar* menuBar;
+    QAction* showFullTableAction;
 
     Library* currentLibrary;
     Catalog* currentCatalog;
 
     QList<Library>* libraries;
     QList<Catalog>* catalogs;
+    QList<Component>* components;
     QList<Parameters>* parameters;
+
 
     QPushButton* resetButton;
 
@@ -54,5 +58,6 @@ private slots:
     void RequestWithSelectedItem(const QModelIndex& index);
     void SelectComponent(const QModelIndex& index);
     void resetButtonClicked();
+    void onShowFullTable();
 };
 

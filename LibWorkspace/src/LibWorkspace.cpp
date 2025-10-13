@@ -63,6 +63,7 @@ void LibWorkspace::setupFields()
         for (auto& component : catalog.components)
         {
             componentEditor->modelsComboBox->addItem(component.model);
+            components->push_back(component);
         }
     }
     componentsTable->setRowCount(0);
@@ -70,10 +71,11 @@ void LibWorkspace::setupFields()
 
 void LibWorkspace::setupUI()
 {
-    QSize  iconSize(64, 64);
+    QSize iconSize(64, 64);
 
     libraries = new QList<Library>();
     catalogs = new QList<Catalog>();
+    components = new QList<Component>();
     parameters = new QList<Parameters>();
 
     libraryManager = new LibraryManager(libraries, catalogs);
@@ -142,6 +144,11 @@ void LibWorkspace::setupMenuBar()
 
     fileMenu->addSeparator();
 
+    QMenu* viewMenu = menuBar->addMenu(QStringLiteral(u"Вид"));
+    showFullTableAction = viewMenu->addAction(QStringLiteral(u"Показать полную таблицу компонентов"));
+
+    fileMenu->addSeparator();
+
     QMenu* helpMenu = menuBar->addMenu(QStringLiteral(u"Помощь"));
 }
 
@@ -170,6 +177,7 @@ void LibWorkspace::setupConnections()
     connect(libraryManager, &QTreeView::collapsed, this, &LibWorkspace::RequestWithSelectedItem);
     connect(componentsTable, &QTableWidget::doubleClicked, this, &LibWorkspace::SelectComponent);
     connect(resetButton, &QPushButton::clicked, this, &LibWorkspace::resetButtonClicked);
+    connect(showFullTableAction, &QAction::triggered, this, &LibWorkspace::onShowFullTable);
 }
 
 void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
@@ -250,6 +258,12 @@ void LibWorkspace::resetButtonClicked()
         componentsTable->setRowCount(0);
     }
     return;
+}
+
+void LibWorkspace::onShowFullTable()
+{
+    FullTableDialog* dialog = new FullTableDialog(*components,this);
+    dialog->exec();
 }
 
 bool LibWorkspace::clearDirectory(const QString& dirPath)

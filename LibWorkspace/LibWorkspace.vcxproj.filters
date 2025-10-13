@@ -61,6 +61,9 @@
     <ClCompile Include="src\UgoTabs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\FullTableDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Catalog.h">
@@ -99,6 +102,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\UgoTabs.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\FullTableDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

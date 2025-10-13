@@ -3,6 +3,7 @@
 #include <iostream> 
 #include <QString>
 #include <optional>
+#include <QVariant>
 
 struct Parameters
 {
@@ -15,7 +16,7 @@ struct Parameters
     QString feature;
     QString unit;
     QString desc;
-    bool display;
+    bool display = true;
     std::optional<bool> optimizable;
     std::optional<bool> edited;
     std::optional<bool> netlisted;

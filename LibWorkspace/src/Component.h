@@ -3,6 +3,8 @@
 #include <QString>
 #include "Parameters.h"
 #include <QList>
+#include <QIcon>
+#include <QMap>
 
 
 struct Component
@@ -30,6 +32,8 @@ struct Component
 
     struct Ugo {
         QString model;
+        QIcon ansiUgoSymbol;
+        QIcon gostUgoSymbol;
     } ugo;
 
     struct Veriloga {

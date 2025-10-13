@@ -97,6 +97,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\FullTableDialog.cpp" />
     <ClCompile Include="src\ComponentEditor.cpp" />
     <ClCompile Include="src\FillFromJsons.cpp" />
     <ClCompile Include="src\ThumbSelectDialog.cpp" />
@@ -112,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\ComponentEditor.h" />
+    <QtMoc Include="src\FullTableDialog.h" />
     <ClInclude Include="src\FillFromJsons.h" />
     <ClInclude Include="src\Parameters.h" />
     <QtMoc Include="src\UgoTabs.h" />
