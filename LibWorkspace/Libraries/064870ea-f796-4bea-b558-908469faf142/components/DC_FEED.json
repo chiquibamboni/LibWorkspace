@@ -1,0 +1,32 @@
+{
+  "library": "Basic",
+  "name": "DC_Feed",
+  "model": "DC_FEED",
+  "view_model": true,
+  "group": "STD",
+  "pins": [
+    "P1",
+    "P2"
+  ],
+  "parameters": [
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "dcfeed",
+      "params": {
+      }
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "DC_FEED"
+  },
+  "veriloga": {
+    "model": ""
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

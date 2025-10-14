@@ -1,0 +1,77 @@
+{
+  "library": "Basic",
+  "name": "AMP",
+  "model": "AMPLIFIER",
+  "view_model": true,
+  "group": "PAR",
+  "pins": [
+    "P1",
+    "P2"
+  ],
+  "parameters": [
+    {
+      "name": "G",
+      "type": "Real",
+      "default": 25.0,
+      "factor": "",
+      "unit": "dB",
+      "display": true
+    },
+    {
+      "name": "Z1",
+      "type": "Real",
+      "default": 50.0,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    },
+    {
+      "name": "Z2",
+      "type": "Real",
+      "default": 50.0,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    },
+    {
+      "name": "S11",
+      "type": "Real",
+      "default": -13.0,
+      "factor": "",
+      "unit": "dB",
+      "display": true
+    },
+    {
+      "name": "S22",
+      "type": "Real",
+      "default": -15.0,
+      "factor": "",
+      "unit": "dB",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "Amplifier",
+      "params": {
+        "G": "G",
+        "Z1": "Z1",
+        "Z2": "Z2",
+        "S11": "s11",
+        "S22": "s22"
+      }
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "AMP"
+  },
+  "veriloga": {
+    "model": "Amplifier.va"
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "library": "Basic",
+  "name": "PRL",
+  "model": "PRL",
+  "view_model": true,
+  "group": "PAR",
+  "pins": [
+    "P1",
+    "P2"
+  ],
+  "parameters": [
+    {
+      "name": "R",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    },
+    {
+      "name": "L",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "n",
+      "unit": "H",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "PRL",
+      "params": {
+        "R": "R",
+        "L": "L"
+      }
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "PRL"
+  },
+  "veriloga": {
+    "model": "PRL.va"
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

@@ -1,17 +1,21 @@
-﻿#include "LibWorkspace.h"
+#include "LibWorkspace.h"
 #include <qheaderview.h>
 #include <QSplitter>
 #include <QString>
 #include <QMessageBox>
 #include <QMenu>
 #include <QDir>
-
+#include <QDebug>
+#include "FillFromJsons.h"
 
 LibWorkspace::LibWorkspace(QWidget* parent)
     : QMainWindow(parent)
 {
     setupUI();
     setupConnections();
+    
+    // Установка статус бара для обработчика ошибок
+    FillFromJsons::setStatusBar(statusBar);
 
     //первое отправление запроса
     libraryManager->request();
@@ -29,6 +33,15 @@ void LibWorkspace::setupFields()
     //Заполнение библиотек
     for (auto& lib : *libraries) {
         QString fullPath = "./Libraries/" + lib.dir;
+        
+        // Проверяем, существует ли каталог библиотеки
+        QDir libDir(fullPath);
+        if (!libDir.exists()) {
+            QString message = QString(QStringLiteral(u"Каталог библиотеки не найден: %1")).arg(fullPath);
+            FillFromJsons::showError(this, message);
+            continue;
+        }
+        
         libraryManager->currentPath = fullPath;
         libraryManager->currentLibrary = &lib;
         libraryManager->request();
@@ -39,13 +52,21 @@ void LibWorkspace::setupFields()
         if (dir.exists()) {
             componentEditor->parametersListWidget->location = location;
             componentEditor->parametersListWidget->setItems();
+        } else {
+            QString message = QString(QStringLiteral(u"Каталог компонентов библиотеки не найден: %1")).arg(location);
+            FillFromJsons::showError(this, message);
         }
+        
         //добавление пути для иконок в thumbSelectDialog
         QString iconsPath = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->thumbnails_location;
         QDir dirp(iconsPath);
         if (dirp.exists()) {
             componentEditor->iconPaths.append(iconsPath);
+        } else {
+            QString message = QString(QStringLiteral(u"Каталог иконок библиотеки не найден: %1")).arg(iconsPath);
+            FillFromJsons::showError(this, message);
         }
+        
         //добавление пути для УГО в ugoTabs
         QString symbolsPath = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->symbols_location;
         QDir dirs(symbolsPath);
@@ -55,6 +76,9 @@ void LibWorkspace::setupFields()
             {
                 componentEditor->symbolPaths.append(symbolsPath + "/" + folderName);
             }
+        } else {
+            QString message = QString(QStringLiteral(u"Каталог символов библиотеки не найден: %1")).arg(symbolsPath);
+            FillFromJsons::showError(this, message);
         }
     }
     //Заполнение компонентами
@@ -88,6 +112,10 @@ void LibWorkspace::setupUI()
 
     setupMenuBar();
     setupToolBar();
+    
+    // Добавляем статус бар
+    statusBar = new QStatusBar(this);
+    setStatusBar(statusBar);
 
     QWidget* centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
@@ -246,6 +274,16 @@ void LibWorkspace::resetButtonClicked()
         QStringLiteral(u"Вы действительно хотите сбросить библиотеки до начальных?"),
         QMessageBox::Yes | QMessageBox::No);
     if (reply == QMessageBox::Yes) {
+        // Проверяем существование каталогов перед сбросом
+        QDir librariesDir("./Libraries");
+        QDir defaultLibrariesDir("./DefaultLibraries");
+        
+        if (!defaultLibrariesDir.exists()) {
+            QString message = QStringLiteral(u"Каталог DefaultLibraries не найден");
+            FillFromJsons::showError(this, message);
+            return;
+        }
+        
         clearDirectory("./Libraries");
         copyDirectoryContents("./DefaultLibraries", "./Libraries");
         componentEditor->clearWidget();
@@ -269,16 +307,29 @@ void LibWorkspace::onShowFullTable()
 bool LibWorkspace::clearDirectory(const QString& dirPath)
 {
     QDir dir(dirPath);
-    if (!dir.exists()) return false;
+    if (!dir.exists()) {
+        QString message = QString(QStringLiteral(u"Каталог для очистки не существует: %1")).arg(dirPath);
+        FillFromJsons::showError(this, message);
+        return false;
+    }
 
     QFileInfoList list = dir.entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot);
     for (const QFileInfo& info : list) {
         if (info.isFile()) {
-            dir.remove(info.fileName());
+            if (!dir.remove(info.fileName())) {
+                QString message = QString(QStringLiteral(u"Не удалось удалить файл: %1")).arg(info.filePath());
+                qDebug() << message;
+            }
         }
         else if (info.isDir()) {
-            clearDirectory(info.filePath());
-            dir.rmdir(info.fileName());
+            if (!clearDirectory(info.filePath())) {
+                QString message = QString(QStringLiteral(u"Не удалось очистить подкаталог: %1")).arg(info.filePath());
+                qDebug() << message;
+            }
+            if (!dir.rmdir(info.fileName())) {
+                QString message = QString(QStringLiteral(u"Не удалось удалить каталог: %1")).arg(info.filePath());
+                qDebug() << message;
+            }
         }
     }
     return true;
@@ -290,16 +341,14 @@ bool LibWorkspace::copyDirectoryContents(const QString& sourceDirPath, const QSt
     QDir targetDir(targetDirPath);
 
     if (!sourceDir.exists()) {
-        QMessageBox::warning(nullptr,
-            "Ошибка",
-            "Источник не существует: " + sourceDirPath);
+        QString message = QString(QStringLiteral(u"Источник не существует: %1")).arg(sourceDirPath);
+        FillFromJsons::showError(this, message);
         return false;
     }
     if (!targetDir.exists()) {
         if (!targetDir.mkpath(".")) {
-            QMessageBox::warning(nullptr,
-                "Ошибка",
-                "Не удалось создать папку назначения: " + targetDirPath);
+            QString message = QString(QStringLiteral(u"Не удалось создать папку назначения: %1")).arg(targetDirPath);
+            FillFromJsons::showError(this, message);
             return false;
         }
     }
@@ -311,10 +360,16 @@ bool LibWorkspace::copyDirectoryContents(const QString& sourceDirPath, const QSt
 
         if (info.isDir()) {
             QDir().mkpath(destPath);
-            copyDirectoryContents(srcPath, destPath);
+            if (!copyDirectoryContents(srcPath, destPath)) {
+                QString message = QString(QStringLiteral(u"Не удалось скопировать каталог: %1")).arg(srcPath);
+                qDebug() << message;
+            }
         }
         else if (info.isFile()) {
-            QFile::copy(srcPath, destPath);
+            if (!QFile::copy(srcPath, destPath)) {
+                QString message = QString(QStringLiteral(u"Не удалось скопировать файл: %1")).arg(srcPath);
+                qDebug() << message;
+            }
         }
     }
     return true;

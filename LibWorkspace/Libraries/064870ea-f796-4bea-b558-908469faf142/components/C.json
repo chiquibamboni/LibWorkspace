@@ -1,0 +1,41 @@
+{
+  "library": "Basic",
+  "name": "C",
+  "model": "C",
+  "view_model": true,
+  "group": "STD",
+  "pins": [
+    "P1",
+    "P2"
+  ],
+  "parameters": [
+    {
+      "name": "C",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "p",
+      "unit": "F",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "capacitor",
+      "params": {
+        "C": "c"
+      }
+    }
+  },
+  "layout": {
+    "model": "C_pins"
+  },
+  "ugo": {
+    "model": "C"
+  },
+  "veriloga": {
+    "model": ""
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

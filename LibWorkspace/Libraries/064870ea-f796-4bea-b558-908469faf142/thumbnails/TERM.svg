@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="50mm" height="50mm"
+viewBox="0 0 500 500">
+<title>TERM</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="250.03 50.28 249.72 161.13 296.50 176.34 204.02 205.92 297.58 235.50 204.02 265.09 297.58 294.67 204.02 324.26 249.72 340.49 249.93 450.28" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<path fill="rgb(255,0,0)" stroke="rgb(255,0,0)" stroke-width="10" d=" M 238 44 C 238 38 244 38 244 38 L 256 38 L 256 38 C 262 38 262 44 262 44 L 262 56 L 262 56 C 262 62 256 62 256 62 L 244 62 L 244 62 C 238 62 238 56 238 56 L 238 44 Z" />
+<path fill="rgb(255,0,0)" stroke="rgb(255,0,0)" stroke-width="10" d=" M 238 444 C 238 438 244 438 244 438 L 256 438 L 256 438 C 262 438 262 444 262 444 L 262 456 L 262 456 C 262 462 256 462 256 462 L 244 462 L 244 462 C 238 462 238 456 238 456 L 238 444 Z" />
+<polyline points="265.24 83.88 234.48 100.08" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="339.23 120.29 160.37 120.29 160.37 400.29 250.37 400.29 340.37 400.29 340.37 120.29" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<path fill="rgb(255,0,0)" stroke="rgb(255,0,0)" stroke-width="0" d=" M 191.62 176.92 L 191.63 159.92 174.63 159.92 174.63 151.92 191.63 151.92 191.66 134.92 199.66 134.92 199.63 151.92 216.63 151.92 216.63 159.92 199.63 159.92 199.62 176.92 Z" />
+</svg>

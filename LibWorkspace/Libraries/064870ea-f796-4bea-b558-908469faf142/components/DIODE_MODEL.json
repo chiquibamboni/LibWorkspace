@@ -1,0 +1,442 @@
+{
+  "library": "Basic",
+  "name": "DiodeM",
+  "model": "DIODE_MODEL",
+  "view_model": true,
+  "group": "MOD",
+  "pins": [
+  ],
+  "parameters": [
+    {
+      "name": "Level",
+      "type": "Integer",
+      "default": 1,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+	{
+      "name": "Is",
+      "type": "Real",
+      "default": 1e-14,
+      "factor": "",
+      "unit": "A",
+      "display": true
+    },
+    {
+      "name": "N",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Rs",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    },
+    {
+      "name": "Cj",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "F",
+      "display": true
+    },
+    {
+      "name": "Cjp",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "F",
+      "display": true
+    },
+    {
+      "name": "Fc",
+      "type": "Real",
+      "default": 0.5,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Fcsw",
+      "type": "Real",
+      "default": 0.5,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Mj",
+      "type": "Real",
+      "default": 0.5,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Mjsw",
+      "type": "Real",
+      "default": 0.33,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Vj",
+      "type": "Real",
+      "default": 0.8,
+      "factor": "",
+      "unit": "V",
+      "display": true
+    },
+    {
+      "name": "Vjsw",
+      "type": "Real",
+      "default": 0.8,
+      "factor": "",
+      "unit": "V",
+      "display": true
+    },
+    {
+      "name": "Tt",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "s",
+      "display": true
+    },
+    {
+      "name": "Tm1",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "1/C",
+      "display": true
+    },
+    {
+      "name": "Tm2",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "1/C^2",
+      "display": true
+    },
+    {
+      "name": "Tvj",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "V/C",
+      "display": true
+    },
+    {
+      "name": "Tphp",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "V/C",
+      "display": true
+    },
+    {
+      "name": "Tref",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "C",
+      "display": true
+    },
+    {
+      "name": "Trs",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "1/C",
+      "display": true
+    },
+    {
+      "name": "Ttt1",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "1/C",
+      "display": true
+    },
+    {
+      "name": "Ttt2",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "1/C^2",
+      "display": true
+    },
+    {
+      "name": "Xti",
+      "type": "Real",
+      "default": 3.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Ns",
+      "type": "Real",
+      "default": 0.1,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+
+    {
+      "name": "Cd",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "F",
+      "display": true
+    },
+    {
+      "name": "Rsw",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    },
+    {
+      "name": "Imax",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "",
+      "unit": "A",
+      "display": true
+    },
+    {
+      "name": "Gleak",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "1/Ohm",
+      "display": true
+    },
+    {
+      "name": "Gleaksw",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "1/Ohm",
+      "display": true
+    },
+    {
+      "name": "Rmin",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    },
+    {
+      "name": "Nz",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Lm",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "m",
+      "display": true
+    },
+    {
+      "name": "Lp",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "m",
+      "display": true
+    },
+    {
+      "name": "Wm",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "m",
+      "display": true
+    },
+    {
+      "name": "Wp",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "m",
+      "display": true
+    },
+    {
+      "name": "Xm",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "m",
+      "display": true
+    },
+    {
+      "name": "Xoi",
+      "type": "Real",
+      "default": 1e-6,
+      "factor": "",
+      "unit": "m",
+      "display": true
+    },
+    {
+      "name": "Xom",
+      "type": "Real",
+      "default": 1e-6,
+      "factor": "",
+      "unit": "m",
+      "display": true
+    },
+    {
+      "name": "Xp",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "m",
+      "display": true
+    },
+    {
+      "name": "Cta",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "1/C",
+      "display": true
+    },
+    {
+      "name": "Ctp",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "1/C",
+      "display": true
+    },
+    {
+      "name": "Eg",
+      "type": "Real",
+      "default": 1.11,
+      "factor": "",
+      "unit": "eV",
+      "display": true
+    },
+    {
+      "name": "Gap1",
+      "type": "Real",
+      "default": 7.02e-4,
+      "factor": "",
+      "unit": "eV/C",
+      "display": true
+    },
+    {
+      "name": "Gap2",
+      "type": "Real",
+      "default": 1108,
+      "factor": "",
+      "unit": "C",
+      "display": true
+    },
+    {
+      "name": "Tcv",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "C",
+      "display": true
+    },
+    {
+      "name": "Tlev",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Tlevc",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "diode",
+      "params": {
+        "Level": "level",
+        "Is": "is",
+        "N": "n",
+        "Rs": "rs",
+        "Cj": "cj",
+        "Cjp": "cjp",
+        "Fc": "fc",
+        "Fcsw": "fcsw",
+        "Mj": "mj",
+        "Mjsw": "mjsw",
+        "Vj": "vj",
+        "Vjsw": "vjsw",
+        "Tt": "tt",
+        "Tm1": "tm1",
+        "Tm2": "tm2",
+        "Tvj": "pta",
+        "Tphp": "ptp",
+        "Tref": "tref",
+        "Trs": "trs",
+        "Ttt1": "ttt1",
+        "Ttt2": "ttt2",
+        "Xti": "xti",
+        "Ns": "ns",
+        "Cd": "cd",
+        "Rsw": "rsw",
+        "Imax": "imax",
+        "Gleak": "gleak",
+        "Gleaksw": "gleaksw",
+        "Rmin": "minr",
+        "Nz": "Nz",
+        "Lm": "Lm",
+        "Lp": "Lp",
+        "Wm": "Wm",
+        "Wp": "Wp",
+        "Xm": "Xm",
+        "Xoi": "Xoi",
+        "Xom": "Xom",
+        "Xp": "Xp",
+        "Cta": "cta",
+        "Ctp": "ctp",
+        "Eg": "eg",
+        "Gap1": "gap1",
+        "Gap2": "gap2",
+        "Tcv": "tcv",
+        "Tlev": "tlev",
+        "Tlevc": "tlevc"
+      }
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "DIODE_MODEL"
+  },
+  "veriloga": {
+    "model": ""
+  }
+}

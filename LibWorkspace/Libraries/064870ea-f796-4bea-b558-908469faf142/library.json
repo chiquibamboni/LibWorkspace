@@ -1,0 +1,583 @@
+{
+  "name": "Basic",
+  "components_location": "components",
+  "layouts_location": "layouts",
+  "sparam_location": "sparam",
+  "subnetlists_location": "subnetlists",
+  "symbols_location": "symbols",
+  "thumbnails_location": "thumbnails",
+  "ugos_location": "ugos",
+  "veriloga_location": "veriloga",
+  "catalogs": [
+    {
+      "name": "Lumped Elements",
+      "thumb": "basic_elements",
+      "catalogs": [
+        {
+          "name": "Capacitors",
+          "thumb": "capacitor",
+          "catalogs": [],
+          "components": [
+            {
+              "model": "C",
+              "thumb": "C",
+              "desc": "Capacitor"
+            },
+            {
+              "model": "CAPQ",
+              "thumb": "CAPQ",
+              "desc": "Capacitor with Q"
+            },
+            {
+              "model": "DC_BLCK",
+              "thumb": "DC_BLCK",
+              "desc": "DC Block"
+            },
+            {
+              "model": "PRC",
+              "thumb": "PRC",
+              "desc": "Parallel Resistor-Capacitor"
+            },
+            {
+              "model": "SRC",
+              "thumb": "SRC",
+              "desc": "Series Resistor-Capacitor"
+            }
+          ]
+        },
+        {
+          "name": "Resistors",
+          "thumb": "resistor",
+          "catalogs": [],
+          "components": [
+            {
+              "model": "R",
+              "thumb": "R",
+              "desc": "Resistor"
+            }
+          ]
+        },
+        {
+          "name": "Inductors",
+          "thumb": "inductor",
+          "catalogs": [],
+          "components": [
+            {
+              "model": "L",
+              "thumb": "L",
+              "desc": "Inductor"
+            },
+            {
+              "model": "INDQ",
+              "thumb": "INDQ",
+              "desc": "Inductor wit Q"
+            },
+            {
+              "model": "DC_FEED",
+              "thumb": "DC_FEED",
+              "desc": "DC Feed"
+            },
+            {
+              "model": "PRL",
+              "thumb": "PRL",
+              "desc": "Parallel Resistor-Inductor"
+            },
+            {
+              "model": "SRL",
+              "thumb": "SRL",
+              "desc": "Series Resistor-Inductor"
+            },
+            {
+              "model": "MUTIND",
+              "thumb": "MUTIND",
+              "desc": "Coupled Inductor Coil"
+            }
+          ]
+        },
+        {
+          "name": "Other",
+          "thumb": "transformator",
+          "catalogs": [],
+          "components": [
+            {
+              "model": "PLC",
+              "thumb": "PLC",
+              "desc": "Parallel Inductor-Capacitor"
+            },
+            {
+              "model": "PLCQ",
+              "thumb": "PLCQ",
+              "desc": "Parallel Inductor-Capacitor with Q"
+            },
+            {
+              "model": "PRLC",
+              "thumb": "PRLC",
+              "desc": "Parallel Resistor-Inductor-Capacitor"
+            },
+            {
+              "model": "SLC",
+              "thumb": "SLC",
+              "desc": "Series Inductor-Capacitor"
+            },
+            {
+              "model": "SLCQ",
+              "thumb": "SLCQ",
+              "desc": "Series Inductor-Capacitor with Q"
+            },
+            {
+              "model": "SRLC",
+              "thumb": "SRLC",
+              "desc": "Series Resistor-Inductor-Capacitor"
+            },
+            {
+              "model": "TF",
+              "thumb": "TF",
+              "desc": "Transformer"
+            },
+            {
+              "model": "TF3",
+              "thumb": "TF3",
+              "desc": "Transformer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "General",
+      "thumb": "general_elements",
+      "catalogs": [
+        {
+          "name": "Linear Devices",
+          "thumb": "field_transistors",
+          "catalogs": [],
+          "components": [
+            {
+              "model": "LIN_FET",
+              "thumb": "LIN_FET",
+              "desc": "Linear Field-Effect GaAs Transistor (0-20G)"
+            },
+            {
+              "model": "AMPLIFIER",
+              "thumb": "AMP",
+              "desc": "Ideal Amplifier With Gain"
+            },
+            {
+              "model": "ATTENUATOR",
+              "thumb": "ATT",
+              "desc": "Fixed Attenuator"
+            },
+            {
+              "model": "PHASE_SHIFTER_SML",
+              "thumb": "PHASE_SHIFTER_SML",
+              "desc": "Ideal Phase Shifter With Phase Setting"
+            },
+            {
+              "model": "ISOLATOR_SML",
+              "thumb": "ISOLATOR_SML",
+              "desc": "Ideal Insulator"
+            },
+            {
+              "model": "SWITCH",
+              "thumb": "SWITCH",
+              "desc": "Ideal Switch"
+            }
+          ]
+        },
+        {
+          "name": "Dividers",
+          "thumb": "dividers",
+          "catalogs": [],
+          "components": [
+            {
+              "model": "SPLIT2",
+              "thumb": "SPLIT2",
+              "desc": "Ideal 50 Ohm Divider"
+            },
+            {
+              "model": "HYBRID_180",
+              "thumb": "HYBRID_180",
+              "desc": "Hybrid 4-Port 180-Degree"
+            },
+            {
+              "model": "HYBRID_90",
+              "thumb": "HYBRID_90",
+              "desc": "Hybrid 4-Port 90-Degree"
+            }
+          ]
+        }
+      ],
+      "components": []
+    },
+    {
+      "name": "Transmission Lines",
+      "thumb": "tlines",
+      "catalogs": [
+        {
+          "name": "Phase",
+          "thumb": "tlines_phase",
+          "catalogs": [],
+          "components": [
+            {
+              "model": "CLIN",
+              "thumb": "CLIN",
+              "desc": "Ideal Coupled Transmission Lines"
+            },
+            {
+              "model": "TLIN",
+              "thumb": "TLIN",
+              "desc": "Ideal Transmission Line"
+            },
+            {
+              "model": "TLOC",
+              "thumb": "TLOC",
+              "desc": "Ideal Transmission Line Open-Circuited Stub"
+            },
+            {
+              "model": "TLSC",
+              "thumb": "TLSC",
+              "desc": "Ideal Transmission Line Short-Circuited Stub"
+            }
+          ]
+        },
+        {
+          "name": "Physical",
+          "thumb": "tlines_physical",
+          "catalogs": [],
+          "components": [
+            {
+              "model": "CLINP",
+              "thumb": "CLINP",
+              "desc": "Lossy Coupled Transmission Lines"
+            },
+            {
+              "model": "TLINP",
+              "thumb": "TLINP",
+              "desc": "2-Terminal Physical Transmission Line"
+            },
+            {
+              "model": "TLOCP",
+              "thumb": "TLOCP",
+              "desc": "Physical Transmission Line Open-Circuited Stub"
+            },
+            {
+              "model": "TLSCP",
+              "thumb": "TLSCP",
+              "desc": "Physical Transmission Line Short-Circuited Stub"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Microstrip",
+      "thumb": "microstrip",
+      "catalogs": [
+        {
+          "name": "Bends",
+          "thumb": "microstrip_bends",
+          "catalogs": [],
+          "components": [
+            {
+              "model": "MBEND",
+              "thumb": "MBEND",
+              "desc": "Microstrip Bend"
+            },
+            {
+              "model": "MBEND2",
+              "thumb": "MBEND2",
+              "desc": "Microstrip Bend, 45-degree"
+            }
+          ]
+        },
+        {
+          "name": "Components",
+          "thumb": "microstrip_components",
+          "catalogs": [],
+          "components": [
+            {
+              "model": "MTFC",
+              "thumb": "MTFC",
+              "desc": "Microstrip Thin Film Capacitor"
+            },
+            {
+              "model": "TFR",
+              "thumb": "TFR",
+              "desc": "Microstrip Thin Film Resistor"
+            }
+          ]
+        },
+        {
+          "name": "Junctions",
+          "thumb": "microstrip_junctions",
+          "catalogs": [],
+          "components": [
+            {
+              "model": "MCROS",
+              "thumb": "MCROS",
+              "desc": "Microstrip Cross-Junction"
+            },
+            {
+              "model": "MTEE",
+              "thumb": "MTEE",
+              "desc": "Microstrip T-Junction"
+            }
+          ]
+        },
+        {
+          "name": "Lines",
+          "thumb": "microstrip_lines",
+          "catalogs": [],
+          "components": [
+            {
+              "model": "MLEF",
+              "thumb": "MLEF",
+              "desc": "Microstrip Line Open-End Effect"
+            },
+            {
+              "model": "MLIN",
+              "thumb": "MLIN",
+              "desc": "Microstrip Line"
+            },
+            {
+              "model": "MLOC",
+              "thumb": "MLOC",
+              "desc": "Microstrip Open-Circuited Stub"
+            },
+            {
+              "model": "MLSC",
+              "thumb": "MLSC",
+              "desc": "Microstrip Short-Circuited Stub"
+            },
+            {
+              "model": "MSIND",
+              "thumb": "MSIND",
+              "desc": "Microstrip Round Spiral Inductor"
+            }
+          ]
+        },
+        {
+          "name": "Other",
+          "thumb": "microstrip_other",
+          "catalogs": [],
+          "components": [
+            {
+              "model": "MGAP",
+              "thumb": "MGAP",
+              "desc": "Microstrip Gap"
+            },
+            {
+              "model": "MOPEN",
+              "thumb": "MOPEN",
+              "desc": "Open Stub"
+            },
+            {
+              "model": "MSTEP",
+              "thumb": "MSTEP",
+              "desc": "Microstrip Step in Width"
+            }
+          ]
+        },
+        {
+          "name": "Interconnects",
+          "thumb": "microstrip_interconnects",
+          "catalogs": [],
+          "components": [
+            {
+              "model": "MVIA",
+              "thumb": "VIA",
+              "desc": "Cylindrical Via Hole in Microstrip"
+            },
+            {
+              "model": "MVIAGND",
+              "thumb": "VIAGND",
+              "desc": "Cylindrical Via Hole to Ground in Microstrip"
+            },
+            {
+              "model": "WIRE",
+              "thumb": "WIRE",
+              "desc": "Round Wire"
+            }
+          ]
+        },
+        {
+          "name": "Quasi-static Models",
+          "thumb": "quasistatic_models",
+          "catalogs": [],
+          "components": [
+            {
+              "model": "MLEFQS",
+              "thumb": "MLEFQS",
+              "desc": "Microstrip Line Open-End Effect"
+            },
+            {
+              "model": "MLINQS",
+              "thumb": "MLINQS",
+              "desc": "Microstrip Line"
+            },
+            {
+              "model": "MLOCQS",
+              "thumb": "MLOCQS",
+              "desc": "Microstrip Open-Circuited Stub"
+            },
+            {
+              "model": "MOPENQS",
+              "thumb": "MOPENQS",
+              "desc": "Microstrip Open-Circuited Stub With Edge Effect"
+            },
+            {
+              "model": "MSTEPQS",
+              "thumb": "MSTEPQS",
+              "desc": "Microstrip Step in Width"
+            },
+            {
+              "model": "MCROSQS",
+              "thumb": "MCROSQS",
+              "desc": "Microstrip Cross-Junction"
+            },
+            {
+              "model": "MTEEQS",
+              "thumb": "MTEEQS",
+              "desc": "Microstrip T-Junction"
+            },
+            {
+              "model": "MBENDQS",
+              "thumb": "MBENDQS",
+              "desc": "Microstrip Bend"
+            }
+          ]
+        }
+      ],
+      "components": []
+    },
+    {
+      "name": "Nonlinear",
+      "thumb": "nonlinear",
+      "catalogs": [
+        {
+          "name": "Field-Effect Transistors",
+          "thumb": "nonlinear_fet",
+          "catalogs": [],
+          "components": [
+            {
+              "model": "ANGELOV_FET",
+              "thumb": "ANG_FET",
+              "desc": "Angelov Nonlinear GaAs FET"
+            },
+            {
+              "model": "ANGELOV_MODEL",
+              "thumb": "ANG_FET_MODEL",
+              "desc": "Angelov Nonlinear GaAs FET Model"
+            }
+          ]
+        },
+        {
+          "name": "Diodes",
+          "thumb": "nonlinear_diode",
+          "catalogs": [],
+          "components": [
+            {
+              "model": "DIODE",
+              "thumb": "DIODE",
+              "desc": "PN-Junction Diode"
+            },
+            {
+              "model": "DIODE_MODEL",
+              "thumb": "DIODE_MODEL",
+              "desc": "PN-Junction Diode Model"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Ports",
+      "thumb": "ports",
+      "catalogs": [],
+      "components": [
+        {
+          "model": "TERM",
+          "thumb": "TERM",
+          "desc": "Port Impedance Termination for S-Parameters"
+        },
+        {
+          "model": "TERMG",
+          "thumb": "TERMG",
+          "desc": "Port Impedance Termination for S-Parameters with Grounded Reference"
+        }
+      ]
+    },
+    {
+      "name": "Sources",
+      "thumb": "sources",
+      "catalogs": [],
+      "components": [
+        {
+          "model": "V_AC",
+          "thumb": "V_AC",
+          "desc": "AC Voltage Source"
+        },
+        {
+          "model": "V_DC",
+          "thumb": "V_DC",
+          "desc": "DC Voltage Source"
+        }
+      ]
+    },
+    {
+      "name": "Substrates",
+      "thumb": "substrates",
+      "catalogs": [],
+      "components": [
+        {
+          "model": "MSUB",
+          "thumb": "MSUB",
+          "desc": "Microstrip Substrate"
+        },
+        {
+          "model": "MSUB1QS",
+          "thumb": "MSUBQS",
+          "desc": "Microstrip Substrate for Quasi-static Models"
+        }
+      ]
+    },
+    {
+      "name": "Simulations",
+      "thumb": "simulations",
+      "catalogs": [],
+      "components": [
+        {
+          "model": "AC",
+          "thumb": "AC",
+          "desc": "AC Signal Simulation"
+        },
+        {
+          "model": "HB",
+          "thumb": "HB",
+          "desc": "Harmonic Balance Simulation"
+        },
+        {
+          "model": "S_PARAM",
+          "thumb": "SP",
+          "desc": "S-parameter Simulation"
+        },
+        {
+          "model": "NOISE",
+          "thumb": "NOISE",
+          "desc": "Noise Simulation"
+        },
+        {
+          "model": "DC_SWEEP",
+          "thumb": "DC",
+          "desc": "DC Simulation"
+        },
+        {
+          "model": "TRAN",
+          "thumb": "TRAN",
+          "desc": "Transient Simulation"
+        }
+      ]
+    }
+  ],
+  "components": []
+}

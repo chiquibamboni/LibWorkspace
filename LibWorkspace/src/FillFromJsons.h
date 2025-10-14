@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <QString>
 #include <QDir>
@@ -6,6 +6,8 @@
 #include <nlohmann/json.hpp>
 #include <QStandardItem>
 #include <QTextStream>
+#include <QStatusBar>
+#include <QWidget>
 
 #include "Library.h"
 #include "Parameters.h"
@@ -27,5 +29,16 @@ public:
 	static void saveJsonToFile(const nlohmann::json& j, const QString& filePath);
 	static void MoveComponentUp(nlohmann::json jsonObj, Component& component);
 	static void MoveComponentDown(nlohmann::json jsonObj, Component& component);
+    
+    // Метод для установки статус бара
+    static void setStatusBar(QStatusBar* statusBar);
+    
+    // Метод для получения статус бара
+    static QStatusBar* getStatusBar();
+    
+    // Функция для централизованного вывода ошибок
+    static void showError(QWidget* parent, const QString& message);
+    
+private:
+    static QStatusBar* statusBar;
 };
-

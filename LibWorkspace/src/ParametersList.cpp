@@ -1,6 +1,9 @@
-﻿#include "ParametersList.h"
+#include "ParametersList.h"
+#include "FillFromJsons.h"
 
 #include <QVector>
+#include <QMessageBox>
+#include <QDebug>
 
 ParametersList::ParametersList(QWidget* parent) : QListWidget(parent)
 {
@@ -12,12 +15,42 @@ ParametersList::~ParametersList()
 }
 void ParametersList::setItems()
 {
+    // Проверяем, что путь задан
+    if (location.isEmpty()) {
+        QString message = QStringLiteral(u"Не задан путь к файлам параметров");
+        FillFromJsons::showError(this, message);
+        return;
+    }
+
     QDir dir(location);
+    if (!dir.exists()) {
+        QString message = QString(QStringLiteral(u"Путь к файлам параметров не существует: %1")).arg(location);
+        FillFromJsons::showError(this, message);
+        return;
+    }
+
     QStringList fileList = dir.entryList(QDir::Files);
 
     for (const QString& fileName : fileList) {
         QString filePath = dir.filePath(fileName);
         nlohmann::json parametersJson = FillFromJsons::readJson(filePath, this);
+        
+        // Проверяем, что JSON успешно прочитан и содержит поле "parameters"
+        if (parametersJson.is_null()) {
+            continue; // Файл не удалось прочитать, переходим к следующему
+        }
+        
+        if (!parametersJson.contains("parameters")) {
+            QString message = QString(QStringLiteral(u"Файл %1 не содержит поле 'parameters'")).arg(fileName);
+            FillFromJsons::showError(this, message);
+            continue;
+        }
+
+        if (!parametersJson["parameters"].is_array()) {
+            QString message = QString(QStringLiteral(u"Поле 'parameters' в файле %1 не является массивом")).arg(fileName);
+            FillFromJsons::showError(this, message);
+            continue;
+        }
 
         for (auto& par : parametersJson["parameters"])
         {

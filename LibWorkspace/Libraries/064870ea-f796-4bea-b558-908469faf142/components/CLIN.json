@@ -1,0 +1,70 @@
+{
+  "library": "Basic",
+  "name": "TL",
+  "model": "CLIN",
+  "view_model": true,
+  "group": "PAR",
+  "pins": [
+    "P1",
+    "P2",
+    "P3",
+    "P4"
+  ],
+  "parameters": [
+    {
+      "name": "F",
+      "type": "Real",
+      "default": 100.0,
+      "factor": "G",
+      "unit": "Hz",
+      "display": true
+    },
+    {
+      "name": "E",
+      "type": "Real",
+      "default": 9000.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Zo",
+      "type": "Real",
+      "default": 25.0,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    },
+    {
+      "name": "Ze",
+      "type": "Real",
+      "default": 100.0,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "CLIN",
+      "params": {
+        "F": "F",
+        "E": "E",
+        "Zo": "Zo",
+        "Ze": "Ze"
+      }
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "CLIN"
+  },
+  "veriloga": {
+    "model": "CLIN.va"
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

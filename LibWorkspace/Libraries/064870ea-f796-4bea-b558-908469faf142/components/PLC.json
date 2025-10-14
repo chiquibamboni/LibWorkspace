@@ -1,0 +1,50 @@
+{
+  "library": "Basic",
+  "name": "PLC",
+  "model": "PLC",
+  "view_model": true,
+  "group": "PAR",
+  "pins": [
+    "P1",
+    "P2"
+  ],
+  "parameters": [
+    {
+      "name": "L",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "n",
+      "unit": "H",
+      "display": true
+    },
+    {
+      "name": "C",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "p",
+      "unit": "F",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "PLC",
+      "params": {
+        "L": "L",
+        "C": "C"
+      }
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "PLC"
+  },
+  "veriloga": {
+    "model": "PLC.va"
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

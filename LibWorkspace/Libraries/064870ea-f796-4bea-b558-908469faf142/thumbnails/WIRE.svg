@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="50mm" height="50mm"
+viewBox="0 0 500 500">
+<title>WIRE</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="100.12 234.76 83.92 265.52" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="50.03 250.28 139.28 250.28" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<path fill="rgb(255,0,0)" stroke="rgb(255,0,0)" stroke-width="10" d=" M 38 244 C 38 238 44 238 44 238 L 56 238 L 56 238 C 62 238 62 244 62 244 L 62 256 L 62 256 C 62 262 56 262 56 262 L 44 262 L 44 262 C 38 262 38 256 38 256 L 38 244 Z" />
+<path fill="none" stroke="rgb(0,0,255)" stroke-width="15" d=" M 361.87 250.28 Q 361.87 250.28 360.80 244.29 Q 359.74 238.30 356.58 232.55 Q 353.42 226.79 348.29 221.48 Q 343.16 216.18 336.26 211.53 Q 329.36 206.88 320.94 203.06 Q 312.53 199.25 302.94 196.41 Q 293.34 193.58 282.93 191.83 Q 272.51 190.08 261.68 189.49 Q 250.85 188.90 240.02 189.49 Q 229.19 190.08 218.78 191.83 Q 208.36 193.58 198.77 196.41 Q 189.17 199.25 180.76 203.06 Q 172.35 206.88 165.44 211.53 Q 158.54 216.18 153.42 221.48 Q 148.29 226.79 145.13 232.55 Q 141.97 238.30 140.90 244.29 Q 139.83 250.28 139.83 250.28" />
+<polyline points="362.43 250.28 449.93 250.28" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<path fill="rgb(255,0,0)" stroke="rgb(255,0,0)" stroke-width="10" d=" M 438 244 C 438 238 444 238 444 238 L 456 238 L 456 238 C 462 238 462 244 462 244 L 462 256 L 462 256 C 462 262 456 262 456 262 L 444 262 L 444 262 C 438 262 438 256 438 256 L 438 244 Z" />
+</svg>

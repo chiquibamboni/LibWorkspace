@@ -1,0 +1,42 @@
+{
+  "library": "Basic",
+  "name": "Switch",
+  "model": "SWITCH",
+  "view_model": true,
+  "group": "PAR",
+  "pins": [
+    "P1",
+    "P2",
+    "P3"
+  ],
+  "parameters": [
+    {
+      "name": "State",
+      "type": "Real",
+      "default": 0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "Switch",
+      "params": {
+        "State": "state"
+      }
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "SWITCH"
+  },
+  "veriloga": {
+    "model": "Switch.va"
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

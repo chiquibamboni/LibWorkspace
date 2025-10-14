@@ -1,0 +1,38 @@
+`include "disciplines.h"                                       
+`define m0 4*3.1415926535897932384626433832795029*1e-7 
+`define pi   3.1415926535897932384626433832795029
+
+`define mur 1
+
+
+module bondwire (p1,p2); 
+inout      p1,p2;
+electrical p1, p2, n1;   // Электрические узлы
+//electrical p1, p2;   // Электрические узлы
+//объявление параметров
+    (*type="instance"*)     parameter real L = 1m; 
+    (*type="instance"*)     parameter real D = 50u; 
+    (*type="instance"*)     parameter real rho = 0.022e-6; 
+//объявление переменных
+    real Rs;
+
+analog begin
+    real l = L;
+    real d = D;
+
+    real cond = 1 / rho;
+    real delta = 1 / sqrt(`pi * cond * $freq * `m0 * `mur);
+    real C = (`mur / 4) * tanh(4 * delta / d);
+    real L1 = ln(2 * l / d + sqrt(1 + pow(((2 * l) / d), 2)));
+    real L2 = d / (2 * l) - sqrt(1 + pow((d / (2*l)), 2)) + C;
+    real Ls = (`m0 / (2 * `pi)) * l * (L1 + L2);
+
+    if (d > (2 * delta)) begin
+        Rs = l / (cond * `pi * delta * (d - delta));
+    end else begin
+        Rs = l / (cond * `pi * 0.25 * pow(d,2)); 
+    end
+    V(p1, n1) <+ Rs * I(p1, n1);
+    V(n1, p2) <+ Ls * ddt(I(n1, p2));
+end 
+endmodule

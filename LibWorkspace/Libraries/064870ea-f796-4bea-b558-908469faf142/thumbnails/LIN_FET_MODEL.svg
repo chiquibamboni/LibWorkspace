@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="50mm" height="50mm"
+viewBox="0 0 500 500">
+<title>LIN_FET_MODEL</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="139.97 250.91 228.72 250.91" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="231.08 136.96 231.08 363.42" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="319.97 400.91 319.97 325.43 236.42 325.43" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="319.97 325.29 319.97 400.91" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="319.97 100.91 319.97 176.64 235.47 176.64" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="49.08 50.46 49.08 450.46 449.08 450.46 449.08 50.46 49.08 50.46" fill="none" stroke="rgb(0,0,255)" stroke-width="10" />
+</svg>

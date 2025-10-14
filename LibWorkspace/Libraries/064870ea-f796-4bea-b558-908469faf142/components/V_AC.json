@@ -1,0 +1,60 @@
+{
+  "library": "Basic",
+  "name": "Src",
+  "model": "V_AC",
+  "view_model": true,
+  "group": "STD",
+  "pins": [
+    "P1",
+    "P2"
+  ],
+  "parameters": [
+    {
+      "name": "Vac",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "",
+      "unit": "V",
+      "display": true
+    },
+    {
+      "name": "Freq",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "G",
+      "unit": "Hz",
+      "display": true
+    },
+	{
+      "name": "ACMag",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "",
+      "unit": "V",
+      "display": true
+    }
+
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "vsource type=sine",
+      "params": {
+        "Vac": "ampl",
+        "Freq": "freq",
+        "ACMag": "mag"
+      }
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "V_AC"
+  },
+  "veriloga": {
+    "model": ""
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

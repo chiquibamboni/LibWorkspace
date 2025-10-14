@@ -1,0 +1,54 @@
+`include "constants.h"
+`include "disciplines.h"
+
+
+`define e0          8.85e-12
+module MTFC(p, n);
+    inout p, n;
+    electrical p, n;
+
+(*desc="width",                   unit="m",           type="instance"*)                      parameter real W = 50u from (0.0:inf);
+(*desc="length",                  unit="m",           type="instance"*)                      parameter real L = 50u from (0.0:inf);
+(*desc="Capacitance/unit area",                  unit="pF/mm2",           type="instance"*)                      parameter real CPUA = 100 from (0.0:inf);
+(*desc="Thickness of capacitor dielectric",                  unit="m",           type="instance"*)                      parameter real T = 2u from (0.0:inf);
+(*desc="Sheet resistance of top metal plate",                  unit="Ohm",           type="instance"*)                      parameter real RsT = 0;
+(*desc="Sheet resistance of bottom metal plate",                  unit="Ohm",           type="instance"*)                      parameter real RsB = 0;
+(*desc="Thickness of top metal plate",                  unit="m",           type="instance"*)                      parameter real TT = 0u;
+(*desc="Thickness of bottom metal plate",                  unit="m",           type="instance"*)                      parameter real TB = 0u;
+(*desc="Bottom conductor overlap",                  unit="m",           type="instance"*)                      parameter real COB = 0u;
+
+(*desc="substrate permittivity relative to a vacuum", type="instance"*)                      parameter real er = 12.9 from (0.0:inf);
+                                                                                             aliasparam eps = er;
+(*desc="substrate height",        unit="m"            type="instance"*)                      parameter real h = 100u from (0.0:inf);
+(*desc="substrate",                                   type="instance", resolve_type="text"*) parameter string subst = "";
+
+    real R1;
+    real R2;
+    real C1;
+    real Cp1;
+    real Cp2;
+   
+
+    // Внутренние узлы
+    electrical node1, node2;
+
+    analog begin
+
+
+         C1 = 1e-12 * (CPUA + (0.00001 * T * 1e6)) * (W * 1e3 * L *1e3);
+         R1 = ((RsT / 3) - (0.001 * TT * 1e6));
+         R2 = ((RsB / 3) - (0.001 * TB * 1e6));
+         Cp1 = er * `e0 * W * L / h;
+         Cp2 = Cp1;
+
+
+        // Последовательная цепь: R -> L (между p и node1)
+        V(p, node1) <+ R1 * I(p, node1);
+        I(node1, node2) <+ C1 * ddt(V(node1, node2));
+        V(node2, n) <+ R2 * I(node2, n);
+
+        I(p) <+ Cp1/2 * ddt(V(p));
+        I(n) <+ Cp2/2 * ddt(V(n));
+
+    end
+endmodule

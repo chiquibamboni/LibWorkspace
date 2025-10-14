@@ -1,0 +1,52 @@
+{
+  "library": "Basic",
+  "name": "Hyb",
+  "model": "HYBRID_180",
+  "view_model": true,
+  "group": "PAR",
+  "pins": [
+    "P1",
+    "P2",
+    "P3",
+    "P4"
+  ],
+  "parameters": [
+    {
+      "name": "Phi",
+      "type": "Real",
+      "default": 90.0,
+      "factor": "",
+      "unit": "deg",
+      "display": true
+    },
+    {
+      "name": "Z0",
+      "type": "Real",
+      "default": 200.0,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "Unsymmetrical_Hybrid",
+      "params": {
+        "Phi": "phi",
+        "Z0": "Z0"
+      }
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "HYBRID_180"
+  },
+  "veriloga": {
+    "model": "Unsymmetrical_Hybrid.va"
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

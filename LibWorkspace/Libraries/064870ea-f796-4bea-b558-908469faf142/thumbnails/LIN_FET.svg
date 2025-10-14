@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="50mm" height="50mm"
+viewBox="0 0 500 500">
+<title>LIN_FET</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="109.97 250.91 228.30 250.91" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="231.46 98.98 231.46 400.92" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="349.97 450.91 349.97 350.28 238.58 350.28" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<path fill="rgb(255,0,0)" stroke="rgb(255,0,0)" stroke-width="10" d=" M 98 245 C 98 239 104 239 104 239 L 116 239 L 116 239 C 122 239 122 245 122 245 L 122 257 L 122 257 C 122 263 116 263 116 263 L 104 263 L 104 263 C 98 263 98 257 98 257 L 98 245 Z" />
+<polyline points="349.97 350.08 349.97 450.91" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="349.97 50.91 349.97 151.89 237.31 151.89" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<path fill="rgb(255,0,0)" stroke="rgb(255,0,0)" stroke-width="10" d=" M 338 45 C 338 39 344 39 344 39 L 356 39 L 356 39 C 362 39 362 45 362 45 L 362 57 L 362 57 C 362 63 356 63 356 63 L 344 63 L 344 63 C 338 63 338 57 338 57 L 338 45 Z" />
+<path fill="rgb(255,0,0)" stroke="rgb(255,0,0)" stroke-width="10" d=" M 338 445 C 338 439 344 439 344 439 L 356 439 L 356 439 C 362 439 362 445 362 445 L 362 457 L 362 457 C 362 463 356 463 356 463 L 344 463 L 344 463 C 338 463 338 457 338 457 L 338 445 Z" />
+</svg>

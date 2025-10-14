@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="160mm" height="80mm"
+viewBox="0 0 1600 800">
+<title>MLSC</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="0.00 400.00 300.00 400.00 300.00 140.00 1200.00 140.00 1200.00 400.00 1400.00 400.00 1200.00 400.00 1200.00 660.00 300.00 660.00 300.00 400.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="1400.00 150.00 1400.00 650.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="1500.00 250.00 1500.00 550.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="1599.00 350.00 1599.00 450.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+</svg>

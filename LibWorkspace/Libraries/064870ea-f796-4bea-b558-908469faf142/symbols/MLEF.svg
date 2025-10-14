@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="240mm" height="80mm"
+viewBox="0 0 2400 800">
+<title>MLEF</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="0.00 400.00 300.00 400.00 300.00 140.00 1300.00 140.00 1300.00 400.00 1590.00 400.00 1300.00 400.00 1300.00 660.00 300.00 660.00 300.00 400.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="2000.00 150.00 2000.00 650.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="2100.00 250.00 2100.00 550.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="2200.00 350.00 2200.00 450.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="1715.58 400.00 2000.00 400.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="1714.77 150.00 1714.77 650.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<path fill="none" stroke="rgb(0,0,255)" stroke-width="2" d=" M 1535 150 C 1660 400 1535 650 1535 650" />
+</svg>

@@ -1,0 +1,59 @@
+{
+  "library": "Basic",
+  "name": "PRLC",
+  "model": "PRLC",
+  "view_model": true,
+  "group": "PAR",
+  "pins": [
+    "P1",
+    "P2"
+  ],
+  "parameters": [
+    {
+      "name": "R",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    },
+    {
+      "name": "L",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "n",
+      "unit": "H",
+      "display": true
+    },
+    {
+      "name": "C",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "p",
+      "unit": "F",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "PRLC",
+      "params": {
+        "R": "R",
+        "L": "L",
+        "C": "C"
+      }
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "PRLC"
+  },
+  "veriloga": {
+    "model": "PRLC.va"
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

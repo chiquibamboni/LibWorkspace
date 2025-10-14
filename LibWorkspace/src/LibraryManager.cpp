@@ -1,4 +1,6 @@
-﻿#include "LibraryManager.h"
+#include "LibraryManager.h"
+#include <QDebug>
+#include "FillFromJsons.h"
 
 LibraryManager::LibraryManager(QList<Library>* libraries, QList<Catalog>* catalogs, QWidget* parent)
     : QTreeView(parent)
@@ -40,6 +42,14 @@ void LibraryManager::updateTree(const nlohmann::json& jsonData)
                 root->appendRow(library.item);
                 librariesList->append(library);
             }
+        } else {
+            if (!jsonData.contains("libraries")) {
+                QString message = QStringLiteral(u"JSON не содержит поле 'libraries'");
+                FillFromJsons::showError(this, message);
+            } else if (!jsonData["libraries"].is_array()) {
+                QString message = QStringLiteral(u"Поле 'libraries' в JSON не является массивом");
+                FillFromJsons::showError(this, message);
+            }
         }
         firstRequest = false;
         return;
@@ -69,13 +79,26 @@ void LibraryManager::addLibraryToModel(const nlohmann::json& jsonObj, QStandardI
                     parentItem->appendRow(catalog.item);
                 }
             }
+        } else {
+            if (jsonObj.contains("catalogs") && !jsonObj["catalogs"].is_array()) {
+                QString message = QStringLiteral(u"Поле 'catalogs' в JSON не является массивом");
+                FillFromJsons::showError(this, message);
+            }
         }
+    } else {
+        QString message = QStringLiteral(u"JSON не содержит поле 'components_location'");
+        FillFromJsons::showError(this, message);
     }
 }
 
 void LibraryManager::request()
 {
-    updateTree(FillFromJsons::readJson(currentPath, this));
+    nlohmann::json jsonData = FillFromJsons::readJson(currentPath, this);
+    if (jsonData.is_null()) {
+        QString message = QString(QStringLiteral(u"Не удалось загрузить данные из: %1")).arg(currentPath);
+        FillFromJsons::showError(this, message);
+    }
+    updateTree(jsonData);
 }
 
 void LibraryManager::clearLibraries()

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="160mm" height="80mm"
+viewBox="0 0 1600 800">
+<title>SRC</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="200.00 300.00 100.00 500.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="0.00 400.00 270.00 400.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="1325.30 400.00 1600.00 400.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="1324.77 150.00 1324.77 650.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="1071.86 400.00 1199.12 400.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="270.00 400.00 337.96 219.28 470.22 576.55 602.48 215.11 734.74 576.55 867.00 215.11 999.26 576.55 1071.86 400.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<path fill="none" stroke="rgb(0,0,255)" stroke-width="2" d=" M 1145 150 C 1270 400 1145 650 1145 650" />
+</svg>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="50mm" height="50mm"
+viewBox="0 0 500 500">
+<title>SWITCH</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="50.07 250.18 120.20 250.18 120.20 149.83 380.04 149.83 380.04 200.18 450.12 200.18 380.06 200.18 380.06 300.19 450.21 300.19 380.06 300.19 380.06 350.77 120.35 350.77 120.35 250.16" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<path fill="rgb(255,0,0)" stroke="rgb(255,0,0)" stroke-width="10" d=" M 38 244 C 38 238 44 238 44 238 L 56 238 L 56 238 C 62 238 62 244 62 244 L 62 256 L 62 256 C 62 262 56 262 56 262 L 44 262 L 44 262 C 38 262 38 256 38 256 L 38 244 Z" />
+<path fill="rgb(255,0,0)" stroke="rgb(255,0,0)" stroke-width="10" d=" M 438 194 C 438 188 444 188 444 188 L 456 188 L 456 188 C 462 188 462 194 462 194 L 462 206 L 462 206 C 462 212 456 212 456 212 L 444 212 L 444 212 C 438 212 438 206 438 206 L 438 194 Z" />
+<path fill="rgb(255,0,0)" stroke="rgb(255,0,0)" stroke-width="10" d=" M 438 294 C 438 288 444 288 444 288 L 456 288 L 456 288 C 462 288 462 294 462 294 L 462 306 L 462 306 C 462 312 456 312 456 312 L 444 312 L 444 312 C 438 312 438 306 438 306 L 438 294 Z" />
+<polyline points="100.12 234.76 83.92 265.52" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="120.35 250.16 200.00 250.16" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="200.00 250.16 287.10 206.50" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polygon points="244.92 243.75 287.10 206.50 232.01 218.00" fill="rgb(0,0,255)" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="300.42 200.18 380.06 200.18" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="300.42 300.19 380.06 300.19" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+</svg>

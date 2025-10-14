@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="50mm" height="50mm"
+viewBox="0 0 500 500">
+<title>ISOLATOR_SML</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="50.03 250.28 130.36 250.28 130.36 119.96 369.71 119.96 369.71 250.28 450.04 250.28 369.71 250.28 369.71 379.87 130.36 379.87 130.36 250.28" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<path fill="rgb(255,0,0)" stroke="rgb(255,0,0)" stroke-width="10" d=" M 438 244 C 438 238 444 238 444 238 L 456 238 L 456 238 C 462 238 462 244 462 244 L 462 256 L 462 256 C 462 262 456 262 456 262 L 444 262 L 444 262 C 438 262 438 256 438 256 L 438 244 Z" />
+<path fill="rgb(255,0,0)" stroke="rgb(255,0,0)" stroke-width="10" d=" M 38 244 C 38 238 44 238 44 238 L 56 238 L 56 238 C 62 238 62 244 62 244 L 62 256 L 62 256 C 62 262 56 262 56 262 L 44 262 L 44 262 C 38 262 38 256 38 256 L 38 244 Z" />
+<polyline points="100.12 234.76 83.92 265.52" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="160.73 190.00 339.27 190.00" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polygon points="262.65 210.28 339.27 190.00 262.65 169.72" fill="rgb(0,0,255)" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="339.27 290.00 160.73 290.00" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polygon points="237.35 269.72 160.73 290.00 237.35 310.28" fill="rgb(0,0,255)" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="270.00 260.00 310.00 320.00" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+</svg>

@@ -1,0 +1,79 @@
+{
+  "library": "Basic",
+  "name": "MSub",
+  "model": "MSUB",
+  "view_model": true,
+  "group": "SUB",
+  "parameters": [
+    {
+      "name": "H",
+      "type": "Real",
+      "default": 10.0,
+      "factor": "u",
+      "unit": "m",
+      "display": true
+    },
+    {
+      "name": "Er",
+      "type": "Real",
+      "default": 9.6,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "T",
+      "type": "Real",
+      "default": 0,
+      "factor": "u",
+      "unit": "m",
+      "display": true
+    },
+    {
+      "name": "TanD",
+      "type": "Real",
+      "default": 0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Rho",
+      "type": "Real",
+      "default": 0.022e-6,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    },
+    {
+      "name": "D",
+      "type": "Real",
+      "default": 0.15e-6,
+      "factor": "",
+      "unit": "",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "msub",
+      "params": {
+        "H": "h",
+        "Er": "er",
+        "Rho": "rho",
+        "D": "d",
+        "T": "t",
+        "TanD": "tand"
+      }
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "MSUB"
+  },
+  "veriloga": {
+    "model": ""
+  }
+}

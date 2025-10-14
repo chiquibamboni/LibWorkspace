@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="160mm" height="80mm"
+viewBox="0 0 1600 800">
+<title>C</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="200.00 300.00 100.00 500.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="0.00 400.00 729.80 400.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="925.22 400.00 1600.00 400.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<path fill="none" stroke="rgb(0,0,255)" stroke-width="2" d=" M 675 150 C 800 400 675 650 675 650" />
+<polyline points="924.77 150.00 924.77 650.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+</svg>

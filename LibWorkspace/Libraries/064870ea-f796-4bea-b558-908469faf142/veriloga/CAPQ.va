@@ -1,0 +1,25 @@
+`include "constants.h"
+`include "disciplines.h"
+
+module CAPQ (p1, p2);
+    inout p1, p2;
+    electrical p1, p2;
+
+    // Параметры компонентов
+    //parameter real R = 1;
+    parameter real C = 1p;
+    parameter real Q = 50;
+    parameter real F = 1e9;
+
+//mode = proportional to freq
+  real R;
+
+
+    analog begin
+
+       R = Q / (2 * `M_PI * F * C);
+
+       I(p1, p2) <+ V(p1, p2)/R + C * ddt(V(p1, p2));
+  
+  end
+endmodule

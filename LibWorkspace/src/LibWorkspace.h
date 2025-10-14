@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <QtWidgets/QMainWindow>
 
@@ -17,6 +17,7 @@
 #include <QLabel>
 #include <QListWidget>
 #include <QMenuBar>
+#include <QStatusBar>
 
 class LibWorkspace : public QMainWindow
 {
@@ -38,6 +39,7 @@ private:
     QToolBar* toolBar;
     QMenuBar* menuBar;
     QAction* showFullTableAction;
+    QStatusBar* statusBar; // Добавляем статус бар
 
     Library* currentLibrary;
     Catalog* currentCatalog;
@@ -60,4 +62,3 @@ private slots:
     void resetButtonClicked();
     void onShowFullTable();
 };
-

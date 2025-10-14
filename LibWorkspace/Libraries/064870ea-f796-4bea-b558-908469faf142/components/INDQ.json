@@ -1,0 +1,59 @@
+{
+  "library": "Basic",
+  "name": "L",
+  "model": "INDQ",
+  "view_model": true,
+  "group": "PAR",
+  "pins": [
+    "P1",
+    "P2"
+  ],
+  "parameters": [
+    {
+      "name": "L",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "n",
+      "unit": "H",
+      "display": true
+    },
+    {
+      "name": "Q",
+      "type": "Real",
+      "default": 50.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "F",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "G",
+      "unit": "Hz",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "INDQ",
+      "params": {
+        "L": "L",
+        "Q": "Q",
+        "F": "F"
+      }
+    }
+  },
+  "layout": {
+    "model": "L_pins"
+  },
+  "ugo": {
+    "model": "INDQ"
+  },
+  "veriloga": {
+    "model": "INDQ.va"
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

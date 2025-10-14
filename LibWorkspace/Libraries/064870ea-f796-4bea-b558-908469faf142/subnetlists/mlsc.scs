@@ -1,0 +1,11 @@
+ahdl_include "../veriloga/MLIN.va"
+
+global 0
+
+subckt MLSC p1
+parameters w=1m l=100m dispmodel="Kirschning" subst="MSub1"
++ er=9.8 h=1m t=18u tand=2e-4 rho=2.2e-10 d=1.5e-7
+
+TL1 p1 0 MLIN l=l w=w subst=subst er=er h=h t=t tand=tand rho=rho d=d
+
+ends

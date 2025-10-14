@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="50mm" height="50mm"
+viewBox="0 0 500 500">
+<title>microstrip_interconnects</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="50.03 250.28 146.93 250.28" fill="none" stroke="rgb(0,0,0)" stroke-width="10" />
+<path fill="none" stroke="rgb(0,0,0)" stroke-width="10" d=" M 349.57 250.28 Q 349.57 250.28 348.60 245.27 Q 347.63 240.25 344.75 235.43 Q 341.87 230.62 337.21 226.18 Q 332.54 221.74 326.25 217.84 Q 319.97 213.95 312.31 210.76 Q 304.65 207.56 295.92 205.19 Q 287.18 202.82 277.70 201.35 Q 268.22 199.89 258.36 199.40 Q 248.50 198.90 238.64 199.40 Q 228.78 199.89 219.30 201.35 Q 209.82 202.82 201.08 205.19 Q 192.35 207.56 184.69 210.76 Q 177.03 213.95 170.75 217.84 Q 164.47 221.74 159.80 226.18 Q 155.13 230.62 152.25 235.43 Q 149.37 240.25 148.40 245.27 Q 147.43 250.28 147.43 250.28" />
+<polyline points="350.08 250.28 449.93 250.28" fill="none" stroke="rgb(0,0,0)" stroke-width="10" />
+</svg>

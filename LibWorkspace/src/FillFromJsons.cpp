@@ -1,12 +1,40 @@
-﻿#include "FillFromJsons.h"
+#include "FillFromJsons.h"
+#include <QDebug>
 
+// Инициализация статической переменной
+QStatusBar* FillFromJsons::statusBar = nullptr;
+
+// Метод для установки статус бара
+void FillFromJsons::setStatusBar(QStatusBar* sb) {
+    statusBar = sb;
+}
+
+// Метод для получения статус бара
+QStatusBar* FillFromJsons::getStatusBar() {
+    return statusBar;
+}
+
+// Функция для централизованного вывода ошибок
+void FillFromJsons::showError(QWidget* parent, const QString& message) {
+    // Вывод в терминал
+    qDebug() << message;
+    
+    // Вывод в статус бар
+    if (statusBar) {
+        statusBar->showMessage(message, 5000);
+    }
+    
+    // Вывод во всплывающем окне
+    QMessageBox::warning(parent, QStringLiteral(u"Ошибка"), message);
+}
 
 nlohmann::json FillFromJsons::readJson(QString currentPath, QWidget* parent) 
 {
     QFileInfo fileInfo(currentPath);
 
     if (!fileInfo.exists()) {
-        QMessageBox::warning(parent, QStringLiteral(u"Ошибка"), QStringLiteral(u"ресурсы не найдены"));
+        QString message = QStringLiteral(u"Ресурсы не найдены: ") + currentPath;
+        showError(parent, message);
         return nlohmann::json();
     }
 
@@ -18,32 +46,65 @@ nlohmann::json FillFromJsons::readJson(QString currentPath, QWidget* parent)
             QString jsonFilePath = librariesDir.filePath(jsonFiles.first());
             QFile jsonFile(jsonFilePath);
 
+            // Проверяем, существует ли файл перед попыткой открытия
+            if (!QFileInfo::exists(jsonFilePath)) {
+                QString message = QStringLiteral(u"JSON файл не найден: ") + jsonFilePath;
+                showError(parent, message);
+                return nlohmann::json();
+            }
+
             if (jsonFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
                 QByteArray jsonContent = jsonFile.readAll();
-                nlohmann::json j = nlohmann::json::parse(jsonContent);
-                jsonFile.close();
-                return j;
+                try {
+                    nlohmann::json j = nlohmann::json::parse(jsonContent);
+                    jsonFile.close();
+                    return j;
+                }
+                catch (const nlohmann::json::parse_error& e) {
+                    QString message = QString(QStringLiteral(u"Ошибка при парсинге файла %1: %2")).arg(jsonFilePath).arg(e.what());
+                    showError(parent, message);
+                    jsonFile.close();
+                    return nlohmann::json();
+                }
             }
             else {
-                QMessageBox::warning(parent, QStringLiteral(u"Ошибка при открытии json файла: "), jsonFilePath);
+                QString message = QStringLiteral(u"Ошибка при открытии json файла: ") + jsonFilePath;
+                showError(parent, message);
             }
         }
         else {
-            QMessageBox::warning(parent, "Ошибка", QStringLiteral(u"json файл не найден"));
+            QString message = QStringLiteral(u"JSON файл не найден в директории: ") + currentPath;
+            showError(parent, message);
         }
     }
     else
     {
         QFile jsonFile(currentPath);
 
+        // Проверяем, существует ли файл перед попыткой открытия
+        if (!QFileInfo::exists(currentPath)) {
+            QString message = QStringLiteral(u"JSON файл не найден: ") + currentPath;
+            showError(parent, message);
+            return nlohmann::json();
+        }
+
         if (jsonFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
             QByteArray jsonContent = jsonFile.readAll();
-            nlohmann::json j = nlohmann::json::parse(jsonContent);
-            jsonFile.close();
-            return j;
+            try {
+                nlohmann::json j = nlohmann::json::parse(jsonContent);
+                jsonFile.close();
+                return j;
+            }
+            catch (const nlohmann::json::parse_error& e) {
+                QString message = QString(QStringLiteral(u"Ошибка при парсинге файла %1: %2")).arg(fileInfo.fileName()).arg(e.what());
+                showError(parent, message);
+                jsonFile.close();
+                return nlohmann::json();
+            }
         }
         else {
-            QMessageBox::warning(parent, QStringLiteral(u"Ошибка при открытии json файла: "), fileInfo.fileName());
+            QString message = QStringLiteral(u"Ошибка при открытии json файла: ") + fileInfo.fileName();
+            showError(parent, message);
         }
     }
 
@@ -75,8 +136,18 @@ Catalog FillFromJsons::CatalogFromJson(const nlohmann::json& jsonObj, Library* c
 {
     QIcon folderIcon = QIcon("./icons/folder.svg");
     Catalog catalog;
-    catalog.name = QString::fromStdString(jsonObj["name"].get<std::string>());
-    catalog.thumb = QString::fromStdString(jsonObj["thumb"].get<std::string>());
+    
+    if (jsonObj.contains("name")) {
+        catalog.name = QString::fromStdString(jsonObj["name"].get<std::string>());
+    } else {
+        catalog.name = QStringLiteral(u"Без названия");
+        QString message = QStringLiteral(u"Каталог без названия");
+        qDebug() << message;
+    }
+    
+    if (jsonObj.contains("thumb")) {
+        catalog.thumb = QString::fromStdString(jsonObj["thumb"].get<std::string>());
+    }
 
     catalog.item = new QStandardItem(catalog.name);
     QIcon icon;
@@ -91,6 +162,8 @@ Catalog FillFromJsons::CatalogFromJson(const nlohmann::json& jsonObj, Library* c
         else
         {
             icon = folderIcon;
+            QString message = QString(QStringLiteral(u"Иконка не найдена: %1")).arg(iconPath);
+            qDebug() << message;
         }
     }
     else
@@ -108,6 +181,11 @@ Catalog FillFromJsons::CatalogFromJson(const nlohmann::json& jsonObj, Library* c
             }
             catalog.catalogs.push_back(subCat);
         }
+    } else {
+        if (jsonObj.contains("catalogs") && !jsonObj["catalogs"].is_array()) {
+            QString message = QStringLiteral(u"Поле 'catalogs' не является массивом");
+            qDebug() << message;
+        }
     }
 
     //Обработка компонентов (если есть)
@@ -116,6 +194,11 @@ Catalog FillFromJsons::CatalogFromJson(const nlohmann::json& jsonObj, Library* c
             Component comp;
             ComponentFromJson(compJson, comp, currentLibrary);
             catalog.components.push_back(comp);
+        }
+    } else {
+        if (jsonObj.contains("components") && !jsonObj["components"].is_array()) {
+            QString message = QStringLiteral(u"Поле 'components' не является массивом");
+            qDebug() << message;
         }
     }
 
@@ -126,8 +209,18 @@ Catalog FillFromJsons::CatalogFromJson(const nlohmann::json& jsonObj, Library* c
 
 void FillFromJsons::ComponentFromJson(const nlohmann::json& jsonObj, Component& component, Library* currentLibrary)
 {
-    component.model = QString::fromStdString(jsonObj["model"].get<std::string>());
-    component.desc = QString::fromStdString(jsonObj["desc"].get<std::string>());
+    if (jsonObj.contains("model")) {
+        component.model = QString::fromStdString(jsonObj["model"].get<std::string>());
+    } else {
+        component.model = QStringLiteral(u"Без названия");
+        QString message = QStringLiteral(u"Компонент без названия");
+        qDebug() << message;
+    }
+    
+    if (jsonObj.contains("desc")) {
+        component.desc = QString::fromStdString(jsonObj["desc"].get<std::string>());
+    }
+    
     addComponentRest(component.model, component, currentLibrary);
 
     QIcon icon;
@@ -142,15 +235,30 @@ void FillFromJsons::ComponentFromJson(const nlohmann::json& jsonObj, Component& 
         {
             icon = QIcon(iconPath);
             component.thumb = icon;
+        } else {
+            QString message = QString(QStringLiteral(u"Иконка компонента не найдена: %1")).arg(iconPath);
+            qDebug() << message;
         }
     }
 }
 
 void FillFromJsons::addParametrFromJson(nlohmann::json jsonObj, Parameters& parametr)
 {
-    parametr.name = QString::fromStdString(jsonObj["name"].get<std::string>());
-    parametr.type = QString::fromStdString(jsonObj["type"].get<std::string>());
-    parametr.display = jsonObj["display"].get<bool>();
+    if (jsonObj.contains("name")) {
+        parametr.name = QString::fromStdString(jsonObj["name"].get<std::string>());
+    } else {
+        qDebug() << QStringLiteral(u"Параметр без названия");
+    }
+    
+    if (jsonObj.contains("type")) {
+        parametr.type = QString::fromStdString(jsonObj["type"].get<std::string>());
+    }
+    
+    if (jsonObj.contains("display")) {
+        parametr.display = jsonObj["display"].get<bool>();
+    } else {
+        parametr.display = true; // значение по умолчанию
+    }
 
     if (parametr.type == "String" || (jsonObj.contains("default") && jsonObj["default"].is_string()) || parametr.type == "Equation") {
         if (jsonObj.contains("default")) {
@@ -210,75 +318,108 @@ void FillFromJsons::addComponentRest(QString& componentModel, Component& compone
     QString location = "./Libraries/" + currentLibrary->dir + "/" +
         currentLibrary->components_location + "/" + componentModel + ".json";
 
+    // Проверяем, существует ли файл перед попыткой открытия
+    QFileInfo fileInfo(location);
+    if (!fileInfo.exists()) {
+        QString message = QString(QStringLiteral(u"Файл компонента не найден: %1")).arg(location);
+        showError(nullptr, message);
+        return;
+    }
+
     QFile jsonFile(location);
 
     if (jsonFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QByteArray jsonContent = jsonFile.readAll();
-        nlohmann::json componentJson = nlohmann::json::parse(jsonContent);
-        jsonFile.close();
-        component.name = QString::fromStdString(componentJson["name"].get<std::string>());
-        component.library = QString::fromStdString(componentJson["library"].get<std::string>());
-        component.group = QString::fromStdString(componentJson["group"].get<std::string>());
-
-        if (componentJson.contains("view_model")) {
-            component.view_model = componentJson["view_model"].get<bool>();
-        }
-
-        for (auto& par : componentJson["parameters"])
-        {
-            addParametrFromJson(par, parameter);
-            paramList.push_back(parameter);
-        }
-        for (auto& pin : componentJson["pins"]) {
-            component.pins.push_back(QString::fromStdString(pin.get<std::string>()));
-        }
-
-        if (componentJson.contains("schematic") && componentJson["schematic"].contains("netlist")) {
-            auto& netlistJson = componentJson["schematic"]["netlist"];
-
-            if (netlistJson.contains("model")) {
-                component.schematic.netlist.model = QString::fromStdString(netlistJson["model"].get<std::string>());
+        try {
+            nlohmann::json componentJson = nlohmann::json::parse(jsonContent);
+            jsonFile.close();
+            
+            if (componentJson.contains("name")) {
+                component.name = QString::fromStdString(componentJson["name"].get<std::string>());
+            }
+            if (componentJson.contains("library")) {
+                component.library = QString::fromStdString(componentJson["library"].get<std::string>());
+            }
+            if (componentJson.contains("group")) {
+                component.group = QString::fromStdString(componentJson["group"].get<std::string>());
             }
 
-            if (netlistJson.contains("params")) {
-                auto& paramsJson = netlistJson["params"];
-                for (auto it = paramsJson.begin(); it != paramsJson.end(); ++it) {
-                    QString key = QString::fromStdString(it.key());
-                    QString value = QString::fromStdString(it.value().get<std::string>());
-                    component.schematic.netlist.params.insert(key, value);
+            if (componentJson.contains("view_model")) {
+                component.view_model = componentJson["view_model"].get<bool>();
+            }
+
+            if (componentJson.contains("parameters") && componentJson["parameters"].is_array()) {
+                for (auto& par : componentJson["parameters"])
+                {
+                    addParametrFromJson(par, parameter);
+                    paramList.push_back(parameter);
                 }
             }
-        }
-        if (componentJson.contains("layout") && componentJson["layout"].contains("model")) {
-            component.layout.model = QString::fromStdString(componentJson["layout"]["model"].get<std::string>());
-        }
-
-        if (componentJson.contains("ugo") && componentJson["ugo"].contains("model")) {
-            component.ugo.model = QString::fromStdString(componentJson["ugo"]["model"].get<std::string>());
-            QIcon icon;
-            QString ansiIconPath = QString("./Libraries/") +
-                currentLibrary->dir + "/" +
-                currentLibrary->symbols_location + "/ansi/" +
-                component.ugo.model + ".svg";
-            if (QFile::exists(ansiIconPath))
-            {
-                icon = QIcon(ansiIconPath);
-                component.ugo.ansiUgoSymbol = icon;
+            
+            if (componentJson.contains("pins") && componentJson["pins"].is_array()) {
+                for (auto& pin : componentJson["pins"]) {
+                    component.pins.push_back(QString::fromStdString(pin.get<std::string>()));
+                }
             }
-            QString gostIconPath = QString("./Libraries/") +
-                currentLibrary->dir + "/" +
-                currentLibrary->symbols_location + "/gost/" +
-                component.ugo.model + ".svg";
-            if (QFile::exists(gostIconPath))
-            {
-                icon = QIcon(gostIconPath);
-                component.ugo.gostUgoSymbol = icon;
+
+            if (componentJson.contains("schematic") && componentJson["schematic"].contains("netlist")) {
+                auto& netlistJson = componentJson["schematic"]["netlist"];
+
+                if (netlistJson.contains("model")) {
+                    component.schematic.netlist.model = QString::fromStdString(netlistJson["model"].get<std::string>());
+                }
+
+                if (netlistJson.contains("params")) {
+                    auto& paramsJson = netlistJson["params"];
+                    for (auto it = paramsJson.begin(); it != paramsJson.end(); ++it) {
+                        QString key = QString::fromStdString(it.key());
+                        QString value = QString::fromStdString(it.value().get<std::string>());
+                        component.schematic.netlist.params.insert(key, value);
+                    }
+                }
+            }
+            
+            if (componentJson.contains("layout") && componentJson["layout"].contains("model")) {
+                component.layout.model = QString::fromStdString(componentJson["layout"]["model"].get<std::string>());
+            }
+
+            if (componentJson.contains("ugo") && componentJson["ugo"].contains("model")) {
+                component.ugo.model = QString::fromStdString(componentJson["ugo"]["model"].get<std::string>());
+                QIcon icon;
+                QString ansiIconPath = QString("./Libraries/") +
+                    currentLibrary->dir + "/" +
+                    currentLibrary->symbols_location + "/ansi/" +
+                    component.ugo.model + ".svg";
+                if (QFile::exists(ansiIconPath))
+                {
+                    icon = QIcon(ansiIconPath);
+                    component.ugo.ansiUgoSymbol = icon;
+                }
+                QString gostIconPath = QString("./Libraries/") +
+                    currentLibrary->dir + "/" +
+                    currentLibrary->symbols_location + "/gost/" +
+                    component.ugo.model + ".svg";
+                if (QFile::exists(gostIconPath))
+                {
+                    icon = QIcon(gostIconPath);
+                    component.ugo.gostUgoSymbol = icon;
+                }
+            }
+
+            if (componentJson.contains("veriloga") && componentJson["veriloga"].contains("model")) {
+                component.veriloga.model = QString::fromStdString(componentJson["veriloga"]["model"].get<std::string>());
             }
         }
-
-        if (componentJson.contains("veriloga") && componentJson["veriloga"].contains("model")) {
-            component.veriloga.model = QString::fromStdString(componentJson["veriloga"]["model"].get<std::string>());
+        catch (const nlohmann::json::parse_error& e) {
+            QString message = QString(QStringLiteral(u"Ошибка при парсинге файла компонента %1: %2")).arg(location).arg(e.what());
+            showError(nullptr, message);
+            jsonFile.close();
+            return;
         }
+    } else {
+        QString message = QString(QStringLiteral(u"Не удалось открыть файл компонента: %1")).arg(location);
+        showError(nullptr, message);
+        return;
     }
     component.parameters = paramList;
 }

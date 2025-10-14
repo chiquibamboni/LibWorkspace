@@ -1,0 +1,68 @@
+{
+  "library": "Basic",
+  "name": "ISO",
+  "model": "ISOLATOR_SML",
+  "view_model": true,
+  "group": "PAR",
+  "pins": [
+    "P1",
+    "P2"
+  ],
+  "parameters": [
+    {
+      "name": "Zref",
+      "type": "Real",
+      "default": 50.0,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    },
+    {
+      "name": "Loss",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "dB",
+      "display": true
+    },
+    {
+      "name": "Isolat",
+      "type": "Real",
+      "default": 100.0,
+      "factor": "",
+      "unit": "dB",
+      "display": true
+    },
+    {
+      "name": "VSWR",
+      "type": "Real",
+      "default": 1.1,
+      "factor": "",
+      "unit": "",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "IsolatorSML",
+      "params": {
+        "Zref": "Zref",
+        "Loss": "L",
+        "Isolat": "ISO",
+        "VSWR": "VSWR"
+      }
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "ISOLATOR_SML"
+  },
+  "veriloga": {
+    "model": "IsolatorSML.va"
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

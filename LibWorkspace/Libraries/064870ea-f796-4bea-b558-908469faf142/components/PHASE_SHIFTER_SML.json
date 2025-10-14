@@ -1,0 +1,50 @@
+{
+  "library": "Basic",
+  "name": "PS",
+  "model": "PHASE_SHIFTER_SML",
+  "view_model": true,
+  "group": "PAR",
+  "pins": [
+    "P1",
+    "P2"
+  ],
+  "parameters": [
+    {
+      "name": "Phi",
+      "type": "Real",
+      "default": 90.0,
+      "factor": "",
+      "unit": "deg",
+      "display": true
+    },
+    {
+      "name": "Z0",
+      "type": "Real",
+      "default": 50.0,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "PhaseShiftSML",
+      "params": {
+        "Phi": "phi",
+        "Z0": "Z0"
+      }
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "PHASE_SHIFTER_SML"
+  },
+  "veriloga": {
+    "model": "PhaseShifterSML.va"
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

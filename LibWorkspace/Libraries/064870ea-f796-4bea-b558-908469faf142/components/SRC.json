@@ -1,0 +1,50 @@
+{
+  "library": "Basic",
+  "name": "SRC",
+  "model": "SRC",
+  "view_model": true,
+  "group": "PAR",
+  "pins": [
+    "P1",
+    "P2"
+  ],
+  "parameters": [
+    {
+      "name": "R",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    },
+    {
+      "name": "C",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "p",
+      "unit": "F",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "SRC",
+      "params": {
+        "R": "R",
+        "C": "C"
+      }
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "SRC"
+  },
+  "veriloga": {
+    "model": "SRC.va"
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="50mm" height="50mm"
+viewBox="0 0 500 500">
+<title>PIN</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="449.97 250.91 371.64 250.91 251.64 399.82 50.02 399.82 50.02 99.97 250.11 99.97 371.86 250.91" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<path fill="rgb(255,0,0)" stroke="rgb(255,0,0)" stroke-width="10" d=" M 438 245 C 438 239 444 239 444 239 L 456 239 L 456 239 C 462 239 462 245 462 245 L 462 257 L 462 257 C 462 263 456 263 456 263 L 444 263 L 444 263 C 438 263 438 257 438 257 L 438 245 Z" />
+</svg>

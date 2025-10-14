@@ -1,0 +1,11 @@
+ahdl_include "../veriloga/MVIA.va"
+
+global 0
+
+subckt MVIAGND p1
+parameters w=25u D=15u dispmodel="Hammerstad" subst="MSub1"
++ er=9.8 h=0.1m t=3u tand=2e-4 rho=2.2e-8 d=0.15e-6
+
+V1 p1 0 MVIA w=w D=D subst=subst er=er h=h t=t tand=tand rho=rho d=d
+
+ends

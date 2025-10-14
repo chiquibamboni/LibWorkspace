@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="50mm" height="50mm"
+viewBox="0 0 500 500">
+<title>microstrip_junctions</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="50.07 199.62 97.28 199.62 97.28 140.39 402.97 140.39 402.97 199.62 450.12 199.62 403.00 199.62 403.00 258.27 309.04 258.27 309.04 353.68 250.23 353.68 250.23 399.63 250.23 353.26 191.04 353.26 191.04 258.43 97.46 258.43 97.46 199.60" fill="none" stroke="rgb(0,0,0)" stroke-width="10" />
+</svg>

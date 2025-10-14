@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="80mm" height="80mm"
+viewBox="0 0 800 800">
+<title>PHASE</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="0.00 400.00 150.00 400.00 150.00 150.00 650.00 150.00 650.00 400.00 800.00 400.00 650.00 400.00 650.00 650.00 150.00 650.00 150.00 400.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="100.00 350.00 50.00 450.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<circle cx="400.25" cy="399.95" r="120.25" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="510.00 290.00 290.00 510.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+</svg>

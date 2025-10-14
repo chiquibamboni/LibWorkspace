@@ -1,0 +1,120 @@
+{
+  "library": "Basic",
+  "name": "C",
+  "model": "MTFC",
+  "view_model": true,
+  "group": "PAR",
+  "pins": [
+    "P1",
+    "P2"
+  ],
+  "parameters": [
+    {
+      "name": "Subst",
+      "type": "String",
+      "default": "MSub1",
+      "display": true
+    },
+    {
+      "name": "W",
+      "type": "Real",
+      "default": 50.0,
+      "factor": "u",
+      "unit": "m",
+      "display": false
+    },
+    {
+      "name": "L",
+      "type": "Real",
+      "default": 50.0,
+      "factor": "u",
+      "unit": "m",
+      "display": false
+    },
+    {
+      "name": "CPUA",
+      "type": "Real",
+      "default": 100.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "T",
+      "type": "Real",
+      "default": 2.0,
+      "factor": "u",
+      "unit": "m",
+      "display": true
+    },
+    {
+      "name": "RsT",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    },
+    {
+      "name": "RsB",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    },
+    {
+      "name": "TT",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "u",
+      "unit": "m",
+      "display": true
+    },
+    {
+      "name": "TB",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "u",
+      "unit": "m",
+      "display": true
+    },
+    {
+      "name": "COB",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "u",
+      "unit": "m",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "MTFC",
+      "params": {
+        "Subst": "subst",
+        "W": "W",
+        "L": "L",
+        "CPUA": "CPUA",
+        "T": "T",
+        "RsT": "RsT",
+        "RsB": "RsB",
+        "TT": "TT",
+        "TB": "TB",
+        "COB": "COB"
+      }
+    }
+  },
+  "layout": {
+    "model": "MTFC_pins"
+  },
+  "ugo": {
+    "model": "MTFC"
+  },
+  "veriloga": {
+    "model": "MTFC.va"
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

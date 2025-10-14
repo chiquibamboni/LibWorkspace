@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="50mm" height="50mm"
+viewBox="0 0 500 500">
+<title>MBEND2</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="100.12 124.76 83.92 155.52" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="141.00 141.07 141.00 190.17 290.14 190.17 290.14 340.04 340.14 340.04 340.14 410.17 340.14 340.04 392.01 340.04 392.01 170.28 312.01 90.28 141.04 90.28 141.04 140.28 50.07 140.28" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<path fill="rgb(255,0,0)" stroke="rgb(255,0,0)" stroke-width="10" d=" M 38 134 C 38 128 44 128 44 128 L 56 128 L 56 128 C 62 128 62 134 62 134 L 62 146 L 62 146 C 62 152 56 152 56 152 L 44 152 L 44 152 C 38 152 38 146 38 146 L 38 134 Z" />
+<path fill="rgb(255,0,0)" stroke="rgb(255,0,0)" stroke-width="10" d=" M 328 404 C 328 398 334 398 334 398 L 346 398 L 346 398 C 352 398 352 404 352 404 L 352 416 L 352 416 C 352 422 346 422 346 422 L 334 422 L 334 422 C 328 422 328 416 328 416 L 328 404 Z" />
+</svg>

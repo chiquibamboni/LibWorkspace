@@ -1,0 +1,37 @@
+`include "constants.h"
+`include "disciplines.h"
+
+module BEND (PLUS, MINUS);
+  inout PLUS, MINUS;
+  electrical PLUS, MINUS;
+
+  
+
+  (*desc="width",                   unit="u",           type="instance"*) parameter real W    = 25u;    // Ширина проводника (в мкм)
+
+  (*desc="substrate permittivity relative to a vacuum", type="instance"*)                      parameter real er = 9.6 from (0.0:inf);
+                                                                                             aliasparam eps = er;
+  (*desc="substrate height",        unit="m"            type="instance"*)                      parameter real h = 10u from (0.0:inf);
+  (*desc="conductor thickness",     unit="m"            type="instance"*)                      parameter real t = 35u from (0.0:inf);
+  (*desc="loss tangent",                                type="instance"*)                      parameter real tand = 2e-4 from (0.0:inf);
+  (*desc="metal resistivity",                           type="instance"*)                      parameter real rho = 0.022e-6 from (0.0:inf);
+  (*desc="surface roughness (RMS)",                     type="instance"*)                      parameter real d = 0.15e-6 from (0.0:inf);
+
+  (*desc="substrate",                                   type="instance", resolve_type="text"*) parameter string subst = "";
+
+
+  
+  real ltotal;
+  real cval1;
+
+  electrical node1;
+
+ analog begin
+     ltotal = 220 * h * (1 - 1.35 * exp(-0.18 * pow(W/h, 1.39)));
+     cval1  = W  * ((10.35 * er + 2.5) * (W / h) + (2.6 * er + 5.64));
+
+    V(PLUS, node1) <+ ltotal*(1e-9) * ddt(I(PLUS, node1));
+    V(node1, MINUS) <+ ltotal*(1e-9) * ddt(I(node1, MINUS));
+    I(node1) <+ cval1*(1e-12) * ddt(V(node1));
+  end
+endmodule
