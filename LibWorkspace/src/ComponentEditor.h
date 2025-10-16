@@ -37,6 +37,8 @@ public:
     QComboBox* modelsComboBox;
     QPushButton* delButton;
 
+    QString* newThumbName;
+
 private:
     void setupUi();
     void setupConnections();
