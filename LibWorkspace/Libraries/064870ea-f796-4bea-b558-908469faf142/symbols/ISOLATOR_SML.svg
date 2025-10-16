@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="80mm" height="80mm"
+viewBox="0 0 800 800">
+<title>ISOL8R</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="0.00 400.00 150.00 400.00 150.00 150.00 650.00 150.00 650.00 400.00 800.00 400.00 650.00 400.00 650.00 650.00 150.00 650.00 150.00 400.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="100.00 350.00 50.00 450.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="250.00 280.00 550.00 280.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polygon points="488.80 296.20 550.00 280.00 488.80 263.80" fill="rgb(0,0,255)" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="550.00 520.00 250.00 520.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polygon points="311.20 503.80 250.00 520.00 311.20 536.20" fill="rgb(0,0,255)" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="420.00 470.00 480.00 570.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+</svg>

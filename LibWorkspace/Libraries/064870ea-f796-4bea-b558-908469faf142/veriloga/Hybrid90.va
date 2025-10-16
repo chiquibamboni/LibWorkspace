@@ -1,0 +1,58 @@
+nature sparameter   //создает пользовательский тип данных для работы с S-параметрами
+    access = S;         //указывает, что доступ к значениям этого типа осуществляется через S-параметры
+endnature
+discipline sparameters   //объявляет дисциплину для работы с S-параметрами
+    flow sparameter;       //S-параметры определяются как "поток"(ток)
+enddiscipline
+
+//объявление постоянных
+`define C0         299792458.0                                             // Скорость света в вакууме [м/с]
+`define pi          3.1415926535897932384626433832795029 // Число пи
+`define MU0      4*`pi*1e-7                                               // Магнитная постоянная [Гн/м]
+`define Ere0      8.854e-12                                                 // Электрическая постоянная [Ф/м]
+`define Zref         50
+
+module Hybrid90(p1, p2, p3, p4) (*model_type="distributed" port_type="one_pole"*);
+inout p1, p2, p3, p4;
+sparameters p1, p2, p3, p4;
+// Параметры
+(*type="instance"*) parameter real k    = 0.707;
+(*type="instance"*) parameter real phi    = 90;
+//(*type="instance"*) parameter real Z0    = 50;  // Характеристическое сопротивление [Ом]
+// Переменные
+
+analog begin
+    real phi2 = phi * `pi / 180;
+    //real r = (Z0 - `Zref) / (Z0 + `Zref);
+
+    //complex A = pow(k, 2.0) * (exp($complex(0.0, 2.0 * phi2)) + 1.0);
+    //complex B = pow(r, 2.0) * (1.0 - A);
+    //complex C = pow(k, 2.0) * (exp($complex(0.0, 2.0 * phi2)) - 1.0);
+    //complex D = 1.0 - 2.0 * pow(r, 2.0) * (1.0 + C) + pow(B, 2.0);
+    complex s11 = 0;
+    complex s14 = 0;
+    complex s12 = sqrt(1.0 - pow(k , 2.0));
+    complex s13 =  k * exp($complex(0.0, phi2));
+    //complex s11 = r * (A * B + C + 2.0 * pow(r, 2.0) * pow(k, 2.0) * exp($complex(0.0, 2.0 * phi2))) / D;
+    //complex s12 = sqrt(1.0 - pow(k , 2.0)) * (1.0 - pow(r, 2.0)) * (1.0 - B) / D;
+    //complex s13 = k * exp($complex(0.0, phi2)) * (1.0 - pow(r, 2.0)) * (1.0 + B) / D;
+    //complex s14 = 2.0 * sqrt(1.0 - pow(k , 2.0)) * k * exp($complex(0.0, phi2)) * r * (1.0 - pow(r, 2.0)) / D;
+    // Присвоение S-параметров
+    S(p1,p1) <+ s11;
+    S(p1,p2) <+ s12;
+    S(p1,p3) <+ s13;
+    S(p1,p4) <+ s14;
+    S(p2,p1) <+ s12;
+    S(p2,p2) <+ s11;
+    S(p2,p3) <+ s14;
+    S(p2,p4) <+ s13;
+    S(p3,p1) <+ s13;
+    S(p3,p2) <+ s14;
+    S(p3,p3) <+ s11;
+    S(p3,p4) <+ s12;
+    S(p4,p1) <+ s14;
+    S(p4,p2) <+ s13;
+    S(p4,p3) <+ s12;
+    S(p4,p4) <+ s11;
+end
+endmodule

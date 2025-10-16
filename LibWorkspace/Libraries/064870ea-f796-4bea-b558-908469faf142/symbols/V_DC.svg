@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="80mm" height="160mm"
+viewBox="0 0 800 1600">
+<title>V_DC</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<path fill="rgb(0,0,255)" stroke="rgb(0,0,255)" stroke-width="0" d=" M 192.28 475.18 L 192.31 439.93 157.05 439.93 157.05 423.33 192.31 423.33 192.37 388.07 208.97 388.07 208.90 423.33 244.16 423.33 244.16 439.93 208.90 439.93 208.87 475.18 Z" />
+<polyline points="644.84 600.31 154.84 600.31" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="546.84 700.31 252.84 700.31" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="400.00 0.00 400.00 600.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="644.84 800.31 154.84 800.31" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="546.84 900.31 252.84 900.31" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<path fill="rgb(0,0,255)" stroke="rgb(0,0,255)" stroke-width="0" d=" M 152.09 1083.67 L 152.14 1064.83 241.84 1064.83 241.78 1083.67 Z" />
+<polyline points="400.00 900.00 400.00 1600.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="300.00 200.00 500.00 100.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+</svg>

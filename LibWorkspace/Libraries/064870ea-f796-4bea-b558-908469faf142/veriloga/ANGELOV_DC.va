@@ -1,0 +1,333 @@
+
+
+`include "disciplines.vams" 
+`include "constants.vams"
+
+`define SCALE_T_LINEAR_REL(x, sc) x*(1 + sc*delta_T)
+
+`define INITIAL_MODEL @(initial_model)
+
+`define CLIP_LOW(val,min)      ((val)>(min)?(val):(min))
+`define KELVINCONVERSION      273.15
+
+`define KBOL                  1.380658e-23
+`define QEL                   1.60217733e-19
+
+module angelov_(d, g, s, t);
+
+	
+inout d, g, s, t;
+
+    parameter string Type = "n";
+    parameter real W = 1u from (0:inf]; // Unused: gate width 
+    parameter real Ng = 1 from (0:inf]; // Unused: gate fingers
+    parameter integer Mode = 1 from [0:1];      // Unused
+    parameter integer Noise = 1 from [0:1];     // Globally disable noise
+    parameter real Trise = 0.0 from [-inf:inf]; // Difference sim. temp and device temp, [C deg]
+    parameter real Temp = 25.0 from (-`KELVINCONVERSION:inf];   //Device temp (only used if Trise is zero) [C]
+
+
+    parameter integer Noimod = 0 from [0:2];    // Noise model (0=def, 1=PRC, 2= not supported)
+    parameter string  Selft = "no";    // Flag for self-heating
+
+    parameter integer Idsmod = 0 from [0:1];// Ids Current Model (0 or 1)
+    parameter integer Igmod = 0 from [0:1]; // Select gate diode model [0:1]
+    parameter integer Capmod = 2 from [0:2];// Select cap model [0:2]
+
+    parameter real Ipk0 = 0.05; // Current for max. transconductance Ipk [A]
+    parameter real Vpks = -0.2; // Gate voltage Vpk for max transconductance [V]
+    parameter real Dvpks = 0.2; // Delta gate voltage at peak gm [V]
+    parameter real P1 = 1.0; // Polynomial coeff P1 for channel current [1/V]
+    parameter real P2 = 0.0; // Polynomial coeff P2 for channel current [1/V^2]
+    parameter real P3 = 0.0; // Polynomial coeff P3 for channel current [1/V^3]
+    parameter real Alphar = 0.1; // Saturation parameter alpha_r [1/V]
+    parameter real Alphas = 1.0; // Saturation parameter alpha [1/V]
+    parameter real Vkn = 0.8; // Knee voltage [V]
+    parameter real Lambda = 0.0; // Channel length modulation parameter  
+    parameter real Lambda1 = 0.0; // Channel length modulation parameter  
+    parameter real Lvg = 0.0; // Coeff for channel length modulation parameter  
+    parameter real B1 = 0.0; // Unsaturated coeff B1 for P1
+    parameter real B2 = 3.0; // Saturated coeff B2 for P1 [1/V]
+    parameter real Lsb0 = 0.0; // Soft breakdown model parameter
+    parameter real Vtr = 20.0; // Soft breakdown model parameter [V]
+    parameter real Vsb2 = 0.0; // Surface breakdown model parameter [V]
+    parameter real Cds = 0 from [0:inf]; // Zero-bias D-S junction capacitance [F]
+    parameter real Cgspi = 0.0; // Gate-source pinch-off capacitance [F]
+    parameter real Cgs0 = 0.0; // Gate-source capacitance parameter [F]
+    parameter real Cgdpi = 0.0; // Gate-drain pinch-off capacitance [F]
+    parameter real Cgdpe = 0 from [0:inf]; // External G-D Capacitor [F]
+    parameter real Cgd0 = 0.0; // Gate-drain capacitance parameter Cgdo [F] 
+	
+    parameter real P10 = 0.0 from [-2:100]; // Polynomial coeff P10 for capacitance
+    parameter real P11 = 1.0 from (0:10]; // Polynomial coeff P11 for capacitance
+    parameter real P20 = 0.0 from [-2:5]; // Polynomial coeff P20 for capacitance
+    parameter real P21 = 0.2 from (0.1:5]; // Polynomial coeff P21 for capacitance
+    parameter real P30 = 0.0 from [-2:5]; // Polynomial coeff P30 for capacitance
+    parameter real P31 = 0.2 from (0.1:5]; // Polynomial coeff P31 for capacitance
+    parameter real P40 = 0.0 from [-2:100]; // Polynomial coeff P40 for capacitance
+    parameter real P41 = 1.0 from [0.1:10]; // Polynomial coeff P41 for capacitance
+    parameter real P111 = 0.0 from [0:1]; // Polynomial coeff P111 for capacitance
+	
+    parameter real Ij = 0.0005 from [0:inf]; // Gate fwd saturation current [A] spectre 0.00005
+    parameter real Pg = 15.0 from [0:inf]; // Gate current parameter
+    parameter real Ne = 1.4 from [0:inf] exclude 0; // Gate p-n emission coeff 
+    parameter real Vjg = 0.7 from [0:inf] exclude 0; // Gate current parm [V]
+
+    parameter real Rg = 0.0 from [0:inf]; // Gate ohmic resistance [Ohm]
+    parameter real Rd = 0.0 from [0:inf]; // Drain ohmic resistance [Ohm]
+    parameter real Ri = 0.0 from [0:inf]; // Input resistance [Ohm]
+    parameter real Rs = 0.0 from [0:inf]; // Source ohmic resistance [Ohm]
+    parameter real Rgd = 0 from [0:inf]; // Gate resistance [Ohm]
+
+    parameter real Ld = 0 from [0:inf]; // Drain ohmic inductance [H]
+    parameter real Ls = 0 from [0:inf]; // Source ohmic inductance [H]
+    parameter real Lg = 0 from [0:inf]; // Gate ohmic inductance [H]
+
+    parameter real Tau = 0 from [0:inf]; // Device delay [s]
+    parameter real Rcmin = 1.0e3 from [0:inf]; // Min value of Rc [Ohm]
+    parameter real Rc = 10.0e3 from [0:inf]; // R for freq dep output cond [Ohm]
+    parameter real Crf = 0.0; // C for freq dep output cond [F]
+    parameter real Rcin = 100.0e3 from [0:inf]; // R for freq dep input cond [Ohm]
+    parameter real Crfin = 0.0 from [0:inf]; // C for freq dep input cond[F]
+
+    parameter real Rth = 0.0 from [0:inf]; // Thermal resistance [Ohm]
+    aliasparam Rtherm=Rth;
+    parameter real Cth = 0.0 from [0:inf]; // Thermal capacitance [F]
+    aliasparam Ctherm=Cth;
+
+    parameter real Tcipk0 = 0.0; // Linear temp coef TIpk for Ipk [A/K] 
+    parameter real Tcp1 = 0.0; // Linear temp coef TIpk for Ipk [A/K] 
+    parameter real Tccgs0 = 0.0; // Linear temp coef Cgs0 parm
+    parameter real Tccgd0 = 0.0; // Linear temp coef Cgd0 parm
+    parameter real Tclsb0 = 0.0; // Linear temp coef Lsb0 parm
+    parameter real Tcrc = 0.0; // Linear temp coef Rc parm
+    parameter real Tccrf = 0.0; // Linear temp coef Crf parm
+
+    parameter real NoiseR = 0.5 from [0:inf); // Gate noise coeff
+    parameter real NoiseP = 1.0 from [0:inf); // Gate noise coeff
+    parameter real NoiseC = 0.9 from [0:inf); // Gate-drain noise coeff
+    parameter real Fnc = 0.0 from [0:inf); // Noise corner freq [Hz]
+    parameter real Kf = 0.0 from [0:inf]; // Flicker noise coeff
+    parameter real Af = 1.0 from (0:inf]; // Flicker noise exponent
+    parameter real Ffe = 1.0 from (0:inf]; // Flicker noise parameter
+    parameter real Tg = 25.0 from (-`KELVINCONVERSION:inf]; // Equiv temp [C]
+    parameter real Td = 25.0 from (-`KELVINCONVERSION:inf]; // Equiv temp [C]
+    parameter real Td1 = 0.1 from [-inf:inf]; // Equiv temp [C]
+    parameter real Tmn = 1.0 from [-inf:inf]; // noise fitting coeff
+    parameter real Klf = 0 from [-inf:inf]; // Flicker noise exponent (specrtre 1.0e14)
+    parameter real Fgr = 0 from [-inf:inf]; // G-R freq corner [Hz] (spectre 60.0e3)
+    parameter real Np = 1.0 from [-inf:inf]; // flicker noise freq exp (spectre 0.3) 
+    parameter real Lw = 0.1 from [-inf:inf]; // effective gate noise width [mm]
+
+    parameter real Tnom = 25.0 from (-`KELVINCONVERSION:inf); // param meas T [C] (spectre 27)
+    
+electrical d;
+electrical g;
+electrical s;
+electrical di;
+electrical gi;
+electrical si;
+electrical gdi;
+electrical gsi;
+electrical bi;
+electrical rf;
+electrical xt1;
+electrical xt2;
+//electrical ia;
+//electrical ib;
+
+(*nodetype="optional"*) thermal  t;
+
+    real alpha;
+    real Vgs, Vgd, Vds, Vdg;
+    real Igs, Igd;
+    real Vth, T_nom, T, delta_T;
+    real psi;
+    real pg_param, tanh_gs, tanh_gd;
+    real Q_gd, Q_gs;
+    real psi_1, psi_2, psi_3, psi_4;
+    real Ipk0_T;   
+    real Rc1, Lsb0_T, Cgs0_T, Cgd0_T, Rc_T, Crf_T;
+    real P1m, P1_T, Vpkm;
+    real T0, T1, T2;
+    real lambda_n, lambda_n1;
+    real lambda_p, lambda_p1;
+    real psi_n, alpha_n, Idsp, Idsn; 
+    real tanh_psi, tanh_psi_n, tanh_alpha_vds, tanh_alpha_n_vds;
+    real tanh1, tanh2, tanh3, tanh4, cosh0, cosh1, lc1, lc10, lc4, lc40;
+    real Qgs0, Qgd0, Vgsc, Vgdc;
+    real Ids0;
+    real type, gmin;
+    integer Selfheating;
+    
+	(*desc=" "*) real Ids;
+	(*desc=" "*) real gm;
+    analog begin
+        `INITIAL_MODEL
+        begin
+            if ((Type != "n") && (Type !="p"))
+            begin
+                type = 1;
+                $display("_warning_: parameter 'type'=%s , 'type' must be 'p' for pMOS or 'n' for nMOS, set to 'n' by default",Type);
+            end
+            else type = (Type=="n") ? 1 : -1;
+			if(Selft == "1" || Selft == "yes") Selfheating = 1;
+            else Selfheating = 0;
+        end
+
+        gmin = $simparam("gmin");
+	
+        Vgs = type*V(gi,si);
+        Vgd = type*V(gi,di);
+        Vdg = -type*Vgd;
+        Vds = type*V(di,si);
+        Vgsc = type*V(gsi,si); 
+        Vgdc = type*V(gdi,di);
+
+        // Temperature effects
+        if ($param_given(Temp))
+            T = Temp + `KELVINCONVERSION;
+        else 
+            T = $temperature + Trise;
+
+        if ($param_given(Tnom))
+            T_nom = `CLIP_LOW(Tnom, -273) + `KELVINCONVERSION;                                
+        else
+            T_nom = $nominal_temperature;
+
+        if (Selfheating == 1) T = T + Temp(t);
+
+        Vth = `KBOL*T/`QEL; //$vt(T);
+        delta_T = T - T_nom;
+        if (delta_T || Rth > 0) begin
+            Ipk0_T = `SCALE_T_LINEAR_REL(Ipk0, Tcipk0);
+            P1_T   = `SCALE_T_LINEAR_REL(P1,   Tcp1  );
+            Lsb0_T = `SCALE_T_LINEAR_REL(Lsb0, Tclsb0);
+            Cgs0_T = `SCALE_T_LINEAR_REL(Cgs0, Tccgs0);
+            Cgd0_T = `SCALE_T_LINEAR_REL(Cgd0, Tccgd0);
+            Rc_T   = `SCALE_T_LINEAR_REL(Rc,   Tcrc  );
+            Crf_T  = `SCALE_T_LINEAR_REL(Crf,  Tccrf );
+        end 
+        else begin
+            Ipk0_T = Ipk0;
+            P1_T = P1;
+            Lsb0_T = Lsb0;
+            Cgs0_T = Cgs0;
+            Cgd0_T = Cgd0;
+            Rc_T = Rc;
+            Crf_T = Crf;
+        end
+
+        // If Pg is not given but Ne is given, Pg = 1/(2*Ne*Vt) было 
+        //if (!$param_given(Pg) && $param_given(Ne))
+        //    pg_param = 0.5 / Ne / Vth;
+        //else
+        //    pg_param = Pg; // Take the given value (or default)
+
+        if($param_given(Pg) == 1) pg_param = Pg;
+        else pg_param = 0.5/Ne/Vth;
+
+        T0 = cosh(B2 * Vds);
+        P1m = P1_T * (1 + B1 / (T0 * T0));
+        Vpkm = Vpks - Dvpks + Dvpks*tanh(Alphas*Vds) - Vsb2*(Vdg - Vtr)*(Vdg - Vtr);
+
+
+        T1 = Vgs - Vpkm;
+        T2 = T1*T1;
+        psi = P1m*T1 + P2*T2 + P3*T1*T2;
+        tanh_psi = 1 + tanh(psi);
+        alpha = Alphar + Alphas*tanh_psi;
+        tanh_alpha_vds = tanh(alpha*Vds);
+
+        if (Idsmod == 0) begin
+            Ids0 = Ipk0_T*tanh_psi*tanh_alpha_vds*(1 + Lambda*Vds + Lsb0_T*exp(Vdg - Vtr));
+        end
+        else begin
+            T0 = Vgd - Vpkm;
+            T1 = T0*T0;
+            T2 = T1*T0;
+            psi_n = P1m*T0 + P2*T1 + P3*T2;
+
+            tanh_psi_n = 1 + tanh(psi_n);
+            alpha_n = Alphar + Alphas*tanh_psi_n;
+            tanh_alpha_n_vds = tanh(alpha_n*Vds);
+            lambda_n = Lambda + Lvg*tanh_psi_n;
+            lambda_p = Lambda + Lvg*tanh_psi;
+            lambda_n1 = Lambda1 + Lvg*tanh_psi_n;
+            lambda_p1 = Lambda1 + Lvg*tanh_psi;
+            Idsp = Ipk0_T*tanh_psi*(1 + tanh_alpha_vds)*(1 + lambda_p*Vds + lambda_p1*exp(Vds/Vkn - 1));
+            Idsn = Ipk0_T*tanh_psi_n*(1 - tanh_alpha_n_vds)*(1 - lambda_n*Vds - lambda_n1*exp(Vds/Vkn - 1));
+            Ids0 = 0.5*(Idsp - Idsn);
+        end
+  
+   
+        // Leakage diodes
+        if (Igmod == 0) begin
+            T0 = exp(pg_param * tanh(-2 * Vjg));
+            tanh_gs = tanh(2 * (Vgsc - Vjg));
+            tanh_gd = tanh(2 * (Vgdc - Vjg));
+        end
+        else begin
+            T0 = exp(-pg_param * Vjg);
+            tanh_gs = tanh(Vgsc - Vjg);
+            tanh_gd = tanh(Vgdc - Vjg);
+        end
+        Igs = Ij * (exp(pg_param * tanh_gs) - T0);
+        Igd = Ij * (exp(pg_param * tanh_gd) - T0);
+
+        // Charge model
+        psi_1 = P10 + P11*Vgsc + P111*Vds;
+        tanh1 = 1 + tanh(psi_1);
+        psi_2 = P20 + P21*Vds;
+        tanh2 = 1 + tanh(psi_2);
+        psi_3 = P30 - P31*Vds;
+        tanh3 = 1 + tanh(psi_3) - P111;
+        psi_4 = P40 + P41*Vgdc - P111*Vds;
+        tanh4 = 1 + tanh(psi_4);
+
+        Ids = type*Ids0;
+		
+        if(Tau == 0)
+        begin
+            V(xt1) <+ 0.0;
+            V(xt2) <+ 0.0;
+            V(xt1, xt2) <+ 0.0;
+        end
+        
+        I(di,si)  <+ Ids;
+        I(gsi,si) <+ type*Igs;
+        I(gdi,di) <+ type*Igd;
+        
+
+        if(Rcin > 0.0) I(bi,si) <+ V(bi,si)/Rcin;
+        else V(bi,si) <+ 0.0;
+		
+        if(Rgd > 0.0) I(gi,gdi) <+ V(gi,gdi)/Rgd;
+        else V(gi,gdi) <+ 0.0;
+
+        if(Ri > 0.0) I(gi,gsi) <+ V(gi,gsi)/Ri;     // Tg' not yet supported
+        else V(gi,gsi) <+ 0.0;
+
+        if(Rg <= 0.0 && Lg <= 0.0) V(g,gi) <+ 0.0;
+        else V(g,gi)  <+ I(g,gi)*Rg + ddt(Lg * I(g,gi));
+
+        if(Rs <= 0.0 && Ls <= 0.0) V(s,si) <+ 0.0;
+        else V(s,si) <+ I(s,si)*Rs + ddt(Ls*I(s,si)); 
+		
+        if(Rd <= 0.0 && Ld <= 0.0) V(d,di) <+ 0.0;
+        else V(d,di) <+ I(d,di)*Rd + ddt(Ld*I(d,di)); 
+
+        
+
+          if (Selfheating == 1 && Rth > 0)
+        begin
+            Pwr(t) <+ ddt(Cth * Temp(t));
+            Pwr(t) <+ -1 * abs(-Ids*Vds + Igs*Vgsc);
+            Pwr(t) <+ Temp(t)/Rth;
+        end
+        else 
+            Temp(t) <+ 0.0; // Pwr(t) <+ Temp(t) * $simparam("gmin", 1e-12);
+
+    end 
+
+endmodule

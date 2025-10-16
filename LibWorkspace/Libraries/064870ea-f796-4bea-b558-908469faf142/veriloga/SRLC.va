@@ -1,0 +1,20 @@
+`include "constants.h"
+`include "disciplines.h"
+
+module SRLC (p1, p2);
+    inout p1, p2;
+    electrical p1, p2, n1, n2;
+
+    // Параметры компонентов
+    parameter real R = 1;
+    parameter real L = 1n;
+    parameter real C = 1p;
+
+    analog begin
+
+       V(p1, n1) <+ R * I(p1, n1);
+       V(n1, n2) <+ L * ddt(I(n1, n2));
+       I(n2, p2) <+ C * ddt(V(n2, p2));
+  
+  end
+endmodule

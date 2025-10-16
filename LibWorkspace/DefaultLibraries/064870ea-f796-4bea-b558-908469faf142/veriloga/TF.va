@@ -1,0 +1,82 @@
+
+nature sparameter
+  access = S;
+endnature
+
+discipline sparameters
+  flow sparameter;
+enddiscipline
+
+module TF(p1,p2,p3,p4) (*model_type="distributed" port_type="four_pole"*);  //  port_type: "one_pole" or "two_pole"
+
+inout      p1,p2,p3,p4;
+sparameters p1,p2,p3,p4;
+// Параметры компонентов
+
+parameter real T = 1.0;
+
+analog function real calcPropagation;
+        input frequency;
+        real frequency;
+        begin
+            real alpha;
+
+            alpha = 0;
+
+        end
+    endfunction // calcPropagation
+
+
+analog begin
+
+    begin : initializeInstance
+    end // initializeInstance
+
+    calcPropagation($freq);
+
+
+    complex s14 = 1/(T*T + 1.0);
+    complex s22 = 1/(T*T + 1.0);
+    complex s33 = 1/(T*T + 1.0);
+    complex s41 = 1/(T*T + 1.0);
+
+
+    complex s12 = T * s22;
+    complex s13 = (-T) * s22;
+    complex s21 = T * s22;
+    complex s24 = (-T) * s22;
+    complex s31 = (-T) * s22;
+    complex s34 = T * s22;
+    complex s42 = (-T) * s22;
+    complex s43 = T * s22;
+
+    complex s11 = T * s12;
+    complex s23 = T * s12;
+    complex s32 = T * s12;
+    complex s44 = T * s12;
+
+    S(p1,p1) <+ s11;
+    S(p1,p2) <+ s12;
+    S(p1,p3) <+ s13;
+    S(p1,p4) <+ s14;
+
+    S(p2,p1) <+ s21;
+    S(p2,p2) <+ s22;
+    S(p2,p3) <+ s23;
+    S(p2,p4) <+ s24;
+
+    S(p3,p1) <+ s31;
+    S(p3,p2) <+ s32;
+    S(p3,p3) <+ s33;
+    S(p3,p4) <+ s34;
+
+    S(p4,p1) <+ s41;
+    S(p4,p2) <+ s42;
+    S(p4,p3) <+ s43;
+    S(p4,p4) <+ s44;
+
+
+
+end // analog
+
+endmodule

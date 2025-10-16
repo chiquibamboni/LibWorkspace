@@ -1,0 +1,89 @@
+
+nature sparameter
+  access = S;
+endnature
+
+discipline sparameters
+  flow sparameter;
+enddiscipline
+
+`define z0          50.0
+
+`define C0          299792458.0
+`define MU0         12.566370614e-7
+
+
+`define pi          3.1415926535897932384626433832795029
+`define pi_over_2   1.5707963267948966192313216916397514
+`define one_over_pi 0.3183098861837906715377675267450287
+`define two_over_pi 0.6366197723675813430755350534900574
+`define euler       2.7182818284590452353602874713526625
+`define ln2         0.6931471805599453094172321214581766
+
+// IMPORTANT WARNING
+// In c, c++, spectre, hspice natural logarithm - "log", and in VerilogA - "ln";
+// In c, c++, spectre, hspice decimal logarithm - "log10", and in VerilogA - "log";
+
+module TLIN(p1,p2) (*model_type="distributed" port_type="one_pole"*);  //  port_type: "one_pole" or "two_pole"
+
+inout      p1,p2;
+sparameters p1,p2;
+// Параметры компонентов
+
+
+    parameter real F=100e9;
+    parameter real E=9000;
+    parameter real Z0=250;
+    parameter real alpha=0;
+   // parameter real frequency = 1e9;
+
+
+    real l;
+    real  beta;
+    real z;
+    real y;
+
+
+ analog function real calcPropagation;
+        input frequency;
+        real frequency;
+        begin
+
+            // calculate propagation constants and reference impedance
+
+            alpha = 0;
+            beta  =  2 * `pi * frequency / `C0;
+        end
+    endfunction // calcPropagation
+
+
+
+analog begin
+
+    begin : initializeInstance
+    end // initializeInstance
+
+    calcPropagation($freq);
+
+
+    l = E * `C0 / (360 * F);
+    //beta = 2 * `pi * frequency / `C0 ;
+    z = Z0 / 50;
+    y = 1 / z;
+
+//    $strobe("z = %g", z);
+
+
+    complex g = $complex(alpha, beta);
+    complex n = 2.0 * cosh(g * l) + (z + y) * sinh(g * l);
+    complex s11 = (z - y) * sinh(g * l) / n;
+    complex s21 = 2.0 / n;
+
+    S(p1,p1) <+ s11;
+    S(p1,p2) <+ s21;
+    S(p2,p1) <+ s21;
+    S(p2,p2) <+ s11;
+
+end // analog
+
+endmodule

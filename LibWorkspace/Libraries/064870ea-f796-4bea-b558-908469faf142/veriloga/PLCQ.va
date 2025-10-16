@@ -1,0 +1,31 @@
+`include "constants.h"
+`include "disciplines.h"
+
+module PLCQ (p1, p2);
+    inout p1, p2;
+    electrical p1, p2, n1;
+
+    // Параметры компонентов
+
+    parameter real L = 1n;
+    parameter real C = 1p;
+    parameter real QL = 50;
+    parameter real QC = 100;
+    parameter real FL = 1e9;
+    parameter real FC = 1e9;
+
+//mode = proportional to freq
+  real RL, RC;
+
+
+    analog begin
+
+       RC = QC / (2 * `M_PI * FC * C);
+       RL = 2 * `M_PI  * FL * L / QL;
+
+       I(p1, p2) <+ V(p1, p2)/RC + C * ddt(V(p1, p2));
+       V(p1, n1) <+ RL * (I(p1, n1));
+       V(n1, p2) <+ L * ddt(I(n1, p2));
+  
+  end
+endmodule

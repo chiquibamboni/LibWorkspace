@@ -1,0 +1,17 @@
+`include "constants.h"
+`include "disciplines.h"
+
+module PRL (p1, p2);
+    inout p1, p2;
+    electrical p1, p2;
+
+    // Параметры компонентов
+    parameter real L = 1n;
+    parameter real R = 1;
+
+    analog begin
+     I(p1, p2) <+ R * (V(p1, p2));
+     V(p1, p2) <+ L * ddt(I(p1, p2));
+  
+  end
+endmodule

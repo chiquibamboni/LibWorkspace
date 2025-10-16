@@ -1,0 +1,144 @@
+nature sparameter
+    access = S;
+endnature
+discipline sparameters
+    flow sparameter;
+enddiscipline
+nature yparameter
+    access = Y;
+endnature
+discipline yparameters
+    flow yparameter;
+enddiscipline
+nature xparameter
+    access = X;
+endnature
+discipline xparameters
+    flow xparameter;
+enddiscipline
+
+`define C0         299792458.0
+`define pi          3.1415926535897932384626433832795029
+`define MU0      4*`pi*1e-7
+`define Ere0      8.854e-12
+`define ZP         50
+
+module CLINP (p1, p2, p3, p4) (*model_type="distributed" port_type="one_pole"*);
+inout p1, p2, p3, p4;
+sparameters p1, p2, p3, p4;
+
+parameter real ZO   = 200;
+parameter real ZE   = 200;
+parameter real l    = 1000e-6;
+parameter real F0   = 5e9;
+parameter real Ere1 = 12.2;
+parameter real Ere2 = 12.2;
+parameter real a1   = 0.5;
+parameter real a2   = 0.4;
+parameter real TD   = 0.01;
+
+real alpha1, alpha2, beta1, beta2, ad1, ad2, f0, V1, V2, len, lambda;
+integer row1, col1, row2, col2, row3, col3, k_idx;
+integer col4, row4, col5, row5, col6, row6, col7, k_idx2;
+complex Yp[0:15];
+complex Ip[0:15];
+complex A[0:15];
+complex invA[0:15];
+complex B[0:15];
+complex Sp[0:15];
+
+analog begin
+    f0 = F0;
+    len = l;
+
+    lambda = `C0 / $freq;
+
+    ad1 = TD * `pi * sqrt(Ere1) / lambda;
+    ad2 = TD * `pi * sqrt(Ere2) / lambda;
+
+    alpha1 = (a1 * sqrt($freq / f0) / 8.686) + ad1;
+    alpha2 = (a2 * sqrt($freq / f0) / 8.686) + ad2;
+
+    V1 = `C0 / sqrt(Ere1);
+    V2 = `C0 / sqrt(Ere2);
+
+    beta1 = 2 * `pi * $freq / V1;
+    beta2 = 2 * `pi * $freq / V2;
+
+    complex gamma1 = $complex(alpha1, beta1);
+    complex gamma2 = $complex(alpha2, beta2);
+
+    complex coth1 = cosh(gamma1 * len) / sinh(gamma1 * len);
+    complex coth2 = cosh(gamma2 * len) / sinh(gamma2 * len);
+
+    complex csch1 = $complex(1.0, 0.0) / sinh(gamma1 * len);
+    complex csch2 = $complex(1.0, 0.0) / sinh(gamma2 * len);
+
+    complex y11 =  0.5 * ((1/ZE) * coth1 + (1/ZO) * coth2);
+    complex y12 =  0.5 * ((1/ZE) * coth1 - (1/ZO) * coth2);
+    complex y13 = -0.5 * ((1/ZE) * csch1 + (1/ZO) * csch2);
+    complex y14 = -0.5 * ((1/ZE) * csch1 - (1/ZO) * csch2);
+
+    Yp[0] = y11;     Yp[1] = y12;     Yp[2] = y13;      Yp[3] = y14;
+    Yp[4] = y12;     Yp[5] = y11;     Yp[6] = y14;      Yp[7] = y13;
+    Yp[8] = y13;     Yp[9] = y14;     Yp[10]= y11;     Yp[11]= y12;
+    Yp[12]= y14;    Yp[13]= y13;     Yp[14]= y12;     Yp[15]= y11;
+
+    for (row1 = 0; row1 < 4; row1 = row1 + 1) begin
+        for (col1 = 0; col1 < 4; col1 = col1 + 1) begin
+            Ip[row1*4 + col1] = (row1 == col1) ? $complex(1.0, 0.0) : $complex(0.0, 0.0);
+        end
+    end
+
+    for (row2 = 0; row2 < 4; row2 = row2 + 1) begin
+        for (col2 = 0; col2 < 4; col2 = col2 + 1) begin
+            A[row2*4 + col2] = Ip[row2*4 + col2] + $complex(50.0, 0.0) * Yp[row2*4 + col2]; //ZP = $complex(50.0, 0.0)
+        end
+    end
+
+    for (row3 = 0; row3 < 4; row3 = row3 + 1) begin
+        for (col3 = 0; col3 < 4; col3 = col3 + 1) begin
+            invA[row3*4 + col3] = Ip[row3*4 + col3];
+        end
+    end
+
+    for (k_idx = 0; k_idx < 4; k_idx = k_idx + 1) begin
+        complex pivot = A[k_idx*4 + k_idx];
+        // Нормировка строки
+        for (col4 = 0; col4 < 4; col4 = col4 + 1) begin
+            A[k_idx*4 + col4] = A[k_idx*4 + col4] / pivot;
+            invA[k_idx*4 + col4] = invA[k_idx*4 + col4] / pivot;
+        end
+
+        for (row4 = 0; row4 < 4; row4 = row4 + 1) begin
+            if (row4 != k_idx) begin
+                complex factor = A[row4*4 + k_idx];
+                for (col5 = 0; col5 < 4; col5 = col5 + 1) begin
+                    A[row4*4 + col5] = A[row4*4 + col5] - factor * A[k_idx*4 + col5];
+                    invA[row4*4 + col5] = invA[row4*4 + col5] - factor * invA[k_idx*4 + col5];
+                end
+            end
+        end
+    end
+
+    for (row5 = 0; row5 < 4; row5 = row5 + 1) begin
+        for (col6 = 0; col6 < 4; col6 = col6 + 1) begin
+            B[row5*4 + col6] = Ip[row5*4 + col6] - $complex(50.0, 0.0) * Yp[row5*4 + col6]; //ZP = $complex(50.0, 0.0)
+        end
+    end
+
+    for (row6 = 0; row6 < 4; row6 = row6 + 1) begin
+        for (col7 = 0; col7 < 4; col7 = col7 + 1) begin
+            Sp[row6*4 + col7] = $complex(0.0, 0.0);
+            for (k_idx2 = 0; k_idx2 < 4; k_idx2 = k_idx2 + 1) begin
+                Sp[row6*4 + col7] = Sp[row6*4 + col7] + B[row6*4 + k_idx2] * invA[k_idx2*4 + col7];
+            end
+        end
+    end
+
+    S(p1,p1) <+ Sp[0];    S(p1,p2) <+ Sp[1];     S(p1,p3) <+ Sp[2];     S(p1,p4) <+ Sp[3];
+    S(p2,p1) <+ Sp[4];    S(p2,p2) <+ Sp[5];     S(p2,p3) <+ Sp[6];     S(p2,p4) <+ Sp[7];
+    S(p3,p1) <+ Sp[8];    S(p3,p2) <+ Sp[9];     S(p3,p3) <+ Sp[10];   S(p3,p4) <+ Sp[11];
+    S(p4,p1) <+ Sp[12];  S(p4,p2) <+ Sp[13];   S(p4,p3) <+ Sp[14];    S(p4,p4) <+ Sp[15];
+end
+endmodule

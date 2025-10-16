@@ -1,0 +1,64 @@
+nature sparameter   //создает пользовательский тип данных для работы с S-параметрами 
+    access = S;         //указывает, что доступ к значениям этого типа осуществляется через S-параметры
+endnature
+discipline sparameters   //объявляет дисциплину для работы с S-параметрами
+    flow sparameter;       //S-параметры определяются как "поток"(ток)
+enddiscipline
+
+//объявление постоянных
+`define C0         299792458.0                                             // Скорость света в вакууме [м/с]
+`define pi          3.1415926535897932384626433832795029 // Число пи
+`define MU0      4*`pi*1e-7                                               // Магнитная постоянная [Гн/м]
+`define Ere0      8.854e-12                                                 // Электрическая постоянная [Ф/м]
+`define Zref         50 
+
+module Unsymmetrical_Hybrid (p1, p2, p3, p4) (*model_type="distributed" /*family_type="0x0b000001"*/ port_type="one_pole"*);
+inout p1, p2, p3, p4;
+sparameters p1, p2, p3, p4;
+// Параметры
+(*type="instance" display=1*) parameter real phi = 90;  
+(*type="instance" display=1*) parameter real Z0 = 200;
+// Переменные
+
+analog begin
+    real phi2 = phi * `pi / 180;
+
+    complex s11 = $complex(0.0, 0.0);
+    complex s12 = $complex(0.0, 0.0);
+    complex s13 = 1.0 / sqrt(2.0);
+    complex s14 = 1.0 / sqrt(2.0);
+
+    complex s21 = $complex(0.0, 0.0);
+    complex s22 = $complex(0.0, 0.0);
+    complex s23 = 1.0 / sqrt(2.0);
+    complex s24 = exp($complex(0.0, phi2)) / sqrt(2.0);
+
+    complex s31 = 1.0 / sqrt(2.0);
+    complex s32 = 1.0 / sqrt(2.0);
+    complex s33 = $complex(0.0, 0.0);
+    complex s34 = $complex(0.0, 0.0);
+
+    complex s41 = 1.0 / sqrt(2.0);
+    complex s42 = exp($complex(0.0, phi2)) / sqrt(2.0);
+    complex s43 = $complex(0.0, 0.0);
+    complex s44 = $complex(0.0, 0.0);
+
+    // Присвоение S-параметров
+    S(p1,p1) <+ s11;    
+    S(p1,p2) <+ s12;     
+    S(p1,p3) <+ s13;     
+    S(p1,p4) <+ s14;
+    S(p2,p1) <+ s21;    
+    S(p2,p2) <+ s22;     
+    S(p2,p3) <+ s23;     
+    S(p2,p4) <+ s24;
+    S(p3,p1) <+ s31;    
+    S(p3,p2) <+ s32;     
+    S(p3,p3) <+ s33;     
+    S(p3,p4) <+ s34;
+    S(p4,p1) <+ s41;    
+    S(p4,p2) <+ s42;     
+    S(p4,p3) <+ s43;     
+    S(p4,p4) <+ s44;
+end
+endmodule

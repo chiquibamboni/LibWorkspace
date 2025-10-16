@@ -1,0 +1,50 @@
+
+nature sparameter
+  access = S;
+endnature
+
+discipline sparameters
+  flow sparameter;
+enddiscipline
+
+`define C0         299792458.0
+`define pi          3.1415926535897932384626433832795029
+`define MU0      4*`pi*1e-7
+`define Ere0      8.854e-12
+// IMPORTANT WARNING
+// In c, c++, spectre, hspice natural logarithm - "log", and in VerilogA - "ln";
+// In c, c++, spectre, hspice decimal logarithm - "log10", and in VerilogA - "log";
+module TLSCP (p1, p2) (*model_type="distributed" port_type="one_pole"*);
+inout      p1, p2;
+sparameters p1, p2;
+
+    parameter real Z0  = 250;
+    parameter real l   = 100e-6;
+    parameter real F0  = 5e9;
+    parameter real Ere = 1;
+    parameter real a   = 0.5;
+    parameter real TD  = 0.2;
+
+    real alpha, beta, ad, f0, V, len, Znorm, Ynorm, lambda;
+analog begin
+    begin : initializeInstance
+    end
+    Znorm = Z0 / 50;
+    Ynorm = 1 / Znorm;
+    f0 = F0;
+    len = l;
+    lambda = `C0 / $freq;
+    ad = TD * `pi * sqrt(Ere) / lambda;
+    alpha = (a * sqrt($freq / f0) / 8.686) + ad;
+    V = `C0 / sqrt(Ere);
+    beta = 2 * `pi * $freq / V;
+    complex gamma = $complex(alpha, beta);
+    complex n = (Znorm + Ynorm) * sinh(gamma * len) + 2.0 * cosh(gamma * len);
+    complex s11 = (Znorm - Ynorm) * sinh(gamma * len) / n;
+    complex s21 = 2.0 / n;
+    S(p1,p1) <+ s11;
+    S(p1,p2) <+ s21;
+    S(p2,p1) <+ s21;
+    S(p2,p2) <+ s11;
+end
+endmodule

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="80mm" height="160mm"
+viewBox="0 0 800 1600">
+<title>V_AC</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<path fill="rgb(0,0,255)" stroke="rgb(0,0,255)" stroke-width="0" d=" M 393.90 619.65 L 393.93 589.62 363.90 589.62 363.90 575.49 393.93 575.49 393.99 545.46 408.12 545.46 408.06 575.49 438.09 575.49 438.09 589.62 408.06 589.62 408.03 619.65 Z" />
+<polyline points="400.00 0.00 400.00 490.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<path fill="rgb(0,0,255)" stroke="rgb(0,0,255)" stroke-width="0" d=" M 358.56 1032.32 L 358.61 1017.33 438.31 1017.33 438.26 1032.32 Z" />
+<polyline points="400.00 1110.00 400.00 1600.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="300.00 200.00 500.00 100.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<path fill="none" stroke="rgb(0,0,255)" stroke-width="2" d=" M 736.14 830.12 Q 739.40 800.00 736.14 769.88 Q 732.87 739.75 723.21 710.79 Q 713.54 681.82 697.85 655.12 Q 682.15 628.43 661.03 605.03 Q 639.91 581.63 614.17 562.43 Q 588.43 543.23 559.06 528.96 Q 529.70 514.69 497.84 505.90 Q 465.97 497.12 432.84 494.15 Q 399.70 491.18 366.56 494.15 Q 333.43 497.12 301.57 505.90 Q 269.70 514.69 240.34 528.96 Q 210.97 543.23 185.23 562.43 Q 159.50 581.63 138.37 605.03 Q 117.25 628.43 101.55 655.12 Q 85.86 681.82 76.19 710.79 Q 66.53 739.75 63.26 769.88 Q 60.00 800.00 63.26 830.12 Q 66.53 860.25 76.19 889.21 Q 85.86 918.18 101.55 944.88 Q 117.25 971.57 138.37 994.97 Q 159.50 1018.37 185.23 1037.57 Q 210.97 1056.77 240.34 1071.04 Q 269.70 1085.31 301.57 1094.10 Q 333.43 1102.88 366.56 1105.85 Q 399.70 1108.82 432.84 1105.85 Q 465.97 1102.88 497.84 1094.10 Q 529.70 1085.31 559.06 1071.04 Q 588.43 1056.77 614.17 1037.57 Q 639.91 1018.37 661.03 994.97 Q 682.15 971.57 697.85 944.88 Q 713.54 918.18 723.21 889.21 Q 732.87 860.25 736.14 830.12 Z" />
+<path fill="none" stroke="rgb(0,0,255)" stroke-width="2" d=" M 190 800 C 249 665 351 665 400 800 C 449 935 551 935 610 800" />
+</svg>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="80mm" height="80mm"
+viewBox="0 0 800 800">
+<title>PRLC</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="100.00 350.00 50.00 450.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<path fill="none" stroke="rgb(0,0,255)" stroke-width="2" d=" M 335 470 C 400 600 335 730 335 730" />
+<polyline points="464.77 470.04 464.77 730.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="-0.37 400.00 169.63 400.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="629.63 400.00 799.63 400.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="172.58 599.94 363.63 600.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="465.26 600.03 629.97 599.91" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="629.97 200.08 629.97 599.91" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="172.58 199.97 172.58 599.94" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="172.58 199.97 200.39 200.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="600.03 200.10 629.97 200.08" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="200.39 200.00 234.45 119.39 300.74 278.75 367.03 117.53 433.33 278.75 499.62 117.53 565.91 278.75 600.03 200.08" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<path fill="none" stroke="rgb(0,0,255)" stroke-width="2" d=" M 332.86 399.92 Q 332.86 399.92 332.22 393.44 Q 331.58 386.97 329.69 380.74 Q 327.80 374.51 324.73 368.77 Q 321.67 363.03 317.54 358.00 Q 313.41 352.96 308.38 348.84 Q 303.35 344.71 297.61 341.64 Q 291.87 338.57 285.64 336.68 Q 279.41 334.79 272.93 334.15 Q 266.45 333.51 259.97 334.15 Q 253.49 334.79 247.27 336.68 Q 241.04 338.57 235.30 341.64 Q 229.56 344.71 224.52 348.84 Q 219.49 352.96 215.36 358.00 Q 211.24 363.03 208.17 368.77 Q 205.10 374.51 203.21 380.74 Q 201.32 386.97 200.68 393.44 Q 200.04 399.92 200.04 399.92" />
+<path fill="none" stroke="rgb(0,0,255)" stroke-width="2" d=" M 465.68 399.92 Q 465.68 399.92 465.04 393.44 Q 464.40 386.97 462.51 380.74 Q 460.62 374.51 457.55 368.77 Q 454.48 363.03 450.36 358.00 Q 446.23 352.96 441.20 348.84 Q 436.16 344.71 430.42 341.64 Q 424.68 338.57 418.46 336.68 Q 412.23 334.79 405.75 334.15 Q 399.27 333.51 392.79 334.15 Q 386.31 334.79 380.08 336.68 Q 373.85 338.57 368.11 341.64 Q 362.37 344.71 357.34 348.84 Q 352.31 352.96 348.18 358.00 Q 344.05 363.03 340.99 368.77 Q 337.92 374.51 336.03 380.74 Q 334.14 386.97 333.50 393.44 Q 332.86 399.92 332.86 399.92" />
+<path fill="none" stroke="rgb(0,0,255)" stroke-width="2" d=" M 598.50 399.92 Q 598.49 399.92 597.86 393.44 Q 597.22 386.97 595.33 380.74 Q 593.44 374.51 590.37 368.77 Q 587.30 363.03 583.17 358.00 Q 579.05 352.96 574.01 348.84 Q 568.98 344.71 563.24 341.64 Q 557.50 338.57 551.27 336.68 Q 545.04 334.79 538.57 334.15 Q 532.09 333.51 525.61 334.15 Q 519.13 334.79 512.90 336.68 Q 506.67 338.57 500.93 341.64 Q 495.19 344.71 490.16 348.84 Q 485.13 352.96 481.00 358.00 Q 476.87 363.03 473.80 368.77 Q 470.74 374.51 468.85 380.74 Q 466.96 386.97 466.32 393.44 Q 465.68 399.92 465.68 399.92" />
+<polyline points="172.24 399.89 200.04 399.92" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+<polyline points="598.50 399.92 629.63 400.00" fill="none" stroke="rgb(0,0,255)" stroke-width="2" />
+</svg>
