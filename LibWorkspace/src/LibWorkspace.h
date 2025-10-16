@@ -67,5 +67,6 @@ private slots:
     void resetButtonClicked();
     void onShowFullTable();
     void openNewComponentDialog();
+    void refresh();
 };
 

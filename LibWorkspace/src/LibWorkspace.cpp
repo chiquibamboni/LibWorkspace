@@ -391,7 +391,7 @@ void LibWorkspace::openNewComponentDialog()
         createNewComponent(name, library, directory, category);
     }
 
-    delete dialog; // Не забудьте очистить память
+    delete dialog;
 }
 
 void LibWorkspace::createNewComponent(QString name, QString library, QString directory, QString category)
@@ -414,4 +414,16 @@ void LibWorkspace::createNewComponent(QString name, QString library, QString dir
     FillFromJsons::AddNewComponentToJson(jsonObj, *newComponent, currentCatalog->name, mainPath,
         *componentEditor->newThumbName, componentEditor->modelsComboBox->currentText());
 
+}
+
+void LibWorkspace::refresh()
+{
+    componentEditor->clearWidget();
+    libraryManager->clearLibraries();
+    parameters->clear();
+    libraries->clear();
+    catalogs->clear();
+    libraryManager->request();
+    setupFields();
+    componentsTable->setRowCount(0);
 }
