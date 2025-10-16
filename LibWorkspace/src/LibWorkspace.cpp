@@ -207,6 +207,7 @@ void LibWorkspace::setupConnections()
     connect(resetButton, &QPushButton::clicked, this, &LibWorkspace::resetButtonClicked);
     connect(showFullTableAction, &QAction::triggered, this, &LibWorkspace::onShowFullTable);
     connect(newAction, &QAction::triggered, this, &LibWorkspace::openNewComponentDialog);
+    connect(componentsTable->selectionModel(), &QItemSelectionModel::currentChanged, this, &LibWorkspace::SelectComponent);
 }
 
 void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
@@ -234,6 +235,8 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
             if (!libraryManager->currentCatalog->components.isEmpty())
             {
                 componentsTable->updateComponents(libraryManager->currentCatalog->components);
+                //componentsTable->selectRow(0);
+                //SelectComponent(componentsTable->se)
                 return;
             }
             return;
@@ -244,6 +247,9 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
 void LibWorkspace::SelectComponent(const QModelIndex& index)
 {
     int row = index.row();
+    if (row < 0) {
+        return;
+    }
     QString searchName = componentsTable->item(row, 1)->text();
 
     *componentEditor->newThumbName = searchName;
