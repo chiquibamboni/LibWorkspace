@@ -1,4 +1,4 @@
-#include "ErrorHandler.h"
+﻿#include "ErrorHandler.h"
 #include <QApplication>
 #include <QTimer>
 

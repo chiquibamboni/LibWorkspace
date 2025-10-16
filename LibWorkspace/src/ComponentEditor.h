@@ -19,7 +19,7 @@ class ComponentEditor : public QMainWindow
     Q_OBJECT
 
 public:
-    ComponentEditor(QList<Library>* libraries, QList<Catalog>* catalogs, QList<Parameters>*  parameters, QWidget* parent = nullptr);
+    ComponentEditor(QList<Library>* libraries, QList<Catalog>* catalogs, QList<Component>* components, QList<Parameters>*  parameters, QWidget* parent = nullptr);
     ~ComponentEditor();
     ParametersList* parametersListWidget;
     QList<QString> iconPaths;
@@ -48,6 +48,7 @@ private:
  
     QList<Library>* librariesList;
     QList<Catalog>* catalogsList;
+    QList<Component>* componentsList;
     QList<Parameters>* parametersList;
 
     Parameters* currentParameter;

@@ -6,11 +6,12 @@
 #include <QMenu>
 
 
-ComponentEditor::ComponentEditor(QList<Library>* libraries, QList<Catalog>* catalogs, QList<Parameters>* parameters, QWidget* parent)
+ComponentEditor::ComponentEditor(QList<Library>* libraries, QList<Catalog>* catalogs, QList<Component>* components, QList<Parameters>* parameters, QWidget* parent)
     : QMainWindow(parent)
 {
     librariesList = libraries;
     catalogsList = catalogs;
+    componentsList = components;
     parametersList = parameters;
     tabs = new QList<QString>();
     setupUi();
@@ -21,6 +22,7 @@ ComponentEditor::~ComponentEditor()
 {
     delete librariesList;
     delete catalogsList;
+    delete componentsList;
     delete parametersList;
     delete tabs;
 }
@@ -285,19 +287,17 @@ void ComponentEditor::clearWidget()
 
 void ComponentEditor::selectModel(const QString& text)
 {
-    for (auto& symbolsPath : symbolPaths)
+    for (auto& component : *componentsList)
     {
-        QFileInfo info(symbolsPath);
-        QString fullPath = symbolsPath + "/" + text + ".svg";
-        if (QFile::exists(fullPath))
+        if (component.model == text)
         {
-            if (info.fileName() == "ansi")
+            if (!component.ugo.ansiUgoSymbol.isNull())
             {
-                ugoTabs->setTabImage("ANSI", fullPath);
+                ugoTabs->setTabImage("ANSI", component.ugo.ansiUgoSymbol);
             }
-            if (info.fileName() == "gost")
+            if (!component.ugo.gostUgoSymbol.isNull())
             {
-                ugoTabs->setTabImage(QStringLiteral(u"ГОСТ"), fullPath);
+                ugoTabs->setTabImage(QStringLiteral(u"ГОСТ"), component.ugo.gostUgoSymbol);
             }
             return;
         }

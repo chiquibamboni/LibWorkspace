@@ -16,10 +16,11 @@ public:
     ~UgoTabs();
 
     void setTab(QString tabName);
-    void setTabImage(const QString& tabName, const QString& UgoPath);
+    void setTabImage(const QString& tabName, const QIcon& icon);
     void clearTabImage(const QString& tabName);
 
 private:
+    QHash<QString, int> tabIndices;
     QMap<QString, QLabel*> tabLabels;
 };
 

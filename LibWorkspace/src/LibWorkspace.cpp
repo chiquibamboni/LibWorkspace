@@ -1,4 +1,4 @@
-#include "LibWorkspace.h"
+﻿#include "LibWorkspace.h"
 #include <qheaderview.h>
 #include <QSplitter>
 #include <QString>
@@ -108,7 +108,7 @@ void LibWorkspace::setupUI()
     componentsTable = new ComponentsTable();
     componentsTable->setIconSize(iconSize);
 
-    componentEditor = new ComponentEditor(libraries, catalogs, parameters);
+    componentEditor = new ComponentEditor(libraries, catalogs, components, parameters);
 
     setupMenuBar();
     setupToolBar();

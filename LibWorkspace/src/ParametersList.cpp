@@ -1,4 +1,4 @@
-#include "ParametersList.h"
+﻿#include "ParametersList.h"
 #include "FillFromJsons.h"
 
 #include <QVector>

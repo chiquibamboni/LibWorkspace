@@ -1,4 +1,4 @@
-#include "LibraryManager.h"
+﻿#include "LibraryManager.h"
 #include <QDebug>
 #include "FillFromJsons.h"
 
