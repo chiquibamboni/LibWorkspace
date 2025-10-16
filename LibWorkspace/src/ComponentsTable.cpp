@@ -45,6 +45,14 @@ void ComponentsTable::updateComponents(const QList<Component>& components)
 
         setItem(row, 2, new QTableWidgetItem(component.desc));
     }
+    if (rowCount() > 0) {
+        setFocusPolicy(Qt::StrongFocus);
 
+        // Выбираем первую строку
+        selectRow(0);
+
+        // Убедимся, что таблица имеет фокус
+        setFocus();
+    }
     resizeRowsToContents();
 }
