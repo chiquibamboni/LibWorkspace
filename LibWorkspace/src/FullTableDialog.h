@@ -3,10 +3,11 @@
 #include "Component.h"
 #include "Parameters.h"
 #include "UgoTabs.h"
-#include <QTableWidget>
+#include <QStandardItemModel>
+#include <QTableView>
 #include <QHeaderView>
-#include <QStringList>
 #include <QVBoxLayout>
+#include <QStringList>
 #include <QList>
 #include <QSize>
 
@@ -23,7 +24,8 @@ private:
 
     UgoTabs* ugoTabs;
     QList<Component> componentsList;
-    QTableWidget* fullComponentsTable;
+    QTableView* fullComponentsTable;
+    QStandardItemModel* model;
     QVBoxLayout* mainLayout;
 };
 

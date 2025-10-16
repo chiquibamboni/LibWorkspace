@@ -4,7 +4,7 @@ FullTableDialog::FullTableDialog(QList<Component>& components, QWidget* parent)
     : QDialog(parent),
     componentsList(components)
 {
-    fullComponentsTable = new QTableWidget(this);
+    fullComponentsTable = new QTableView(this);
     mainLayout = new QVBoxLayout(this);
 
     mainLayout->addWidget(fullComponentsTable);
@@ -21,13 +21,16 @@ FullTableDialog::FullTableDialog(QList<Component>& components, QWidget* parent)
 
 void FullTableDialog::setupTable()
 {
-    QSize iconSize(64, 64);
-    fullComponentsTable->setIconSize(iconSize);
-    fullComponentsTable->setColumnCount(7);
+    model = new QStandardItemModel(this);
+    QStringList headers = {
+        "Symbol", "Model", "Veriloga", "Library",
+        "UGO ANSI", "UGO GOST", "Group", "Parameters", "Description"
+    };
+    model->setHorizontalHeaderLabels(headers);
 
-    QStringList headers;
-    headers << "Symbol" << "Model" << "Library" << "UGO" << "Group" << "Parameters" << "Description";
-    fullComponentsTable->setHorizontalHeaderLabels(headers);
+    fullComponentsTable->setIconSize(QSize(64, 64));
+
+    fullComponentsTable->setModel(model);
 
     fullComponentsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
     fullComponentsTable->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -35,54 +38,64 @@ void FullTableDialog::setupTable()
     fullComponentsTable->setAlternatingRowColors(true);
     fullComponentsTable->setShowGrid(false);
     fullComponentsTable->verticalHeader()->setVisible(false);
-
     fullComponentsTable->horizontalHeader()->setStretchLastSection(true);
+
     fullComponentsTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     fullComponentsTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
-    fullComponentsTable->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
-
-    fullComponentsTable->setColumnWidth(0, 30);
-    fullComponentsTable->setColumnWidth(1, 150);
+    fullComponentsTable->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
 }
 
 void FullTableDialog::fillTable()
 {
-    fullComponentsTable->setRowCount(0);
+    model->removeRows(0, model->rowCount());
 
     for (const auto& component : componentsList)
     {
-        int row = fullComponentsTable->rowCount();
-        fullComponentsTable->insertRow(row);
+        QList<QStandardItem*> rowItems;
 
         // Symbol
-        QTableWidgetItem* item1 = new QTableWidgetItem();
-        item1->setIcon(component.thumb);
-        item1->setTextAlignment(Qt::AlignCenter);
-        fullComponentsTable->setItem(row, 0, item1);
+        auto* itemSymbol = new QStandardItem();
+        itemSymbol->setIcon(component.thumb);
+        itemSymbol->setTextAlignment(Qt::AlignCenter);
+        rowItems.append(itemSymbol);
 
         // Model
-        auto* modelItem = new QTableWidgetItem(component.model);
-        modelItem->setTextAlignment(Qt::AlignCenter);
-        fullComponentsTable->setItem(row, 1, modelItem);
+        auto* itemModel = new QStandardItem(component.model);
+        itemModel->setTextAlignment(Qt::AlignCenter);
+        rowItems.append(itemModel);
+
+        // Veriloga
+        auto* itemVeriloga = new QStandardItem(component.veriloga.model);
+        itemVeriloga->setTextAlignment(Qt::AlignCenter);
+        rowItems.append(itemVeriloga);
 
         // Library
-        auto* libraryItem = new QTableWidgetItem(component.library);
-        libraryItem->setTextAlignment(Qt::AlignCenter);
-        fullComponentsTable->setItem(row, 2, libraryItem);
+        auto* itemLibrary = new QStandardItem(component.library);
+        itemLibrary->setTextAlignment(Qt::AlignCenter);
+        rowItems.append(itemLibrary);
 
-        // UGO
-        QTableWidgetItem* item2 = new QTableWidgetItem();
+        // UGO ANSI
+        auto* itemUgoAnsi = new QStandardItem();
         if (!component.ugo.ansiUgoSymbol.isNull())
         {
-            item2->setIcon(component.ugo.ansiUgoSymbol);
+            itemUgoAnsi->setIcon(component.ugo.ansiUgoSymbol);
         }
-        item2->setTextAlignment(Qt::AlignCenter);
-        fullComponentsTable->setItem(row, 3, item2);
+        itemUgoAnsi->setTextAlignment(Qt::AlignCenter);
+        rowItems.append(itemUgoAnsi);
+
+        // UGO GOST
+        auto* itemUgoGost = new QStandardItem();
+        if (!component.ugo.gostUgoSymbol.isNull())
+        {
+            itemUgoGost->setIcon(component.ugo.gostUgoSymbol);
+        }
+        itemUgoGost->setTextAlignment(Qt::AlignCenter);
+        rowItems.append(itemUgoGost);
 
         // Group
-        auto* groupItem = new QTableWidgetItem(component.group);
-        groupItem->setTextAlignment(Qt::AlignCenter);
-        fullComponentsTable->setItem(row, 4, groupItem);
+        auto* itemGroup = new QStandardItem(component.group);
+        itemGroup->setTextAlignment(Qt::AlignCenter);
+        rowItems.append(itemGroup);
 
         // Parameters
         QString parametersStr;
@@ -92,14 +105,16 @@ void FullTableDialog::fillTable()
                 parametersStr += ", ";
             parametersStr += param.name;
         }
-        auto* paramItem = new QTableWidgetItem(parametersStr);
-        paramItem->setTextAlignment(Qt::AlignCenter);
-        fullComponentsTable->setItem(row, 5, paramItem);
+        auto* itemParameters = new QStandardItem(parametersStr);
+        itemParameters->setTextAlignment(Qt::AlignCenter);
+        rowItems.append(itemParameters);
 
         // Description
-        auto* descItem = new QTableWidgetItem(component.desc);
-        descItem->setTextAlignment(Qt::AlignCenter);
-        fullComponentsTable->setItem(row, 6, descItem);
+        auto* itemDesc = new QStandardItem(component.desc);
+        itemDesc->setTextAlignment(Qt::AlignCenter);
+        rowItems.append(itemDesc);
+
+        model->appendRow(rowItems);
     }
 
     fullComponentsTable->resizeRowsToContents();
@@ -108,3 +123,4 @@ void FullTableDialog::fillTable()
 FullTableDialog::~FullTableDialog()
 {
 }
+
