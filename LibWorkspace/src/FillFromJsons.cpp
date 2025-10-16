@@ -1,4 +1,4 @@
-#include "FillFromJsons.h"
+﻿#include "FillFromJsons.h"
 #include <QDebug>
 
 // Инициализация статической переменной
@@ -262,7 +262,16 @@ void FillFromJsons::addParametrFromJson(nlohmann::json jsonObj, Parameters& para
 
     if (parametr.type == "String" || (jsonObj.contains("default") && jsonObj["default"].is_string()) || parametr.type == "Equation") {
         if (jsonObj.contains("default")) {
-            parametr.pdefault = QString::fromStdString(jsonObj["default"].get<std::string>());
+            try {
+                // Пытаемся получить как строку
+                parametr.pdefault = QString::fromStdString(jsonObj["default"].get<std::string>());
+            }
+            catch (const nlohmann::json::type_error&) {
+                // Если не строка - преобразуем в строковое представление
+                parametr.pdefault = QString::fromStdString(jsonObj["default"].dump());
+
+                
+            }
         }
         else {
             parametr.pdefault = QString();
@@ -424,11 +433,17 @@ void FillFromJsons::addComponentRest(QString& componentModel, Component& compone
     component.parameters = paramList;
 }
 
-void FillFromJsons::AddNewComponentToJson(nlohmann::json& jsonObj, Component& component, QString catalogName, QString componentsPath)
+void FillFromJsons::AddNewComponentToJson(nlohmann::json& jsonObj, Component& component, QString catalogName, 
+    QString mainPath, QString thumbFileName, QString ugoFileName)
 {
-    for (auto& catalog : jsonObj["catalogs"])
-    {
-        if (catalog.contains("name") && catalog["name"] == catalogName.toStdString())
+    QString mainJsonFilePath = mainPath + "/library.json";
+    QString compPath = mainPath + "/components";
+
+    std::function<bool(nlohmann::json&, const std::string&)> findAndAddToCatalog;
+
+    findAndAddToCatalog = [&](nlohmann::json& catalogObj, const std::string& targetCatalogName) -> bool {
+
+        if (catalogObj.contains("name") && catalogObj["name"] == targetCatalogName)
         {
             nlohmann::json newComponent = {
                 {"model", component.model.toStdString()},
@@ -436,19 +451,82 @@ void FillFromJsons::AddNewComponentToJson(nlohmann::json& jsonObj, Component& co
                 {"desc", component.desc.toStdString()}
             };
 
-            if (!catalog.contains("components") || !catalog["components"].is_array())
+            if (!catalogObj.contains("components") || !catalogObj["components"].is_array())
             {
-                catalog["components"] = nlohmann::json::array();
+                catalogObj["components"] = nlohmann::json::array();
             }
-            catalog["components"].push_back(newComponent);
-            // создание нового json
+            catalogObj["components"].push_back(newComponent);
+
+            ///добавление иконки для thumb 
+            QDir componentsDir(mainPath);
+            QString thumbnailsPath = componentsDir.filePath("thumbnails");
+            QString sourceFilePath = thumbnailsPath + "/" + thumbFileName;
+            if (!sourceFilePath.endsWith(".svg", Qt::CaseInsensitive)) {
+                sourceFilePath += ".svg";
+            }
+            QString targetFilePath = thumbnailsPath + "/" + component.model + ".svg";
+
+            QFile sourceFile(sourceFilePath);
+            QFile targetFile(targetFilePath);
+
+            if (sourceFile.exists()) {
+                if (targetFile.exists()) {
+                    targetFile.remove();
+                }
+                sourceFile.copy(targetFilePath);
+            }
+            ///
+
+            ////
+            QString symbolsPath = componentsDir.filePath("symbols/ansi");
+            QString sourceUgoFilePath = symbolsPath + "/" + ugoFileName;
+            if (!sourceUgoFilePath.endsWith(".svg", Qt::CaseInsensitive)) {
+                sourceUgoFilePath += ".svg";
+            }
+
+            QString targetUgoFilePath = symbolsPath + "/" + component.model + ".svg";
+
+            QFile sourceUgoFile(sourceUgoFilePath);
+            QFile targetUgoFile(targetUgoFilePath);
+
+            if (sourceUgoFile.exists()) {
+                if (targetUgoFile.exists()) {
+                    targetUgoFile.remove();
+                }
+                sourceUgoFile.copy(targetUgoFilePath);
+            }
+
+            ////
+
             nlohmann::json fullComponentJson = CreateComponentJson(component);
-            QString filePath = componentsPath + "/" + component.name + ".json";
+            QString filePath = compPath + "/" + component.name + ".json";
             saveJsonToFile(fullComponentJson, filePath);
-            return;
+
+            saveJsonToFile(jsonObj, mainJsonFilePath);
+            return true; 
+        }
+
+        if (catalogObj.contains("catalogs") && catalogObj["catalogs"].is_array())
+        {
+            for (auto& subCatalog : catalogObj["catalogs"])
+            {
+                if (findAndAddToCatalog(subCatalog, targetCatalogName))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false; 
+     };
+
+    for (auto& catalog : jsonObj["catalogs"])
+    {
+        if (findAndAddToCatalog(catalog, catalogName.toStdString()))
+        {
+            return; 
         }
     }
-
 }
 
 // Функция для преобразования QVariant в json

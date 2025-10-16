@@ -5,6 +5,8 @@ ThumbSelectDialog::ThumbSelectDialog(const QList<QString>& iconsPaths, QWidget* 
 {
     setWindowTitle(QStringLiteral(u"Выберите иконку"));
 
+    newThumbName = new QString();
+
     auto layout = new QVBoxLayout(this);
 
     listWidget = new QListWidget(this);
@@ -30,8 +32,10 @@ ThumbSelectDialog::~ThumbSelectDialog()
 
 }
 
-QIcon ThumbSelectDialog::selectedIcon() const {
+QIcon ThumbSelectDialog::selectedIcon() const{
     auto item = listWidget->currentItem();
+    QString image = listWidget->currentItem()->text();
+   *newThumbName = image;
     if (item)
         return item->icon();
     return QIcon();

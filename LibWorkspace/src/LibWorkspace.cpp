@@ -245,7 +245,9 @@ void LibWorkspace::SelectComponent(const QModelIndex& index)
 {
     int row = index.row();
     QString searchName = componentsTable->item(row, 1)->text();
-    
+
+    *componentEditor->newThumbName = searchName;
+
     int modelIndex = componentEditor->modelsComboBox->findText(searchName);
     if (modelIndex != -1) {
         componentEditor->modelsComboBox->setCurrentIndex(modelIndex);
@@ -374,7 +376,6 @@ bool LibWorkspace::copyDirectoryContents(const QString& sourceDirPath, const QSt
         }
     }
     return true;
-    }
 }
 
 void LibWorkspace::openNewComponentDialog()
@@ -401,6 +402,16 @@ void LibWorkspace::createNewComponent(QString name, QString library, QString dir
     newComponent->library = library;
     newComponent->model = name;
     newComponent->parameters = *componentEditor->currentParameterListWidget->parameters;
-    //newComponent->thumb = QIcon(name);
+    newComponent->thumbName = name;
+
+    QString libPath = "./Libraries/" + currentLibrary->dir + "/library.json";
+    nlohmann::json jsonObj = FillFromJsons::readJson(libPath, this);
+
+    //QString componentsPath = "./Libraries/" + currentLibrary->dir;
+
+    QString mainPath = "./Libraries/" + currentLibrary->dir;
+
+    FillFromJsons::AddNewComponentToJson(jsonObj, *newComponent, currentCatalog->name, mainPath,
+        *componentEditor->newThumbName, componentEditor->modelsComboBox->currentText());
 
 }

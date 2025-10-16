@@ -13,6 +13,7 @@ ComponentEditor::ComponentEditor(QList<Library>* libraries, QList<Catalog>* cata
     catalogsList = catalogs;
     parametersList = parameters;
     tabs = new QList<QString>();
+    newThumbName = new QString();
     setupUi();
     setupConnections();
 }
@@ -138,7 +139,7 @@ void ComponentEditor::setupConnections()
         ThumbSelectDialog dlg(iconPaths);
         if (dlg.exec() == QDialog::Accepted) {
             QIcon icon = dlg.selectedIcon();
-
+            newThumbName = dlg.newThumbName;
             // Обновляем основное отображение
             QPixmap mainPixmap = icon.pixmap(iconDisplay->size());
             iconDisplay->setPixmap(mainPixmap);

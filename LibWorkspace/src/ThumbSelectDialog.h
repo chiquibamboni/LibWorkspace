@@ -13,8 +13,10 @@ class ThumbSelectDialog : public QDialog {
 public:
     ThumbSelectDialog(const QList<QString>& iconsPaths, QWidget* parent = nullptr);
     ~ThumbSelectDialog();
-
+   // QString newThumbName;
     QIcon selectedIcon() const;
+
+    QString* newThumbName;
 
 private slots:
     void loadIcons(const QString& path);
