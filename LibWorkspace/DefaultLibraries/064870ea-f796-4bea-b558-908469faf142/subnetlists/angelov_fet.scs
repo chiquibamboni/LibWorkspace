@@ -1,0 +1,20 @@
+
+ahdl_include "../veriloga/ANGELOV_DC.va"
+
+subckt angelov_fet d g s
+
+model nchmod angelov_
++ capmod=1
++ ipk0=0.05 vpks=-0.2 dvpks=0.2
++ p1=0.8 p2=0.0 p3=0.0
++ alphar=0.1 alphas=1.0 lambda=0.01 b1=0.1 b2=4.0
++ ij=5e-4 pg=15 vjg=0.7 lsb0=0.0 vtr=50 vsb2=0.0
++ cds=800e-15 cgspi=15e-15 cgs0=3500e-15 cgdpi=200e-15 cgd0=387e-15
++ p10=0.48 p11=0.21 p20=0.03 p21=0.21 p40=0.48 p41=0.25 p111=0.008
++ rg=0.05 rd=0.05 rs=0.05 ri=1.0 rgd=0.01
++ lg=100e-12 ld=100e-12 ls=100e-12
+
+m1 d g s nchmod
+
+ends
+

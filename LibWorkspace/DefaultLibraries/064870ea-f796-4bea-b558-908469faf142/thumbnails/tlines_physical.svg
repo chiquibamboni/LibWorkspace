@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="50mm" height="50mm"
+viewBox="0 0 500 500">
+<title>tlines_physical</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="100.04 350.01 100.04 250.01" fill="none" stroke="rgb(0,0,255)" stroke-width="9" />
+<polyline points="200.04 350.01 200.04 250.01" fill="none" stroke="rgb(0,0,255)" stroke-width="9" />
+<polyline points="300.04 350.01 300.04 250.01" fill="none" stroke="rgb(0,0,255)" stroke-width="9" />
+<polyline points="400.04 350.01 400.04 250.01" fill="none" stroke="rgb(0,0,255)" stroke-width="9" />
+<polyline points="150.04 350.01 150.04 300.01" fill="none" stroke="rgb(0,0,255)" stroke-width="9" />
+<polyline points="250.04 350.01 250.04 300.01" fill="none" stroke="rgb(0,0,255)" stroke-width="9" />
+<polyline points="350.04 350.01 350.04 300.01" fill="none" stroke="rgb(0,0,255)" stroke-width="9" />
+<polyline points="50.07 350.00 50.07 200.00 450.04 200.00 450.04 350.00" fill="none" stroke="rgb(0,0,0)" stroke-width="9" />
+<polyline points="50.07 350.00 450.04 350.00" fill="none" stroke="rgb(0,0,0)" stroke-width="9" />
+</svg>

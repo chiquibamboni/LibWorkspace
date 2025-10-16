@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="50mm" height="50mm"
+viewBox="0 0 500 500">
+<title>tlines_phase</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="298.00 139.70 298.00 79.70" fill="none" stroke="rgb(0,0,0)" stroke-width="9" />
+<polyline points="117.00 140.00 117.00 80.00" fill="none" stroke="rgb(0,0,0)" stroke-width="9" />
+<polyline points="70.00 50.00 70.00 450.00" fill="none" stroke="rgb(0,0,0)" stroke-width="10" />
+<polyline points="117.00 110.00 297.00 110.00" fill="none" stroke="rgb(0,0,0)" stroke-width="9" />
+<polyline points="50.00 250.00 450.00 250.00" fill="none" stroke="rgb(0,0,0)" stroke-width="10" />
+<path fill="none" stroke="rgb(0,0,255)" stroke-width="10" d=" M 435 251 C 401 391 378 391 344 251 C 309 112 287 112 252 251 C 218 391 195 391 161 251 C 127 112 104 112 70 251" />
+</svg>

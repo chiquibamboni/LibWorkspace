@@ -1,0 +1,149 @@
+{
+  "library": "Basic",
+  "name": "D",
+  "model": "DIODE",
+  "view_model": true,
+  "group": "SCS",
+  "pins": [
+    "P1",
+    "P2"
+  ],
+  "parameters": [
+    {
+      "name": "modelname",
+      "type": "String",
+      "default": "DiodeM1",
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Area",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Periph",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "W",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "m",
+      "display": true
+    },
+    {
+      "name": "L",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "m",
+      "display": true
+    },
+    {
+      "name": "WP",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "m",
+      "display": true
+    },
+    {
+      "name": "LP",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "m",
+      "display": true
+    },
+    {
+      "name": "WM",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "m",
+      "display": true
+    },
+
+    {
+      "name": "LM",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "m",
+      "display": true
+    },
+    {
+      "name": "M",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Region",
+      "type": "Integer",
+      "default": 1,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Scale",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Trise",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "C",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "diode",
+      "params": {
+        "Area": "area",
+        "Periph": "perim",
+        "W": "w",
+        "WP": "wp",
+        "WL": "wl",
+        "L": "l",
+        "LP": "lp",
+        "LM": "lm",
+        "M": "m",
+        "Region": "region",
+        "Scale": "scale",
+        "Trise": "trise"
+      }
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "DIODE"
+  },
+  "subnetlists": {
+    "model": ""
+  },
+  "veriloga": {
+    "model": ""
+  }
+}

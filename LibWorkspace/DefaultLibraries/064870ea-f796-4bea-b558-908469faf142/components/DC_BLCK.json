@@ -1,0 +1,32 @@
+{
+  "library": "Basic",
+  "name": "DC_Blck",
+  "model": "DC_BLCK",
+  "view_model": true,
+  "group": "STD",
+  "pins": [
+    "P1",
+    "P2"
+  ],
+  "parameters": [
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "dcblock",
+      "params": {
+      }
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "DC_BLCK"
+  },
+  "veriloga": {
+    "model": ""
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

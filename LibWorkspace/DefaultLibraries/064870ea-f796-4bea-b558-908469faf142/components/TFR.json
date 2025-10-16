@@ -1,0 +1,66 @@
+{
+  "library": "Basic",
+  "name": "R",
+  "model": "TFR",
+  "view_model": true,
+  "group": "PAR",
+  "pins": [
+    "P1",
+    "P2"
+  ],
+  "parameters": [
+    {
+      "name": "Subst",
+      "type": "String",
+      "default": "MSub1",
+      "display": true
+    },
+    {
+      "name": "W",
+      "type": "Real",
+      "default": 20.0,
+      "factor": "u",
+      "unit": "m",
+      "display": false
+    },
+    {
+      "name": "L",
+      "type": "Real",
+      "default": 20.0,
+      "factor": "u",
+      "unit": "m",
+      "display": false
+    },
+    {
+      "name": "Rsheet",
+      "type": "Real",
+      "default": 50.0,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "TFR",
+      "params": {
+        "Subst": "subst",
+        "W": "W",
+        "L": "L",
+        "Rsheet": "Rsheet"
+      }
+    }
+  },
+  "layout": {
+    "model": "TFR_pins"
+  },
+  "ugo": {
+    "model": "TFR"
+  },
+  "veriloga": {
+    "model": "TFR.va"
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

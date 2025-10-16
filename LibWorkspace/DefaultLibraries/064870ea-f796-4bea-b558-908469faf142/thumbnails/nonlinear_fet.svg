@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="50mm" height="50mm"
+viewBox="0 0 500 500">
+<title>nonlinear_fet</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="78.97 250.91 177.30 250.91 177.30 151.99 177.30 350.18" fill="none" stroke="rgb(0,0,0)" stroke-width="10" />
+<polyline points="230.46 98.98 230.46 400.92" fill="none" stroke="rgb(0,0,0)" stroke-width="10" />
+<polyline points="398.97 450.91 398.97 350.28 238.51 350.28" fill="none" stroke="rgb(0,0,0)" stroke-width="10" />
+<polyline points="239.97 250.08 398.97 250.08 398.97 450.91" fill="none" stroke="rgb(0,0,0)" stroke-width="10" />
+<polygon points="277.37 240.18 239.97 250.08 277.37 259.98" fill="rgb(0,0,0)" stroke="rgb(0,0,0)" stroke-width="10" />
+<polyline points="398.97 50.91 398.97 151.89 236.67 151.89" fill="none" stroke="rgb(0,0,0)" stroke-width="10" />
+</svg>

@@ -1,0 +1,57 @@
+{
+  "library": "Basic",
+  "name": "TL",
+  "model": "MLIN",
+  "view_model": true,
+  "group": "PAR",
+  "pins": [
+    "P1",
+    "P2"
+  ],
+  "parameters": [
+    {
+      "name": "Subst",
+      "type": "String",
+      "default": "MSub1",
+      "display": true
+    },
+    {
+      "name": "W",
+      "type": "Real",
+      "default": 25.0,
+      "factor": "u",
+      "unit": "m",
+      "display": true
+    },
+    {
+      "name": "L",
+      "type": "Real",
+      "default": 50.0,
+      "factor": "u",
+      "unit": "m",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "MLIN",
+      "params": {
+        "Subst": "subst",
+        "W": "w",
+        "L": "l"
+      }
+    }
+  },
+  "layout": {
+    "model": "MLIN_pins"
+  },
+  "ugo": {
+    "model": "MLIN"
+  },
+  "veriloga": {
+    "model": "MLIN.va"
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

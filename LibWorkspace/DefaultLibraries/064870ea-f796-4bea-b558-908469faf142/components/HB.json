@@ -1,0 +1,33 @@
+{
+  "library": "Basic",
+  "name": "HB",
+  "model": "HB",
+  "group": "SIM",
+  "parameters": [
+    {
+      "name": "FundFreqs",
+      "type": "Real",
+      "default": [1e6],
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "MaxHarms",
+      "type": "Real",
+      "default": [6],
+      "factor": "",
+      "unit": "",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "hb",
+      "params": {
+        "FundFreqs": "fundfreqs",
+        "MaxHarms": "maxharms"
+      }
+    }
+  }
+}

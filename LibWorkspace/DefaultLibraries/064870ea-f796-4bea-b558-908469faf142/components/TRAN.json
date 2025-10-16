@@ -1,0 +1,42 @@
+{
+  "library": "Basic",
+  "name": "Tran",
+  "model": "TRAN",
+  "group": "SIM",
+  "parameters": [
+    {
+      "name": "Start",
+      "type": "Real",
+      "default": 1,
+      "factor": "u",
+      "unit": "sec",
+      "display": true
+    },
+    {
+      "name": "Stop",
+      "type": "Real",
+      "default": 10,
+      "factor": "u",
+      "unit": "sec",
+      "display": true
+    },
+    {
+      "name": "Step",
+      "type": "Real",
+      "default": 1,
+      "factor": "u",
+      "unit": "sec",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "tran",
+      "params": {
+        "Start": "start",
+        "Stop": "stop",
+        "Step": "step"
+      }
+    }
+  }
+}

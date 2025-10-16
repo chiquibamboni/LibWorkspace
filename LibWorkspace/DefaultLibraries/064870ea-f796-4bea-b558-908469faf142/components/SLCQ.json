@@ -1,0 +1,86 @@
+{
+  "library": "Basic",
+  "name": "SLC",
+  "model": "SLCQ",
+  "view_model": true,
+  "group": "PAR",
+  "pins": [
+    "P1",
+    "P2"
+  ],
+  "parameters": [
+    {
+      "name": "L",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "n",
+      "unit": "H",
+      "display": true
+    },
+    {
+      "name": "C",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "p",
+      "unit": "F",
+      "display": true
+    },
+    {
+      "name": "Ql",
+      "type": "Real",
+      "default": 50.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Qc",
+      "type": "Real",
+      "default": 100.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Fl",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "G",
+      "unit": "Hz",
+      "display": true
+    },
+    {
+      "name": "Fc",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "G",
+      "unit": "Hz",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "SLCQ",
+      "params": {
+        "L": "L",
+        "C": "C",
+        "Ql": "QL",
+        "Qc": "QC",
+        "Fl": "FL",
+        "Fc": "FC"
+      }
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "SLCQ"
+  },
+  "veriloga": {
+    "model": "SLCQ.va"
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

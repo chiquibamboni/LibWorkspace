@@ -1,0 +1,87 @@
+{
+  "library": "Basic",
+  "name": "Split",
+  "model": "SPLIT2",
+  "view_model": true,
+  "group": "PAR",
+  "pins": [
+    "P1",
+    "P2",
+    "P3"
+  ],
+  "parameters": [
+    {
+      "name": "S21",
+      "type": "Real",
+      "default": 0.707,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "S31",
+      "type": "Real",
+      "default": 0.707,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "S11",
+      "type": "Real",
+      "default": -15.0,
+      "factor": "",
+      "unit": "dB",
+      "display": true
+    },
+    {
+      "name": "S22",
+      "type": "Real",
+      "default": -15.0,
+      "factor": "",
+      "unit": "dB",
+      "display": true
+    },
+    {
+      "name": "Isolat",
+      "type": "Real",
+      "default": 100.0,
+      "factor": "",
+      "unit": "dB",
+      "display": true
+    },
+    {
+      "name": "Zref",
+      "type": "Real",
+      "default": 50.0,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "SPLIT2",
+      "params": {
+        "S21": "s21",
+        "S31": "s31",
+        "S11": "s11",
+        "S22": "s22",
+        "Isolat": "ISO",
+        "Zref": "zref"
+      }
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "SPLIT2"
+  },
+  "veriloga": {
+    "model": "SPLIT2.va"
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

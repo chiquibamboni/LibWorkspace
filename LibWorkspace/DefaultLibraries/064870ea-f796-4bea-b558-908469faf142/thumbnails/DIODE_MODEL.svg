@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="50mm" height="50mm"
+viewBox="0 0 500 500">
+<title>DIODE_MODEL</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="49.08 50.46 49.08 450.46 449.08 450.46 449.08 50.46 49.08 50.46" fill="none" stroke="rgb(0,0,255)" stroke-width="10" />
+<polyline points="100.03 250.22 190.00 250.22 190.00 175.02 309.99 250.22 190.00 325.00 190.00 250.01" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="309.99 175.02 309.99 325.00" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="309.99 250.22 399.93 250.22" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+</svg>

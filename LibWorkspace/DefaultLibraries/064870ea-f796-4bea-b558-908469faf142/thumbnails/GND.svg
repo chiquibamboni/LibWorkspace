@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="50mm" height="50mm"
+viewBox="0 0 500 500">
+<title>GND</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="249.97 130.91 249.97 249.24 398.88 249.24 100.69 249.24" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="341.02 320.46 159.08 320.46" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="289.94 390.28 209.51 390.28" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<path fill="rgb(255,0,0)" stroke="rgb(255,0,0)" stroke-width="10" d=" M 238 125 C 238 119 244 119 244 119 L 256 119 L 256 119 C 262 119 262 125 262 125 L 262 137 L 262 137 C 262 143 256 143 256 143 L 244 143 L 244 143 C 238 143 238 137 238 137 L 238 125 Z" />
+</svg>

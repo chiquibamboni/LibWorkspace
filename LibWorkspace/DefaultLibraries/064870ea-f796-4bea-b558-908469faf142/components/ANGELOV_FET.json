@@ -1,0 +1,39 @@
+{
+  "library": "Basic",
+  "name": "Angelov",
+  "model": "ANGELOV_FET",
+  "view_model": true,
+  "group": "SCS",
+  "pins": [
+    "P1",
+    "P2",
+    "P3"
+  ],
+  "parameters": [
+    {
+      "name": "modelname",
+      "type": "String",
+      "default": "",
+      "factor": "",
+      "unit": "",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": ""
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "ANG_FET"
+  },
+  "subnetlists": {
+    "model": ""
+  },
+  "veriloga": {
+    "model": "ANGELOV_DC.va"
+  }
+}

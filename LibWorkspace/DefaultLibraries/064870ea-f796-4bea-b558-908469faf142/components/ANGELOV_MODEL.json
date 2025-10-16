@@ -1,0 +1,763 @@
+{
+  "library": "Basic",
+  "name": "AngelovM",
+  "model": "ANGELOV_MODEL",
+  "view_model": true,
+  "group": "MOD",
+  "pins": [
+  ],
+  "parameters": [
+    {
+      "name": "Type",
+      "type": "String",
+      "default": "n",
+      "display": true
+    },
+    {
+      "name": "Trise",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "C",
+      "display": true
+    },
+    {
+      "name": "Temp",
+      "type": "Real",
+      "default": 25.0,
+      "factor": "",
+      "unit": "C",
+      "display": true
+    },
+    {
+      "name": "Selft",
+      "type": "String",
+      "default": "no",
+      "display": true
+    },
+    {
+      "name": "Idsmod",
+      "type": "Integer",
+      "default": 0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Igmod",
+      "type": "Integer",
+      "default": 0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Capmod",
+      "type": "Integer",
+      "default": 1,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Ipk0",
+      "type": "Real",
+      "default": 0.05,
+      "factor": "",
+      "unit": "A",
+      "display": true
+    },
+    {
+      "name": "Vpks",
+      "type": "Real",
+      "default": -0.2,
+      "factor": "",
+      "unit": "V",
+      "display": true
+    },
+    {
+      "name": "Dvpks",
+      "type": "Real",
+      "default": 0.2,
+      "factor": "",
+      "unit": "V",
+      "display": true
+    },
+    {
+      "name": "P1",
+      "type": "Real",
+      "default": 0.8,
+      "factor": "",
+      "unit": "1/V",
+      "display": true
+    },
+    {
+      "name": "P2",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "1/V^2",
+      "display": true
+    },
+    {
+      "name": "P3",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "1/V^3",
+      "display": true
+    },
+    {
+      "name": "Alphar",
+      "type": "Real",
+      "default": 0.1,
+      "factor": "",
+      "unit": "1/V",
+      "display": true
+    },
+    {
+      "name": "Alphas",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "",
+      "unit": "1/V",
+      "display": true
+    },
+    {
+      "name": "Vkn",
+      "type": "Real",
+      "default": 0.8,
+      "factor": "",
+      "unit": "V",
+      "display": true
+    },
+    {
+      "name": "Lambda",
+      "type": "Real",
+      "default": 0.01,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Lambda1",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Lvg",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "B1",
+      "type": "Real",
+      "default": 0.1,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+
+    {
+      "name": "B2",
+      "type": "Real",
+      "default": 4.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Lsb0",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Vtr",
+      "type": "Real",
+      "default": 50.0,
+      "factor": "",
+      "unit": "V",
+      "display": true
+    },
+    {
+      "name": "Vsb2",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "V",
+      "display": true
+    },
+    {
+      "name": "Cds",
+      "type": "Real",
+      "default": 800,
+      "factor": "f",
+      "unit": "F",
+      "display": true
+    },
+    {
+      "name": "Cgspi",
+      "type": "Real",
+      "default": 15,
+      "factor": "f",
+      "unit": "F",
+      "display": true
+    },
+    {
+      "name": "Cgs0",
+      "type": "Real",
+      "default": 3500,
+      "factor": "f",
+      "unit": "F",
+      "display": true
+    },
+    {
+      "name": "Cgdpi",
+      "type": "Real",
+      "default": 200,
+      "factor": "f",
+      "unit": "F",
+      "display": true
+    },
+    {
+      "name": "Cgdpe",
+      "type": "Real",
+      "default": 387,
+      "factor": "f",
+      "unit": "F",
+      "display": true
+    },
+    {
+      "name": "Cgd0",
+      "type": "Real",
+      "default": 387,
+      "factor": "f",
+      "unit": "F",
+      "display": true
+    },
+    {
+      "name": "P10",
+      "type": "Real",
+      "default": 0.48,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "P11",
+      "type": "Real",
+      "default": 0.21,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "P20",
+      "type": "Real",
+      "default": 0.03,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "P21",
+      "type": "Real",
+      "default": 0.21,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "P30",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "P31",
+      "type": "Real",
+      "default": 0.2,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "P40",
+      "type": "Real",
+      "default": 0.48,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "P41",
+      "type": "Real",
+      "default": 0.25,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "P111",
+      "type": "Real",
+      "default": 0.008,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Ij",
+      "type": "Real",
+      "default": 0.0005,
+      "factor": "",
+      "unit": "A",
+      "display": true
+    },
+    {
+      "name": "Pg",
+      "type": "Real",
+      "default": 15.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Ne",
+      "type": "Real",
+      "default": 1.4,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Vjg",
+      "type": "Real",
+      "default": 0.7,
+      "factor": "",
+      "unit": "V",
+      "display": true
+    },
+    {
+      "name": "Rg",
+      "type": "Real",
+      "default": 0.05,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    },
+    {
+      "name": "Rd",
+      "type": "Real",
+      "default": 0.05,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    },
+    {
+      "name": "Ri",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    },
+    {
+      "name": "Rs",
+      "type": "Real",
+      "default": 0.05,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    },
+    {
+      "name": "Rgd",
+      "type": "Real",
+      "default": 0.01,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    },
+    {
+      "name": "Ld",
+      "type": "Real",
+      "default": 100,
+      "factor": "p",
+      "unit": "H",
+      "display": true
+    },
+    {
+      "name": "Ls",
+      "type": "Real",
+      "default": 100,
+      "factor": "p",
+      "unit": "H",
+      "display": true
+    },
+    {
+      "name": "Lg",
+      "type": "Real",
+      "default": 100,
+      "factor": "p",
+      "unit": "H",
+      "display": true
+    },
+    {
+      "name": "Tau",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "s",
+      "display": true
+    },
+    {
+      "name": "Rcmin",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "k",
+      "unit": "Ohm",
+      "display": true
+    },
+    {
+      "name": "Rc",
+      "type": "Real",
+      "default": 10.0,
+      "factor": "k",
+      "unit": "Ohm",
+      "display": true
+    },
+    {
+      "name": "Crf",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "F",
+      "display": true
+    },
+    {
+      "name": "Rcin",
+      "type": "Real",
+      "default": 100.0,
+      "factor": "k",
+      "unit": "Ohm",
+      "display": true
+    },
+    {
+      "name": "Crfin",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "F",
+      "display": true
+    },
+    {
+      "name": "Rth",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    },
+    {
+      "name": "Cth",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "F",
+      "display": true
+    },
+    {
+      "name": "Tcipk0",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "A/K",
+      "display": true
+    },
+    {
+      "name": "Tcp1",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "A/K",
+      "display": true
+    },
+    {
+      "name": "Tccgs0",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Tccgd0",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Tclsb0",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Tcrc",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+
+    {
+      "name": "Tccrf",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "NoiseR",
+      "type": "Real",
+      "default": 0.5,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "NoiseP",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "NoiseC",
+      "type": "Real",
+      "default": 0.9,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Fnc",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "Hz",
+      "display": true
+    },
+    {
+      "name": "Kf",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Af",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Ffe",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Tg",
+      "type": "Real",
+      "default": 25.0,
+      "factor": "",
+      "unit": "C",
+      "display": true
+    },
+    {
+      "name": "Td",
+      "type": "Real",
+      "default": 25.0,
+      "factor": "",
+      "unit": "C",
+      "display": true
+    },
+    {
+      "name": "Td1",
+      "type": "Real",
+      "default": 0.1,
+      "factor": "",
+      "unit": "C",
+      "display": true
+    },
+    {
+      "name": "Tmn",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Klf",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Fgr",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "Hz",
+      "display": true
+    },
+    {
+      "name": "Np",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Lw",
+      "type": "Real",
+      "default": 0.1,
+      "factor": "m",
+      "unit": "m",
+      "display": true
+    },
+    {
+      "name": "Tnom",
+      "type": "Real",
+      "default": 25.0,
+      "factor": "",
+      "unit": "C",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "angelov_",
+      "params": {
+        "Type": "type",
+        "Trise": "trise",
+        "Temp": "temp",
+        "Selft": "selft",
+        "Idsmod": "idsmod",
+        "Igmod": "igmod",
+        "Capmod": "capmod",
+        "Ipk0": "ipk0",
+        "Vpks": "vpks",
+        "Dvpks": "dvpks",
+        "P1": "p1",
+        "P2": "p2",
+        "P3": "p3",
+        "Alphar": "alphar",
+        "Alphas": "alphas",
+        "Vkn": "vkn",
+        "Lambda": "lambda",
+        "Lambda1": "lambda1",
+        "Lvg": "lvg",
+        "B1": "b1",
+        "B2": "b2",
+        "Lsb0": "lsb0",
+        "Vtr": "vtr",
+        "Vsb2": "vsb2",
+        "Cds": "cds",
+        "Cgspi": "cgspi",
+        "Cgs0": "cgs0",
+        "Cgdpi": "cgdpi",
+        "Cgdpe": "cgdpe",
+        "Cgd0": "cgd0",
+        "P10": "p10",
+        "P11": "p11",
+        "P20": "p20",
+        "P21": "p21",
+        "P30": "p30",
+        "P31": "p31",
+        "P40": "p40",
+        "P41": "p41",
+        "P111": "p111",
+        "Ij": "ij",
+        "Pg": "pg",
+        "Ne": "ne",
+        "Vjg": "vjg",
+        "Rg": "rg",
+        "Rd": "rd",
+        "Ri": "ri",
+        "Rs": "rs",
+        "Rgd": "rgd",
+        "Ld": "ld",
+        "Ls": "ls",
+        "Lg": "lg",
+        "Tau": "tau",
+        "Rcmin": "rcmin",
+        "Rc": "rc",
+        "Crf": "crf",
+        "Rcin": "rcin",
+        "Crfin": "crfin",
+        "Rth": "rth",
+        "Cth": "cth",
+        "Tcipk0": "tcipk0",
+        "Tcp1": "tcp1",
+        "Tccgs0": "tccgs0",
+        "Tccgd0": "tccgd0",
+        "Tclsb0": "tclsb0",
+        "Tcrc": "tcrc",
+        "Tccrf": "tccrf",
+        "NoiseR": "noiseR",
+        "NoiseP": "noiseP",
+        "NoiseC": "noiseC",
+        "Fnc": "fnc",
+        "Kf": "kf",
+        "Af": "af",
+        "Ffe": "ffe",
+        "Tg": "tg",
+        "Td": "td",
+        "Td1": "td1",
+        "Tmn": "tmn",
+        "Klf": "klf",
+        "Fgr": "fgr",
+        "Np": "np",
+        "Lw": "lw",
+        "Tnom": "tnom"
+      }
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "ANG_FET_MODEL"
+  },
+  "veriloga": {
+    "model": "ANGELOV_DC.va"
+  }
+}

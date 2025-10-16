@@ -1,0 +1,59 @@
+{
+  "library": "Basic",
+  "name": "Wire",
+  "model": "WIRE",
+  "view_model": true,
+  "group": "PAR",
+  "pins": [
+    "P1",
+    "P2"
+  ],
+  "parameters": [
+    {
+      "name": "L",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "m",
+      "unit": "m",
+      "display": true
+    },
+    {
+      "name": "D",
+      "type": "Real",
+      "default": 50.0,
+      "factor": "u",
+      "unit": "m",
+      "display": true
+    },
+    {
+      "name": "Rho",
+      "type": "Real",
+      "default": 0.022,
+      "factor": "u",
+      "unit": "",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "bondwire",
+      "params": {
+        "L": "L",
+        "D": "D",
+        "Rho": "rho"
+      }
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "WIRE"
+  },
+  "veriloga": {
+    "model": "bondwire.va"
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

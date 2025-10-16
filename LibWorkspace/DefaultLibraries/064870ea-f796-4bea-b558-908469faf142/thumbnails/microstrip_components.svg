@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="50mm" height="50mm"
+viewBox="0 0 500 500">
+<title>microstrip_components</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="102.20 310.13 102.20 187.98 397.86 187.98 397.86 311.39 102.20 311.39" fill="none" stroke="rgb(0,0,0)" stroke-width="10" />
+<defs>
+<clipPath id="Clip_0">
+<path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" stroke-width="10" d=" M 52 170 L 102 170 102 330 52 330 52 170 Z" />
+</clipPath>
+</defs>
+<line x1="107" y1="186" x2="86" y2="165"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_0" />
+<line x1="47" y1="186" x2="68" y2="165"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_0" />
+<line x1="107" y1="207" x2="65" y2="165"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_0" />
+<line x1="47" y1="207" x2="89" y2="165"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_0" />
+<line x1="107" y1="229" x2="47" y2="169"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_0" />
+<line x1="47" y1="229" x2="107" y2="169"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_0" />
+<line x1="107" y1="250" x2="47" y2="190"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_0" />
+<line x1="47" y1="250" x2="107" y2="190"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_0" />
+<line x1="107" y1="271" x2="47" y2="211"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_0" />
+<line x1="47" y1="271" x2="107" y2="211"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_0" />
+<line x1="107" y1="292" x2="47" y2="232"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_0" />
+<line x1="47" y1="292" x2="107" y2="232"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_0" />
+<line x1="107" y1="313" x2="47" y2="253"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_0" />
+<line x1="47" y1="313" x2="107" y2="253"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_0" />
+<line x1="107" y1="335" x2="47" y2="275"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_0" />
+<line x1="47" y1="335" x2="107" y2="275"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_0" />
+<line x1="86" y1="335" x2="47" y2="296"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_0" />
+<line x1="68" y1="335" x2="107" y2="296"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_0" />
+<line x1="65" y1="335" x2="47" y2="317"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_0" />
+<line x1="89" y1="335" x2="107" y2="317"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_0" />
+<path fill="none" stroke="rgb(0,0,255)" stroke-width="10" d=" M 52 170 L 102 170 102 330 52 330 52 170 Z" />
+<defs>
+<clipPath id="Clip_1">
+<path fill="rgb(255,255,255)" stroke="rgb(255,255,255)" stroke-width="10" d=" M 398 170 L 448 170 448 330 398 330 398 170 Z" />
+</clipPath>
+</defs>
+<line x1="453" y1="186" x2="432" y2="165"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_1" />
+<line x1="393" y1="186" x2="414" y2="165"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_1" />
+<line x1="453" y1="207" x2="411" y2="165"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_1" />
+<line x1="393" y1="207" x2="435" y2="165"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_1" />
+<line x1="453" y1="229" x2="393" y2="169"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_1" />
+<line x1="393" y1="229" x2="453" y2="169"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_1" />
+<line x1="453" y1="250" x2="393" y2="190"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_1" />
+<line x1="393" y1="250" x2="453" y2="190"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_1" />
+<line x1="453" y1="271" x2="393" y2="211"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_1" />
+<line x1="393" y1="271" x2="453" y2="211"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_1" />
+<line x1="453" y1="292" x2="393" y2="232"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_1" />
+<line x1="393" y1="292" x2="453" y2="232"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_1" />
+<line x1="453" y1="313" x2="393" y2="253"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_1" />
+<line x1="393" y1="313" x2="453" y2="253"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_1" />
+<line x1="453" y1="335" x2="393" y2="275"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_1" />
+<line x1="393" y1="335" x2="453" y2="275"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_1" />
+<line x1="432" y1="335" x2="393" y2="296"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_1" />
+<line x1="414" y1="335" x2="453" y2="296"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_1" />
+<line x1="411" y1="335" x2="393" y2="317"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_1" />
+<line x1="435" y1="335" x2="453" y2="317"  fill="none" stroke="rgb(0,0,255)" stroke-width="5" clip-path="url(#Clip_1" />
+<path fill="none" stroke="rgb(0,0,255)" stroke-width="10" d=" M 398 170 L 448 170 448 330 398 330 398 170 Z" />
+</svg>

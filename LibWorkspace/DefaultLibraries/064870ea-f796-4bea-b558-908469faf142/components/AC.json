@@ -1,0 +1,48 @@
+﻿{
+  "library": "Basic",
+  "name": "AC",
+  "model": "AC",
+  "group": "SIM",
+  "parameters": [
+    {
+      "name": "SweepType",
+      "type": "String",
+      "default": "lin",
+      "display": true
+    },
+    {
+      "name": "Start",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "G",
+      "unit": "Hz",
+      "display": true
+    },
+    {
+      "name": "Stop",
+      "type": "Real",
+      "default": 10.0,
+      "factor": "G",
+      "unit": "Hz",
+      "display": true
+    },
+    {
+      "name": "Points",
+      "type": "Real",
+      "default": 10,
+      "factor": "",
+      "unit": "",
+      "display": true,
+      "netlisted": false
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "ac",
+      "params": {
+        "Start": "start",
+        "Stop": "stop"
+      }
+    }
+  }
+}

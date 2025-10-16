@@ -1,0 +1,58 @@
+{
+  "library": "Basic",
+  "name": "Term",
+  "model": "TERMG",
+  "view_model": true,
+  "group": "STD",
+  "pins": [
+    "P1"
+  ],
+  "parameters": [
+    {
+      "name": "Num",
+      "type": "Autoincrement",
+      "default": 1,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Z",
+      "type": "Real",
+      "default": 50.0,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    },
+    {
+      "name": "Vdc",
+      "type": "Real",
+      "default": 0.0,
+      "factor": "",
+      "unit": "V",
+      "display": false,
+      "netlisted": false
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "0 port",
+      "params": {
+        "Num": "num",
+        "Z": "r"
+      }
+    }
+  },
+  "layout": {
+    "model": "TERMG_pins"
+  },
+  "ugo": {
+    "model": "TERMG"
+  },
+  "veriloga": {
+    "model": ""
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

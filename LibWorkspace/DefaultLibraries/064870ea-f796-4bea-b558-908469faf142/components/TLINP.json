@@ -1,0 +1,86 @@
+{
+  "library": "Basic",
+  "name": "TL",
+  "model": "TLINP",
+  "view_model": true,
+  "group": "PAR",
+  "pins": [
+    "P1",
+    "P2"
+  ],
+  "parameters": [
+    {
+      "name": "Z0",
+      "type": "Real",
+      "default": 250.0,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    },
+    {
+      "name": "L",
+      "type": "Real",
+      "default": 100.0,
+      "factor": "u",
+      "unit": "m",
+      "display": true
+    },
+    {
+      "name": "F0",
+      "type": "Real",
+      "default": 5.0,
+      "factor": "G",
+      "unit": "Hz",
+      "display": true
+    },
+    {
+      "name": "Ere",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "A",
+      "type": "Real",
+      "default": 0.5,
+      "factor": "",
+      "unit": "dB/m",
+      "display": true
+    },
+    {
+      "name": "TanD",
+      "type": "Real",
+      "default": 0.2,
+      "factor": "",
+      "unit": "",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "TLINP",
+      "params": {
+        "Z0": "Z0",
+        "L": "l",
+        "F0": "F0",
+        "Ere": "Ere",
+        "A": "a",
+        "TanD": "TD"
+      }
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "TLIN"
+  },
+  "veriloga": {
+    "model": "TLINP.va"
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

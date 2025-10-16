@@ -1,0 +1,50 @@
+{
+  "library": "Basic",
+  "name": "SRL",
+  "model": "SRL",
+  "view_model": true,
+  "group": "PAR",
+  "pins": [
+    "P1",
+    "P2"
+  ],
+  "parameters": [
+    {
+      "name": "R",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    },
+    {
+      "name": "L",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "n",
+      "unit": "H",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "SRL",
+      "params": {
+        "R": "R",
+        "L": "L"
+      }
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "SRL"
+  },
+  "veriloga": {
+    "model": "SRL.va"
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

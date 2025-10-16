@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="50mm" height="50mm"
+viewBox="0 0 500 500">
+<title>MTEE</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="50.07 180.18 120.20 180.18 120.20 129.83 380.04 129.83 380.04 180.18 450.12 180.18 380.06 180.18 380.06 230.03 300.20 230.03 300.20 311.13 250.21 311.13 250.21 380.19 250.21 310.77 199.90 310.77 199.90 230.17 120.35 230.17 120.35 180.16" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<path fill="rgb(255,0,0)" stroke="rgb(255,0,0)" stroke-width="10" d=" M 38 174 C 38 168 44 168 44 168 L 56 168 L 56 168 C 62 168 62 174 62 174 L 62 186 L 62 186 C 62 192 56 192 56 192 L 44 192 L 44 192 C 38 192 38 186 38 186 L 38 174 Z" />
+<path fill="rgb(255,0,0)" stroke="rgb(255,0,0)" stroke-width="10" d=" M 438 174 C 438 168 444 168 444 168 L 456 168 L 456 168 C 462 168 462 174 462 174 L 462 186 L 462 186 C 462 192 456 192 456 192 L 444 192 L 444 192 C 438 192 438 186 438 186 L 438 174 Z" />
+<path fill="rgb(255,0,0)" stroke="rgb(255,0,0)" stroke-width="10" d=" M 238 374 C 238 368 244 368 244 368 L 256 368 L 256 368 C 262 368 262 374 262 374 L 262 386 L 262 386 C 262 392 256 392 256 392 L 244 392 L 244 392 C 238 392 238 386 238 386 L 238 374 Z" />
+<polyline points="100.12 164.76 83.92 195.52" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+</svg>

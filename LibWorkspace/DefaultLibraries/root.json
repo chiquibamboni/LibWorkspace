@@ -1,0 +1,12 @@
+﻿{
+  "name": "cadmw.libraries",
+  "ver": 0.1,
+  "api_ver": 1.0,
+  "libraries": [
+    {
+      "name": "Basic",
+      "dir": "064870ea-f796-4bea-b558-908469faf142",
+      "ver": 0.1
+    }
+  ]
+}

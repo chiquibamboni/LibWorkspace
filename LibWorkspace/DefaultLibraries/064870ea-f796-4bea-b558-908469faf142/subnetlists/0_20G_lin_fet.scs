@@ -1,0 +1,5 @@
+
+subckt linfet20G d g s
+X1 g s d s nport file="0_20G_lin_fet.s2p"
+ends linfet20G
+

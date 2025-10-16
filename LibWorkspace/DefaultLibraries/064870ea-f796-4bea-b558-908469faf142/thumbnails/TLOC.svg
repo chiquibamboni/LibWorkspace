@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="50mm" height="50mm"
+viewBox="0 0 500 500">
+<title>TLOC</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="50.28 449.97 180.28 449.97 180.28 369.64 129.96 369.64 129.96 150.29 229.87 150.29 229.87 369.64 180.28 369.64" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<path fill="rgb(255,0,0)" stroke="rgb(255,0,0)" stroke-width="10" d=" M 44 462 C 38 462 38 456 38 456 L 38 444 L 38 444 C 38 438 44 438 44 438 L 56 438 L 56 438 C 62 438 62 444 62 444 L 62 456 L 62 456 C 62 462 56 462 56 462 L 44 462 Z" />
+<polyline points="100.12 434.76 83.92 465.52" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="450.28 449.97 320.00 449.97 320.00 50.00" fill="none" stroke="rgb(0,0,255)" stroke-width="20" />
+<path fill="rgb(255,0,0)" stroke="rgb(255,0,0)" stroke-width="10" d=" M 444 462 C 438 462 438 456 438 456 L 438 444 L 438 444 C 438 438 444 438 444 438 L 456 438 L 456 438 C 462 438 462 444 462 444 L 462 456 L 462 456 C 462 462 456 462 456 462 L 444 462 Z" />
+</svg>

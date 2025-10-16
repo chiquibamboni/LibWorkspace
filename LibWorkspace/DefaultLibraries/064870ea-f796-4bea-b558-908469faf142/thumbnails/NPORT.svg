@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="50mm" height="50mm"
+viewBox="0 0 500 500">
+<title>NPORT</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="100.12 192.76 83.92 223.52" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="131.00 138.07 131.00 337.04 382.01 337.04 382.01 87.28 131.04 87.28 131.04 208.26 50.07 208.26" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<path fill="rgb(255,0,0)" stroke="rgb(255,0,0)" stroke-width="10" d=" M 38 202 C 38 196 44 196 44 196 L 56 196 L 56 196 C 62 196 62 202 62 202 L 62 214 L 62 214 C 62 220 56 220 56 220 L 44 220 L 44 220 C 38 220 38 214 38 214 L 38 202 Z" />
+<polyline points="257.09 340.62 257.09 375.45 326.10 375.45 187.91 375.45" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="275.61 420.81 238.34 420.81" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="299.23 400.29 214.91 400.29" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+</svg>

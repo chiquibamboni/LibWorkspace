@@ -1,0 +1,54 @@
+{
+  "library": "Basic",
+  "name": "TF",
+  "model": "TF3",
+  "view_model": true,
+  "group": "PAR",
+  "pins": [
+    "P1",
+    "P2",
+    "P3",
+    "P4",
+    "P5",
+    "P6"
+  ],
+  "parameters": [
+    {
+      "name": "T1",
+      "type": "Real",
+      "default": 1.41,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "T2",
+      "type": "Real",
+      "default": 1.41,
+      "factor": "",
+      "unit": "",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "TF3",
+      "params": {
+        "T1": "T1",
+        "T2": "T2"
+      }
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "TF3"
+  },
+  "veriloga": {
+    "model": "TF3.va"
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

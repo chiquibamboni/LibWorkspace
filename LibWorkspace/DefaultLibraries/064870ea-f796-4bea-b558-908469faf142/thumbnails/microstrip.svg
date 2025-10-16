@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="50mm" height="50mm"
+viewBox="0 0 500 500">
+<title>microstrip</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="48.20 262.16 48.73 302.24 410.27 302.24 450.13 262.39 450.13 221.90 88.60 221.90 48.24 262.26 410.27 262.26 450.14 222.40" fill="none" stroke="rgb(0,0,0)" stroke-width="10" />
+<polyline points="410.27 262.26 410.27 302.24" fill="none" stroke="rgb(0,0,0)" stroke-width="10" />
+<polygon points="178 239 178 253 300 253 322 230 322 217 199 217 177 239 300 239 322 217 300 239" fill="rgb(0,255,0)" stroke="rgb(0,140,0)" stroke-width="1" />
+<polyline points="299.92 238.63 299.92 252.57" fill="none" stroke="rgb(0,140,0)" stroke-width="1" />
+</svg>

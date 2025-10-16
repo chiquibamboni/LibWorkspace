@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="50mm" height="50mm"
+viewBox="0 0 500 500">
+<title>PRCsvg</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="100.12 234.76 83.92 265.52" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="50.03 250.28 120.04 250.28" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<path fill="rgb(255,0,0)" stroke="rgb(255,0,0)" stroke-width="10" d=" M 38 244 C 38 238 44 238 44 238 L 56 238 L 56 238 C 62 238 62 244 62 244 L 62 256 L 62 256 C 62 262 56 262 56 262 L 44 262 L 44 262 C 38 262 38 256 38 256 L 38 244 Z" />
+<polyline points="380.02 249.92 450.07 249.92" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<path fill="none" stroke="rgb(0,0,255)" stroke-width="15" d=" M 215 302 C 253 370 215 438 215 438" />
+<polyline points="273.02 302.42 273.02 437.56" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<path fill="rgb(255,0,0)" stroke="rgb(255,0,0)" stroke-width="10" d=" M 438 244 C 438 238 444 238 444 238 L 456 238 L 456 238 C 462 238 462 244 462 244 L 462 256 L 462 256 C 462 262 456 262 456 262 L 444 262 L 444 262 C 438 262 438 256 438 256 L 438 244 Z" />
+<polyline points="230.04 370.28 120.04 370.28 120.04 250.28" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="274.21 370.22 380.02 370.22 380.02 249.92" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="120.04 250.28 120.04 130.56" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="380.02 249.92 380.02 130.56" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="120.04 130.56 166.00 130.56 180.02 87.40 207.32 172.72 234.61 86.41 261.91 172.72 289.20 86.41 316.50 172.72 331.48 130.56 380.02 130.56" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+</svg>

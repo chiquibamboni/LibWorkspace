@@ -1,0 +1,41 @@
+{
+  "library": "Basic",
+  "name": "Src",
+  "model": "V_DC",
+  "view_model": true,
+  "group": "STD",
+  "pins": [
+    "P1",
+    "P2"
+  ],
+  "parameters": [
+    {
+      "name": "Vdc",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "",
+      "unit": "V",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "vsource type=dc",
+      "params": {
+        "Vdc": "dc"
+      }
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "V_DC"
+  },
+  "veriloga": {
+    "model": ""
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

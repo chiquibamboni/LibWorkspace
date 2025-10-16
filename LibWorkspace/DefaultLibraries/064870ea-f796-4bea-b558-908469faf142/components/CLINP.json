@@ -1,0 +1,115 @@
+{
+  "library": "Basic",
+  "name": "TL",
+  "model": "CLINP",
+  "view_model": true,
+  "group": "PAR",
+  "pins": [
+    "P1",
+    "P2",
+    "P3",
+    "P4"
+  ],
+  "parameters": [
+    {
+      "name": "Ze",
+      "type": "Real",
+      "default": 200.0,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    },
+    {
+      "name": "Zo",
+      "type": "Real",
+      "default": 200.0,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    },
+    {
+      "name": "L",
+      "type": "Real",
+      "default": 1000.0,
+      "factor": "u",
+      "unit": "m",
+      "display": true
+    },
+    {
+      "name": "F0",
+      "type": "Real",
+      "default": 5.0,
+      "factor": "G",
+      "unit": "Hz",
+      "display": true
+    },
+    {
+      "name": "Ere1",
+      "type": "Real",
+      "default": 12.2,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Ere2",
+      "type": "Real",
+      "default": 12.2,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "A1",
+      "type": "Real",
+      "default": 0.5,
+      "factor": "",
+      "unit": "dB/m",
+      "display": true
+    },
+    {
+      "name": "A2",
+      "type": "Real",
+      "default": 0.4,
+      "factor": "",
+      "unit": "dB/m",
+      "display": true
+    },
+    {
+      "name": "TanD",
+      "type": "Real",
+      "default": 0.01,
+      "factor": "",
+      "unit": "",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "CLINP",
+      "params": {
+        "Ze": "ZE",
+        "Zo": "ZO",
+        "L": "l",
+        "F0": "F0",
+        "Ere1": "Ere1",
+        "Ere2": "Ere2",
+        "A1": "a1",
+        "A2": "a2",
+        "TanD": "TD"
+      }
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "CLIN"
+  },
+  "veriloga": {
+    "model": "CLINP.va"
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

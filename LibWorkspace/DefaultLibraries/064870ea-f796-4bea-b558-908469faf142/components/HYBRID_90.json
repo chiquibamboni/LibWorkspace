@@ -1,0 +1,61 @@
+{
+  "library": "Basic",
+  "name": "Hyb",
+  "model": "HYBRID_90",
+  "view_model": true,
+  "group": "PAR",
+  "pins": [
+    "P1",
+    "P2",
+    "P3",
+    "P4"
+  ],
+  "parameters": [
+    {
+      "name": "K",
+      "type": "Real",
+      "default": 0.707,
+      "factor": "",
+      "unit": "",
+      "display": true
+    },
+    {
+      "name": "Phi",
+      "type": "Real",
+      "default": 90.0,
+      "factor": "",
+      "unit": "deg",
+      "display": true
+    },
+    {
+      "name": "Z0",
+      "type": "Real",
+      "default": 50.0,
+      "factor": "",
+      "unit": "Ohm",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "Hybrid90",
+      "params": {
+        "K": "k",
+        "Phi": "phi",
+        "Z0": "Z0"
+      }
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "HYBRID_90"
+  },
+  "veriloga": {
+    "model": "Hybrid90.va"
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}

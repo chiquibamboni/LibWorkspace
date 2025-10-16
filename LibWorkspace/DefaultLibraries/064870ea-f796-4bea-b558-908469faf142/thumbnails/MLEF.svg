@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created with "sPlan" (http://www.abacom-online.de) -->
+<svg version="1.1" baseProfile="full"
+xmlns="http://www.w3.org/2000/svg"
+width="50mm" height="50mm"
+viewBox="0 0 500 500">
+<title>MLEF</title>
+<defs>
+<style type="text/css">
+<![CDATA[
+polyline {stroke-linecap:round; stroke-linejoin:round}
+polygon {stroke-linecap:round; stroke-linejoin:round}
+path {stroke-linecap:round; stroke-linejoin:round}
+circle {stroke-linecap:round; stroke-linejoin:round}
+]]>
+</style>
+</defs>
+<polyline points="50.03 250.28 130.36 250.28 130.36 199.96 304.94 199.96 304.94 249.92 339.71 249.92 305.11 249.92 305.11 299.87 130.36 299.87 130.36 250.28" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<path fill="rgb(255,0,0)" stroke="rgb(255,0,0)" stroke-width="10" d=" M 38 244 C 38 238 44 238 44 238 L 56 238 L 56 238 C 62 238 62 244 62 244 L 62 256 L 62 256 C 62 262 56 262 56 262 L 44 262 L 44 262 C 38 262 38 256 38 256 L 38 244 Z" />
+<polyline points="100.12 234.76 83.92 265.52" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="370.08 250.13 404.92 250.13 404.92 181.12 404.92 319.31" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="369.75 207.99 369.75 292.30" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="452.28 231.61 452.28 268.88" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="339.75 207.99 339.75 292.30" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+<polyline points="429.75 207.99 429.75 292.30" fill="none" stroke="rgb(0,0,255)" stroke-width="15" />
+</svg>

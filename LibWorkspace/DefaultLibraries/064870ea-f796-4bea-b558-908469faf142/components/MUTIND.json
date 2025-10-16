@@ -1,0 +1,61 @@
+{
+  "library": "Basic",
+  "name": "L",
+  "model": "MUTIND",
+  "view_model": true,
+  "group": "PAR",
+  "pins": [
+    "P1",
+    "P2",
+    "P3",
+    "P4"
+  ],
+  "parameters": [
+    {
+      "name": "L1",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "n",
+      "unit": "H",
+      "display": true
+    },
+    {
+      "name": "L2",
+      "type": "Real",
+      "default": 1.0,
+      "factor": "n",
+      "unit": "H",
+      "display": true
+    },
+    {
+      "name": "K",
+      "type": "Real",
+      "default": 0.5,
+      "factor": "",
+      "unit": "",
+      "display": true
+    }
+  ],
+  "schematic": {
+    "netlist": {
+      "model": "MUTIND",
+      "params": {
+        "L1": "l1",
+        "L2": "L2",
+        "K": "k"
+      }
+    }
+  },
+  "layout": {
+    "model": ""
+  },
+  "ugo": {
+    "model": "MUTIND"
+  },
+  "veriloga": {
+    "model": "MUTIND.va"
+  },
+  "subnetlists": {
+    "model": ""
+  }
+}
