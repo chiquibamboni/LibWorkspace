@@ -2,6 +2,7 @@
 
 #include <QDialog>
 #include <QLineEdit>
+#include <QTextEdit>
 #include <QComboBox>
 #include <QPushButton>
 #include <QFormLayout>
@@ -20,6 +21,7 @@ public:
     ~NewComponentDialog();
 
     QString getName() const { return currentName; }
+    QString getDesc() const { return currentDesc; }
     QString getLibrary() const { return currentLib; }
     QString getDirectory() const { return currentDirectory; }
     QString getCategory() const { return currentCategory; }
@@ -36,6 +38,7 @@ private:
     void updateCategories(const QString& directoryName);
 
     QLineEdit* nameEdit;
+    QTextEdit* descEdit;
     QComboBox* libraryCombo;
     QComboBox* directoryCombo;
     QComboBox* categoryCombo;
@@ -45,6 +48,7 @@ private:
     QList<Catalog>* catalogsList;
 
     QString currentName;
+    QString currentDesc;
     QString currentLib;
     QString currentDirectory;
     QString currentCategory;

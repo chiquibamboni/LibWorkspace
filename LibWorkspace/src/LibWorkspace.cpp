@@ -414,19 +414,21 @@ void LibWorkspace::openNewComponentDialog()
         QString library = dialog->getLibrary();
         QString directory = dialog->getDirectory();
         QString category = dialog->getCategory();
+        QString desc = dialog->getDesc();
 
-        createNewComponent(name, library, directory, category);
+        createNewComponent(name, library, category, desc);
         refresh();
     }
 
     delete dialog;
 }
 
-void LibWorkspace::createNewComponent(QString name, QString library, QString directory, QString category)
+void LibWorkspace::createNewComponent(QString name, QString library, QString category, QString desc)
 {
     Component* newComponent = new Component();
 
     newComponent->name = name;
+    newComponent->desc = desc;
     newComponent->library = library;
     newComponent->model = name;
     newComponent->parameters = *componentEditor->currentParameterListWidget->parameters;

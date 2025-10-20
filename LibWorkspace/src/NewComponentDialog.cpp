@@ -10,6 +10,7 @@ NewComponentDialog::NewComponentDialog(QList<Library>* libraries, QList<Catalog>
     setupUI();
     setupConnections();
     loadComboBoxData(libraries, catalogs, libForCat);
+    resize(300, 300);
 }
 
 NewComponentDialog::~NewComponentDialog()
@@ -27,6 +28,9 @@ void NewComponentDialog::setupUI()
     nameEdit = new QLineEdit();
     nameEdit->setPlaceholderText(QStringLiteral(u"Введите название компонента"));
     formLayout->addRow(QStringLiteral(u"Название компонента:"), nameEdit);
+    descEdit = new QTextEdit();
+    descEdit->setPlaceholderText(QStringLiteral(u"Введите описание компонента"));
+    formLayout->addRow(QStringLiteral(u"Описание:"), descEdit);
 
     QGroupBox* locationGroup = new QGroupBox(QStringLiteral(u"Местоположение компонента"));
     QFormLayout* locationLayout = new QFormLayout();
@@ -118,11 +122,6 @@ void NewComponentDialog::updateCategories(const QString& directoryName)
             }
         }
 
-        //categories.push_back("Ports");
-        //categories.push_back("Sources");
-        //categories.push_back("Substrates");
-        //categories.push_back("Simulations");
-
         categoryCombo->addItems(categories);
 
         if (!categories.isEmpty())
@@ -156,6 +155,7 @@ void NewComponentDialog::updateCategories(const QString& directoryName)
 void NewComponentDialog::onAccept()
 {
     currentName = nameEdit->text();
+    currentDesc = descEdit->toPlainText();
     currentLib = libraryCombo->currentText();
     currentDirectory = directoryCombo->currentText();
     currentCategory = categoryCombo->currentText();
