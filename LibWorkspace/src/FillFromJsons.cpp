@@ -200,9 +200,9 @@ Catalog FillFromJsons::CatalogFromJson(const nlohmann::json& jsonObj, Library* c
             QString message = QStringLiteral(u"Поле 'components' не является массивом");
             qDebug() << message;
         }
-    }
 
-    catalogsList->push_back(catalog);
+
+    }
 
     return catalog;
 }

@@ -84,6 +84,17 @@ void LibWorkspace::setupFields()
     //Заполнение компонентами
     for (auto& catalog : *catalogs)
     {
+        if (!catalog.catalogs.isEmpty())
+        {
+            for (auto& subCat : catalog.catalogs)
+            {
+                for (auto& component : subCat.components)
+                {
+                    componentEditor->modelsComboBox->addItem(component.model);
+                    components->push_back(component);
+                }
+            }
+        }
         for (auto& component : catalog.components)
         {
             componentEditor->modelsComboBox->addItem(component.model);
@@ -112,8 +123,7 @@ void LibWorkspace::setupUI()
 
     setupMenuBar();
     setupToolBar();
-    
-    // Добавляем статус бар
+
     statusBar = new QStatusBar(this);
     setStatusBar(statusBar);
 
@@ -126,20 +136,15 @@ void LibWorkspace::setupUI()
     splitter->addWidget(libraryManager);
     splitter->addWidget(componentsTable);
 
-    QVBoxLayout* libLayout = new QVBoxLayout();
-
-    libLayout->addWidget(splitter);
+    QWidget* leftPanel = new QWidget();
+    QVBoxLayout* leftLayout = new QVBoxLayout(leftPanel);
+    leftLayout->addWidget(splitter);
 
     resetButton = new QPushButton(QStringLiteral(u"Сброс"));
+    leftLayout->addWidget(resetButton);
 
-    libLayout->addWidget(resetButton);
-
-    mainLayout->addLayout(libLayout);
-    mainLayout->addWidget(componentEditor);
-
-    mainLayout->setStretchFactor(splitter, 3);
-    mainLayout->setStretchFactor(componentEditor, 7);
-
+    mainLayout->addWidget(leftPanel, 1);
+    mainLayout->addWidget(componentEditor, 2);
 }
 
 void LibWorkspace::setupMenuBar()
@@ -191,11 +196,13 @@ void LibWorkspace::setupToolBar()
     QAction* deleteAction = new QAction(QIcon("icons/cross.svg"), QStringLiteral(u"Удалить"), this);
     QAction* downAction = new QAction(QIcon("icons/arrow-down.svg"), QStringLiteral(u"Вниз"), this);
     QAction* upAction = new QAction(QIcon("icons/arrow-up.svg"), QStringLiteral(u"Вверх"), this);
+    refreshAction = new QAction(QIcon("icons/refresh.svg"), QStringLiteral(u"Обновить"), this);
 
     toolBar->addAction(newAction);
     toolBar->addAction(deleteAction);
     toolBar->addAction(downAction);
     toolBar->addAction(upAction);
+    toolBar->addAction(refreshAction);
 }
 
 void LibWorkspace::setupConnections()
@@ -203,10 +210,10 @@ void LibWorkspace::setupConnections()
     connect(libraryManager, &QTreeView::clicked, this, &LibWorkspace::RequestWithSelectedItem);
     connect(libraryManager, &QTreeView::expanded, this, &LibWorkspace::RequestWithSelectedItem);
     connect(libraryManager, &QTreeView::collapsed, this, &LibWorkspace::RequestWithSelectedItem);
-    connect(componentsTable, &QTableWidget::doubleClicked, this, &LibWorkspace::SelectComponent);
     connect(resetButton, &QPushButton::clicked, this, &LibWorkspace::resetButtonClicked);
     connect(showFullTableAction, &QAction::triggered, this, &LibWorkspace::onShowFullTable);
     connect(newAction, &QAction::triggered, this, &LibWorkspace::openNewComponentDialog);
+    connect(refreshAction, &QAction::triggered, this, &LibWorkspace::refresh);
     connect(componentsTable->selectionModel(), &QItemSelectionModel::currentChanged, this, &LibWorkspace::SelectComponent);
 }
 
@@ -235,12 +242,26 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
             if (!libraryManager->currentCatalog->components.isEmpty())
             {
                 componentsTable->updateComponents(libraryManager->currentCatalog->components);
-                //componentsTable->selectRow(0);
-                //SelectComponent(componentsTable->se)
                 return;
             }
             return;
         }
+        else {
+            for (auto& subCat : catalog.catalogs)
+            {
+                if (subCat.name == selectedItem) {
+                    currentCatalog = libraryManager->currentCatalog = &subCat;
+                    //Обновление данных компонентов таблицы
+                    if (!libraryManager->currentCatalog->components.isEmpty())
+                    {
+                        componentsTable->updateComponents(libraryManager->currentCatalog->components);
+                        return;
+                    }
+                    return;
+                }
+            }
+        }
+
     }
 }
 
@@ -386,7 +407,7 @@ bool LibWorkspace::copyDirectoryContents(const QString& sourceDirPath, const QSt
 
 void LibWorkspace::openNewComponentDialog()
 {
-    dialog = new NewComponentDialog(this);
+    dialog = new NewComponentDialog(libraries, catalogs, libraryManager->currentLibrary, this);
 
     if (dialog->exec() == QDialog::Accepted) {
         QString name = dialog->getName();
@@ -395,6 +416,7 @@ void LibWorkspace::openNewComponentDialog()
         QString category = dialog->getCategory();
 
         createNewComponent(name, library, directory, category);
+        refresh();
     }
 
     delete dialog;
@@ -413,11 +435,9 @@ void LibWorkspace::createNewComponent(QString name, QString library, QString dir
     QString libPath = "./Libraries/" + currentLibrary->dir + "/library.json";
     nlohmann::json jsonObj = FillFromJsons::readJson(libPath, this);
 
-    //QString componentsPath = "./Libraries/" + currentLibrary->dir;
-
     QString mainPath = "./Libraries/" + currentLibrary->dir;
 
-    FillFromJsons::AddNewComponentToJson(jsonObj, *newComponent, currentCatalog->name, mainPath,
+    FillFromJsons::AddNewComponentToJson(jsonObj, *newComponent, category, mainPath,
         *componentEditor->newThumbName, componentEditor->modelsComboBox->currentText());
 
 }

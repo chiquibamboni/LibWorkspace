@@ -75,6 +75,7 @@ void LibraryManager::addLibraryToModel(const nlohmann::json& jsonObj, QStandardI
         if (jsonObj.contains("catalogs") && jsonObj["catalogs"].is_array()) {
             for (auto& catalogJson : jsonObj["catalogs"]) {
                 Catalog catalog = FillFromJsons::CatalogFromJson(catalogJson, currentLibrary, catalogsList);
+                catalogsList->push_back(catalog);
                 if (parentItem) {
                     parentItem->appendRow(catalog.item);
                 }
@@ -85,6 +86,7 @@ void LibraryManager::addLibraryToModel(const nlohmann::json& jsonObj, QStandardI
                 FillFromJsons::showError(this, message);
             }
         }
+        //currentLibrary->catalogs = *catalogsList;
     } else {
         QString message = QStringLiteral(u"JSON не содержит поле 'components_location'");
         FillFromJsons::showError(this, message);

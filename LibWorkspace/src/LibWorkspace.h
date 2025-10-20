@@ -40,6 +40,7 @@ private:
     QToolBar* toolBar;
     QMenuBar* menuBar;
     QAction* newAction;
+    QAction* refreshAction;
     NewComponentDialog* dialog;
     QAction* showFullTableAction;
     QStatusBar* statusBar; // Добавляем статус бар

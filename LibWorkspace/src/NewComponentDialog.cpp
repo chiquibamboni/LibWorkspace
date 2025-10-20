@@ -4,12 +4,12 @@
 #include <QHBoxLayout>
 #include <QMessageBox>
 
-NewComponentDialog::NewComponentDialog(QWidget* parent)
-    : QDialog(parent)
+NewComponentDialog::NewComponentDialog(QList<Library>* libraries, QList<Catalog>* catalogs, Library* libForCat, QWidget* parent)
+    : QDialog(parent), catalogsList(catalogs)
 {
     setupUI();
     setupConnections();
-    loadComboBoxData();
+    loadComboBoxData(libraries, catalogs, libForCat);
 }
 
 NewComponentDialog::~NewComponentDialog()
@@ -59,43 +59,105 @@ void NewComponentDialog::setupConnections()
 {
     connect(okButton, &QPushButton::clicked, this, &NewComponentDialog::onAccept);
     connect(cancelButton, &QPushButton::clicked, this, &QDialog::reject);
-
     connect(nameEdit, &QLineEdit::textChanged, this, &NewComponentDialog::validateForm);
     connect(libraryCombo, &QComboBox::currentTextChanged, this, &NewComponentDialog::validateForm);
     connect(directoryCombo, &QComboBox::currentTextChanged, this, &NewComponentDialog::validateForm);
     connect(categoryCombo, &QComboBox::currentTextChanged, this, &NewComponentDialog::validateForm);
+    connect(directoryCombo, QOverload<int>::of(&QComboBox::currentIndexChanged),
+        this, &NewComponentDialog::onDirectoryChanged);
 }
 
-void NewComponentDialog::loadComboBoxData()
+void NewComponentDialog::loadComboBoxData(QList<Library>* lib, QList<Catalog>* catalogs, Library* libForCat)
 {
+    QStringList libraries = {};
+    QStringList directories = {"None"};
 
-    QStringList libraries = {
-        "Basic"
+    for (auto& libr : *lib)
+    {
+        libraries.push_back(libr.name);
+    }
 
-    };
-
-    QStringList directories = {
-         "tt"
-    };
-
-    QStringList categories = {
-         "tt"
-    };
+    for (auto& cat : *catalogs)
+    {
+        if (!cat.catalogs.isEmpty())
+        {
+            directories.push_back(cat.name);
+        }
+    }
 
     libraryCombo->addItems(libraries);
     directoryCombo->addItems(directories);
-    categoryCombo->addItems(categories);
 
     if (!libraries.isEmpty()) libraryCombo->setCurrentIndex(0);
-    if (!directories.isEmpty()) directoryCombo->setCurrentIndex(0);
-    if (!categories.isEmpty()) categoryCombo->setCurrentIndex(0);
+    if (!directories.isEmpty())
+    {
+        directoryCombo->setCurrentIndex(0);
+        updateCategories(directoryCombo->currentText());
+    }
+}
+
+void NewComponentDialog::onDirectoryChanged()
+{
+    QString selectedDirectory = directoryCombo->currentText();
+    updateCategories(selectedDirectory);
+    validateForm();
+}
+
+void NewComponentDialog::updateCategories(const QString& directoryName)
+{
+    categoryCombo->clear();
+    QStringList categories;
+
+    if (directoryName == "None")
+    {
+        for (auto& cat : *catalogsList)
+        {
+            if (cat.catalogs.isEmpty())
+            {
+                categories.push_back(cat.name);
+            }
+        }
+
+        //categories.push_back("Ports");
+        //categories.push_back("Sources");
+        //categories.push_back("Substrates");
+        //categories.push_back("Simulations");
+
+        categoryCombo->addItems(categories);
+
+        if (!categories.isEmpty())
+        {
+            categoryCombo->setCurrentIndex(0);
+        }
+        return;
+    }
+
+    for (auto& catalog : *catalogsList)
+    {
+        if (catalog.name == directoryName && !catalog.catalogs.isEmpty())
+        {
+
+            for (auto& subCatalog : catalog.catalogs)
+            {
+                categories.push_back(subCatalog.name);
+            }
+
+            categoryCombo->addItems(categories);
+
+            if (!categories.isEmpty())
+            {
+                categoryCombo->setCurrentIndex(0);
+            }
+            break;
+        }
+    }
 }
 
 void NewComponentDialog::onAccept()
 {
     currentName = nameEdit->text();
     currentLib = libraryCombo->currentText();
-    currentDirectory = categoryCombo->currentText();
+    currentDirectory = directoryCombo->currentText();
     currentCategory = categoryCombo->currentText();
 
     accept();
