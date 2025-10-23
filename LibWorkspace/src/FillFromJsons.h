@@ -27,6 +27,9 @@ public:
 	static nlohmann::json QVariantToJson(const QVariant& var);
 	static nlohmann::json ParametersToJson(QList<Parameters>& params);
 	static nlohmann::json CreateComponentJson(Component& comp);
+	static nlohmann::json* findCatalogByName(nlohmann::json& j, const QString& targetName);
+	static void deleteComponentFromJson(nlohmann::json& jsonObj, QString mainPath, const QString& catalogName, const QString& componentName);
+	static void deleteJsonFile(const QString& folderPath, const QString& fileName);
 	static void saveJsonToFile(const nlohmann::json& j, const QString& filePath);
 	static void MoveComponentUp(nlohmann::json jsonObj, Component& component);
 	static void MoveComponentDown(nlohmann::json jsonObj, Component& component);

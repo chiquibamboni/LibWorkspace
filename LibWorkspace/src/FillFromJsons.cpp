@@ -1,4 +1,5 @@
 ﻿#include "FillFromJsons.h"
+#include <algorithm> 
 #include <QDebug>
 
 // Инициализация статической переменной
@@ -631,6 +632,74 @@ nlohmann::json FillFromJsons::CreateComponentJson(Component& comp)
     }
 
     return j;
+}
+
+// Рекурсивный поиск каталога по имени
+nlohmann::json* FillFromJsons::findCatalogByName(nlohmann::json& j, const QString& targetName) {
+    if (!j.is_object()) {
+        return nullptr;
+    }
+
+    if (j.contains("catalogs") && j["catalogs"].is_array()) {
+        for (auto& catalog : j["catalogs"]) {
+            if (catalog.contains("name") && QString::fromStdString(catalog["name"]) == targetName) {
+                return &catalog;
+            }
+            nlohmann::json* found = findCatalogByName(catalog, targetName);
+            if (found != nullptr) {
+                return found;
+            }
+        }
+    }
+    return nullptr;
+}
+
+void FillFromJsons::deleteComponentFromJson(nlohmann::json& jsonObj, QString mainPath, const QString& catalogName, const QString& componentName) {
+    nlohmann::json* catalogPtr = findCatalogByName(jsonObj, catalogName);
+    if (catalogPtr == nullptr || !catalogPtr->contains("components")) {
+        return;
+    }
+
+    auto& components = (*catalogPtr)["components"];
+
+    auto it = std::remove_if(components.begin(), components.end(),
+        [&](nlohmann::json& comp) {
+            if (comp.contains("model") && comp["model"].is_string()) {
+                QString modelStr = QString::fromStdString(comp["model"].get<std::string>());
+                return modelStr.compare(componentName, Qt::CaseInsensitive) == 0;
+            }
+            return false;
+        });
+
+    if (it != components.end()) {
+        components.erase(it, components.end());
+        saveJsonToFile(jsonObj,mainPath);
+    }
+}
+
+void FillFromJsons::deleteJsonFile(const QString& folderPath, const QString& fileName)
+{
+    QDir dir(folderPath);
+
+    if (!dir.exists()) {
+        qWarning() << "Папка не найдена:" << folderPath;
+        return;
+    }
+
+    QString filePath = dir.filePath(fileName);
+
+    if (!QFile::exists(filePath)) {
+        qWarning() << "Файл не найден:" << filePath;
+        return;
+    }
+
+    if (QFile::remove(filePath)) {
+        qDebug() << "Файл успешно удалён:" << filePath;
+    }
+    else {
+        qWarning() << "Не удалось удалить файл:" << filePath;
+    }
+    return;
 }
 
 void FillFromJsons::saveJsonToFile(const nlohmann::json& j, const QString& filePath) 

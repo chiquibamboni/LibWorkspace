@@ -97,6 +97,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\DeleteDialog.cpp" />
     <ClCompile Include="src\ErrorHandler.cpp" />
     <ClCompile Include="src\NewComponentDialog.cpp" />
     <ClCompile Include="src\FullTableDialog.cpp" />
@@ -119,6 +120,7 @@
     <QtMoc Include="src\NewComponentDialog.h" />
     <ClInclude Include="src\ErrorHandler.h" />
     <ClInclude Include="src\FillFromJsons.h" />
+    <QtMoc Include="src\DeleteDialog.h" />
     <ClInclude Include="src\Parameters.h" />
     <QtMoc Include="src\UgoTabs.h" />
     <QtMoc Include="src\ThumbSelectDialog.h" />

@@ -193,7 +193,7 @@ void LibWorkspace::setupToolBar()
     addToolBar(Qt::TopToolBarArea, toolBar);
 
     newAction = new QAction(QIcon("icons/plus.svg"), QStringLiteral(u"Добавить"), this);
-    QAction* deleteAction = new QAction(QIcon("icons/cross.svg"), QStringLiteral(u"Удалить"), this);
+    deleteAction = new QAction(QIcon("icons/cross.svg"), QStringLiteral(u"Удалить"), this);
     QAction* downAction = new QAction(QIcon("icons/arrow-down.svg"), QStringLiteral(u"Вниз"), this);
     QAction* upAction = new QAction(QIcon("icons/arrow-up.svg"), QStringLiteral(u"Вверх"), this);
     refreshAction = new QAction(QIcon("icons/refresh.svg"), QStringLiteral(u"Обновить"), this);
@@ -213,6 +213,7 @@ void LibWorkspace::setupConnections()
     connect(resetButton, &QPushButton::clicked, this, &LibWorkspace::resetButtonClicked);
     connect(showFullTableAction, &QAction::triggered, this, &LibWorkspace::onShowFullTable);
     connect(newAction, &QAction::triggered, this, &LibWorkspace::openNewComponentDialog);
+    connect(deleteAction, &QAction::triggered, this, &LibWorkspace::openDeleteDialog);
     connect(refreshAction, &QAction::triggered, this, &LibWorkspace::refresh);
     connect(componentsTable->selectionModel(), &QItemSelectionModel::currentChanged, this, &LibWorkspace::SelectComponent);
 }
@@ -231,6 +232,7 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
             QString fullPath = "./Libraries/" + lib.dir;
             libraryManager->currentPath = fullPath;
             currentLibrary = libraryManager->currentLibrary = &lib;
+            currentCatalog = nullptr;
             return;
         }
     }
@@ -242,6 +244,7 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
             if (!libraryManager->currentCatalog->components.isEmpty())
             {
                 componentsTable->updateComponents(libraryManager->currentCatalog->components);
+                currentComponent = nullptr;
                 return;
             }
             return;
@@ -255,6 +258,7 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
                     if (!libraryManager->currentCatalog->components.isEmpty())
                     {
                         componentsTable->updateComponents(libraryManager->currentCatalog->components);
+                        currentComponent = nullptr;
                         return;
                     }
                     return;
@@ -293,6 +297,7 @@ void LibWorkspace::SelectComponent(const QModelIndex& index)
             {
                 componentEditor->currentParameterListWidget->ParametersList::insertItem(par);
             }
+            currentComponent = &component;
         }
     }
 }
@@ -403,6 +408,23 @@ bool LibWorkspace::copyDirectoryContents(const QString& sourceDirPath, const QSt
         }
     }
     return true;
+}
+
+void LibWorkspace::openDeleteDialog()
+{
+    if (!currentLibrary)
+    {
+        QMessageBox::warning(this, QStringLiteral(u"Ошибка"), QStringLiteral(u"Выберите библиотеку/каталог/компонент, который хотите удалить"));
+        return;
+    }
+    DeleteDialog*  delDialog = new DeleteDialog(currentLibrary, currentCatalog, currentComponent, this);
+
+    if (delDialog->exec() == QDialog::Accepted) {
+
+        refresh();
+    }
+
+    delete delDialog;
 }
 
 void LibWorkspace::openNewComponentDialog()
