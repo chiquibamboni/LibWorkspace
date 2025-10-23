@@ -4,12 +4,12 @@
 #include <QHBoxLayout>
 #include <QMessageBox>
 
-NewComponentDialog::NewComponentDialog(QList<Library>* libraries, QList<Catalog>* catalogs, QList<Component>* components,Library* libForCat, QWidget* parent)
+NewComponentDialog::NewComponentDialog(QList<Library>* libraries, QList<Catalog>* catalogs, QList<Component>* components, QWidget* parent)
     : QDialog(parent), catalogsList(catalogs), componentsList(components)
 {
     setupUI();
     setupConnections();
-    loadComboBoxData(libraries, catalogs, libForCat);
+    loadComboBoxData(libraries, catalogs);
     resize(300, 300);
 }
 
@@ -71,7 +71,7 @@ void NewComponentDialog::setupConnections()
         this, &NewComponentDialog::onDirectoryChanged);
 }
 
-void NewComponentDialog::loadComboBoxData(QList<Library>* lib, QList<Catalog>* catalogs, Library* libForCat)
+void NewComponentDialog::loadComboBoxData(QList<Library>* lib, QList<Catalog>* catalogs)
 {
     QStringList libraries = {};
     QStringList directories = {"None"};
@@ -178,7 +178,6 @@ void NewComponentDialog::onAccept()
     }
     }
 
-
     accept();
 }
 
@@ -191,17 +190,3 @@ void NewComponentDialog::validateForm()
 
     okButton->setEnabled(isValid);
 }
-
-//bool NewComponentDialog::hasCyrillicCharacters(const QString& text)
-//{
-//    for (const QChar& ch : text) {
-//        ushort unicode = ch.unicode();
-//        // Русские буквы в Unicode: 
-//        // А-Я: 1040-1071, а-я: 1072-1103, Ё: 1025, ё: 1105
-//        if ((unicode >= 1040 && unicode <= 1103) ||
-//            unicode == 1025 || unicode == 1105) {
-//            return true;
-//        }
-//    }
-//    return false;
-//}

@@ -475,9 +475,7 @@ void FillFromJsons::AddNewComponentToJson(nlohmann::json& jsonObj, Component& co
                 }
                 sourceFile.copy(targetFilePath);
             }
-            ///
 
-            ////
             QString symbolsPath = componentsDir.filePath("symbols/ansi");
             QString sourceUgoFilePath = symbolsPath + "/" + ugoFileName;
             if (!sourceUgoFilePath.endsWith(".svg", Qt::CaseInsensitive)) {

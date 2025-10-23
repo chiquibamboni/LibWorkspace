@@ -170,11 +170,11 @@ void ComponentEditor::onParameterChanged()
         currentParameter->pdefault = QVariant(numericValue); // число
     }
     //для массива
-    /*else if (jsonObj["default"].is_array()) {
-        auto arr = jsonObj["default"].get<std::vector<double>>();
-        QVector<double> qvec(arr.begin(), arr.end());
-        pdefault = QVariant(qvec);
-    }*/
+    //else if (jsonObj["default"].is_array()) {
+    //    auto arr = jsonObj["default"].get<std::vector<double>>();
+    //    QVector<double> qvec(arr.begin(), arr.end());
+    //    pdefault = QVariant(qvec);
+    //}
     else {
         currentParameter->pdefault = QVariant(defaultText);
     }

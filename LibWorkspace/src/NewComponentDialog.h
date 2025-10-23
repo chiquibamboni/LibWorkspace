@@ -19,7 +19,7 @@ class NewComponentDialog : public QDialog
 
 public:
     NewComponentDialog(QList<Library>* libraries, QList<Catalog>* catalogs, QList<Component>* components,
-        Library* libForCat, QWidget* parent = nullptr);
+        QWidget* parent = nullptr);
     ~NewComponentDialog();
 
     QString getName() const { return currentName; }
@@ -36,7 +36,7 @@ private slots:
 private:
     void setupUI();
     void setupConnections();
-    void loadComboBoxData(QList<Library>* lib, QList<Catalog>* catalogs, Library* libForCat);
+    void loadComboBoxData(QList<Library>* lib, QList<Catalog>* catalogs);
     void updateCategories(const QString& directoryName);
     //bool hasCyrillicCharacters(const QString& text);
 
