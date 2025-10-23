@@ -199,6 +199,18 @@ void ComponentEditor::updateParameterLink()
 
 void ComponentEditor::addNewParameter()
 {
+    if (currentParameter->name.isEmpty()) {
+        QMessageBox::information(this, QStringLiteral(u"Ошибка"),
+            QStringLiteral(u"Имя не должно быть пустым"));
+        return;
+    }
+    bool descValid = !ValueValidator::hasCyrillicCharacters(currentParameter->desc);
+    bool nameValid = !ValueValidator::hasCyrillicCharacters(currentParameter->name);
+    if (!descValid || !nameValid) {
+        QMessageBox::information(this, QStringLiteral(u"Ошибка"),
+            QStringLiteral(u"Допустимы только латинские буквы"));
+        return;
+    }
     currentParameterListWidget->ParametersList::insertItem(*currentParameter);
 }
 

@@ -407,7 +407,7 @@ bool LibWorkspace::copyDirectoryContents(const QString& sourceDirPath, const QSt
 
 void LibWorkspace::openNewComponentDialog()
 {
-    dialog = new NewComponentDialog(libraries, catalogs, libraryManager->currentLibrary, this);
+    dialog = new NewComponentDialog(libraries, catalogs, components, libraryManager->currentLibrary, this);
 
     if (dialog->exec() == QDialog::Accepted) {
         QString name = dialog->getName();
@@ -415,6 +415,15 @@ void LibWorkspace::openNewComponentDialog()
         QString directory = dialog->getDirectory();
         QString category = dialog->getCategory();
         QString desc = dialog->getDesc();
+
+
+        //for (auto& newComp : *components) {
+        //    if (newComp.name == name) {
+        //        QMessageBox::information(this, QStringLiteral(u"Ошибка"),
+        //            QStringLiteral(u"Компонент с таким именем уже существует"));
+        //        return;
+        //    }
+        //}
 
         createNewComponent(name, library, category, desc);
         refresh();

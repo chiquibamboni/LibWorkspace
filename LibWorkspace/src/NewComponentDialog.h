@@ -9,14 +9,16 @@
 #include <QGroupBox>
 #include <QLabel>
 #include <QDialogButtonBox>
+#include <QToolTip>
 #include "Library.h"
+#include "ValueValidator.h"
 
 class NewComponentDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    NewComponentDialog(QList<Library>* libraries, QList<Catalog>* catalogs,
+    NewComponentDialog(QList<Library>* libraries, QList<Catalog>* catalogs, QList<Component>* components,
         Library* libForCat, QWidget* parent = nullptr);
     ~NewComponentDialog();
 
@@ -36,6 +38,7 @@ private:
     void setupConnections();
     void loadComboBoxData(QList<Library>* lib, QList<Catalog>* catalogs, Library* libForCat);
     void updateCategories(const QString& directoryName);
+    //bool hasCyrillicCharacters(const QString& text);
 
     QLineEdit* nameEdit;
     QTextEdit* descEdit;
@@ -46,6 +49,7 @@ private:
     QPushButton* cancelButton;
 
     QList<Catalog>* catalogsList;
+    QList <Component>* componentsList;
 
     QString currentName;
     QString currentDesc;

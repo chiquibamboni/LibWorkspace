@@ -8,6 +8,7 @@
 #include "ParameterEditor.h"
 #include "ThumbSelectDialog.h"
 #include "UgoTabs.h"
+#include "ValueValidator.h"
 
 #include <QPushButton>
 #include <QLabel>

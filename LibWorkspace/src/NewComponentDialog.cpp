@@ -4,8 +4,8 @@
 #include <QHBoxLayout>
 #include <QMessageBox>
 
-NewComponentDialog::NewComponentDialog(QList<Library>* libraries, QList<Catalog>* catalogs, Library* libForCat, QWidget* parent)
-    : QDialog(parent), catalogsList(catalogs)
+NewComponentDialog::NewComponentDialog(QList<Library>* libraries, QList<Catalog>* catalogs, QList<Component>* components,Library* libForCat, QWidget* parent)
+    : QDialog(parent), catalogsList(catalogs), componentsList(components)
 {
     setupUI();
     setupConnections();
@@ -160,6 +160,25 @@ void NewComponentDialog::onAccept()
     currentDirectory = directoryCombo->currentText();
     currentCategory = categoryCombo->currentText();
 
+    bool descValid = ValueValidator::hasCyrillicCharacters(currentDesc);
+    bool nameValid = ValueValidator::hasCyrillicCharacters(currentName);
+
+    if (descValid || nameValid)
+    {
+        QMessageBox::information(this, QStringLiteral(u"Ошибка"),
+            QStringLiteral(u"Допустимы только латинские буквы"));
+        return;
+    }
+
+    for (auto& newComp : *componentsList) {
+    if (newComp.name == currentName) {
+        QMessageBox::information(this, QStringLiteral(u"Ошибка"),
+            QStringLiteral(u"Компонент с таким именем уже существует"));
+        return;
+    }
+    }
+
+
     accept();
 }
 
@@ -172,3 +191,17 @@ void NewComponentDialog::validateForm()
 
     okButton->setEnabled(isValid);
 }
+
+//bool NewComponentDialog::hasCyrillicCharacters(const QString& text)
+//{
+//    for (const QChar& ch : text) {
+//        ushort unicode = ch.unicode();
+//        // Русские буквы в Unicode: 
+//        // А-Я: 1040-1071, а-я: 1072-1103, Ё: 1025, ё: 1105
+//        if ((unicode >= 1040 && unicode <= 1103) ||
+//            unicode == 1025 || unicode == 1105) {
+//            return true;
+//        }
+//    }
+//    return false;
+//}
