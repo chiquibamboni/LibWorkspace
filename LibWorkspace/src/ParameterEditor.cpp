@@ -97,7 +97,6 @@ void ParameterEditor::setupUi()
 
     mainLayout->addWidget(parametersGroup);
 
-
     mainLayout->setContentsMargins(5, 5, 5, 5);
    parametersGroup->setMinimumWidth(300);   
 }

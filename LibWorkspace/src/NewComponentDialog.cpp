@@ -4,12 +4,13 @@
 #include <QHBoxLayout>
 #include <QMessageBox>
 
-NewComponentDialog::NewComponentDialog(QList<Library>* libraries, QList<Catalog>* catalogs, Library* libForCat, QWidget* parent)
-    : QDialog(parent), catalogsList(catalogs)
+NewComponentDialog::NewComponentDialog(QList<Library>* libraries, QList<Catalog>* catalogs, QList<Component>* components, QWidget* parent)
+    : QDialog(parent), catalogsList(catalogs), componentsList(components)
 {
     setupUI();
     setupConnections();
-    loadComboBoxData(libraries, catalogs, libForCat);
+    loadComboBoxData(libraries, catalogs);
+    resize(300, 300);
 }
 
 NewComponentDialog::~NewComponentDialog()
@@ -27,6 +28,9 @@ void NewComponentDialog::setupUI()
     nameEdit = new QLineEdit();
     nameEdit->setPlaceholderText(QStringLiteral(u"Введите название компонента"));
     formLayout->addRow(QStringLiteral(u"Название компонента:"), nameEdit);
+    descEdit = new QTextEdit();
+    descEdit->setPlaceholderText(QStringLiteral(u"Введите описание компонента"));
+    formLayout->addRow(QStringLiteral(u"Описание:"), descEdit);
 
     QGroupBox* locationGroup = new QGroupBox(QStringLiteral(u"Местоположение компонента"));
     QFormLayout* locationLayout = new QFormLayout();
@@ -67,7 +71,7 @@ void NewComponentDialog::setupConnections()
         this, &NewComponentDialog::onDirectoryChanged);
 }
 
-void NewComponentDialog::loadComboBoxData(QList<Library>* lib, QList<Catalog>* catalogs, Library* libForCat)
+void NewComponentDialog::loadComboBoxData(QList<Library>* lib, QList<Catalog>* catalogs)
 {
     QStringList libraries = {};
     QStringList directories = {"None"};
@@ -118,11 +122,6 @@ void NewComponentDialog::updateCategories(const QString& directoryName)
             }
         }
 
-        //categories.push_back("Ports");
-        //categories.push_back("Sources");
-        //categories.push_back("Substrates");
-        //categories.push_back("Simulations");
-
         categoryCombo->addItems(categories);
 
         if (!categories.isEmpty())
@@ -156,9 +155,28 @@ void NewComponentDialog::updateCategories(const QString& directoryName)
 void NewComponentDialog::onAccept()
 {
     currentName = nameEdit->text();
+    currentDesc = descEdit->toPlainText();
     currentLib = libraryCombo->currentText();
     currentDirectory = directoryCombo->currentText();
     currentCategory = categoryCombo->currentText();
+
+    bool descValid = ValueValidator::hasCyrillicCharacters(currentDesc);
+    bool nameValid = ValueValidator::hasCyrillicCharacters(currentName);
+
+    if (descValid || nameValid)
+    {
+        QMessageBox::information(this, QStringLiteral(u"Ошибка"),
+            QStringLiteral(u"Допустимы только латинские буквы"));
+        return;
+    }
+
+    for (auto& newComp : *componentsList) {
+    if (newComp.name == currentName) {
+        QMessageBox::information(this, QStringLiteral(u"Ошибка"),
+            QStringLiteral(u"Компонент с таким именем уже существует"));
+        return;
+    }
+    }
 
     accept();
 }

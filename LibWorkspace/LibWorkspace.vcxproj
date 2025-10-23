@@ -105,6 +105,7 @@
     <ClCompile Include="src\FillFromJsons.cpp" />
     <ClCompile Include="src\ThumbSelectDialog.cpp" />
     <ClCompile Include="src\UgoTabs.cpp" />
+    <ClCompile Include="src\ValueValidator.cpp" />
     <QtRcc Include="LibWorkspace.qrc" />
     <QtMoc Include="src\LibWorkspace.h" />
     <ClCompile Include="src\ParametersList.cpp" />
@@ -115,6 +116,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ValueValidator.h" />
     <QtMoc Include="src\ComponentEditor.h" />
     <QtMoc Include="src\FullTableDialog.h" />
     <QtMoc Include="src\NewComponentDialog.h" />

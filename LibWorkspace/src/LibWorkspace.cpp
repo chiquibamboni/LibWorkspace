@@ -244,6 +244,7 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
             if (!libraryManager->currentCatalog->components.isEmpty())
             {
                 componentsTable->updateComponents(libraryManager->currentCatalog->components);
+                SelectComponent(componentsTable->model()->index(0, 0));
                 currentComponent = nullptr;
                 return;
             }
@@ -258,6 +259,7 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
                     if (!libraryManager->currentCatalog->components.isEmpty())
                     {
                         componentsTable->updateComponents(libraryManager->currentCatalog->components);
+                        SelectComponent(componentsTable->model()->index(0, 0));
                         currentComponent = nullptr;
                         return;
                     }
@@ -429,35 +431,44 @@ void LibWorkspace::openDeleteDialog()
 
 void LibWorkspace::openNewComponentDialog()
 {
-    dialog = new NewComponentDialog(libraries, catalogs, libraryManager->currentLibrary, this);
+    dialog = new NewComponentDialog(libraries, catalogs, components, this);
 
     if (dialog->exec() == QDialog::Accepted) {
         QString name = dialog->getName();
         QString library = dialog->getLibrary();
         QString directory = dialog->getDirectory();
         QString category = dialog->getCategory();
+        QString desc = dialog->getDesc();
 
-        createNewComponent(name, library, directory, category);
+        createNewComponent(name, library, category, desc);
         refresh();
     }
 
     delete dialog;
 }
 
-void LibWorkspace::createNewComponent(QString name, QString library, QString directory, QString category)
+void LibWorkspace::createNewComponent(QString name, QString library, QString category, QString desc)
 {
     Component* newComponent = new Component();
+    QString libPath;
+    QString mainPath;
 
     newComponent->name = name;
+    newComponent->desc = desc;
     newComponent->library = library;
     newComponent->model = name;
     newComponent->parameters = *componentEditor->currentParameterListWidget->parameters;
     newComponent->thumbName = name;
 
-    QString libPath = "./Libraries/" + currentLibrary->dir + "/library.json";
+    for (auto& lib : *libraries) {
+        if (lib.name == newComponent->library) {
+            libPath = "./Libraries/" + lib.dir + "/library.json";
+            mainPath = "./Libraries/" + lib.dir;
+            break;
+        }
+    }
+    
     nlohmann::json jsonObj = FillFromJsons::readJson(libPath, this);
-
-    QString mainPath = "./Libraries/" + currentLibrary->dir;
 
     FillFromJsons::AddNewComponentToJson(jsonObj, *newComponent, category, mainPath,
         *componentEditor->newThumbName, componentEditor->modelsComboBox->currentText());

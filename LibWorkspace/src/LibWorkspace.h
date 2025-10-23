@@ -45,9 +45,9 @@ private:
     QAction* refreshAction;
     NewComponentDialog* dialog;
     QAction* showFullTableAction;
-    QStatusBar* statusBar; // Добавляем статус бар
+    QStatusBar* statusBar;
 
-    void createNewComponent(QString name, QString library, QString directory, QString category);
+    void createNewComponent(QString name, QString library, QString category, QString desc);
 
     Library* currentLibrary;
     Catalog* currentCatalog;

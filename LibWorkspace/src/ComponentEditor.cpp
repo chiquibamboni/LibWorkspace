@@ -170,11 +170,11 @@ void ComponentEditor::onParameterChanged()
         currentParameter->pdefault = QVariant(numericValue); // число
     }
     //для массива
-    /*else if (jsonObj["default"].is_array()) {
-        auto arr = jsonObj["default"].get<std::vector<double>>();
-        QVector<double> qvec(arr.begin(), arr.end());
-        pdefault = QVariant(qvec);
-    }*/
+    //else if (jsonObj["default"].is_array()) {
+    //    auto arr = jsonObj["default"].get<std::vector<double>>();
+    //    QVector<double> qvec(arr.begin(), arr.end());
+    //    pdefault = QVariant(qvec);
+    //}
     else {
         currentParameter->pdefault = QVariant(defaultText);
     }
@@ -199,6 +199,18 @@ void ComponentEditor::updateParameterLink()
 
 void ComponentEditor::addNewParameter()
 {
+    if (currentParameter->name.isEmpty()) {
+        QMessageBox::information(this, QStringLiteral(u"Ошибка"),
+            QStringLiteral(u"Имя не должно быть пустым"));
+        return;
+    }
+    bool descValid = !ValueValidator::hasCyrillicCharacters(currentParameter->desc);
+    bool nameValid = !ValueValidator::hasCyrillicCharacters(currentParameter->name);
+    if (!descValid || !nameValid) {
+        QMessageBox::information(this, QStringLiteral(u"Ошибка"),
+            QStringLiteral(u"Допустимы только латинские буквы"));
+        return;
+    }
     currentParameterListWidget->ParametersList::insertItem(*currentParameter);
 }
 

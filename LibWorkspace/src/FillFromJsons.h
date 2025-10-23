@@ -33,7 +33,7 @@ public:
 	static void saveJsonToFile(const nlohmann::json& j, const QString& filePath);
 	static void MoveComponentUp(nlohmann::json jsonObj, Component& component);
 	static void MoveComponentDown(nlohmann::json jsonObj, Component& component);
-    
+    static nlohmann::json CreateUgoJson(Component& comp);
     // Метод для установки статус бара
     static void setStatusBar(QStatusBar* statusBar);
     
@@ -45,4 +45,5 @@ public:
     
 private:
     static QStatusBar* statusBar;
+
 };
