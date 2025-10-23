@@ -482,6 +482,7 @@ void LibWorkspace::refresh()
     parameters->clear();
     libraries->clear();
     catalogs->clear();
+    components->clear();
     libraryManager->request();
     setupFields();
     componentsTable->setRowCount(0);

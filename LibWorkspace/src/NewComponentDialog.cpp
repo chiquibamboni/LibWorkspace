@@ -171,7 +171,7 @@ void NewComponentDialog::onAccept()
     }
 
     for (auto& newComp : *componentsList) {
-    if (newComp.name == currentName) {
+    if (newComp.model == currentName) {
         QMessageBox::information(this, QStringLiteral(u"Ошибка"),
             QStringLiteral(u"Компонент с таким именем уже существует"));
         return;
