@@ -438,6 +438,7 @@ void FillFromJsons::AddNewComponentToJson(nlohmann::json& jsonObj, Component& co
 {
     QString mainJsonFilePath = mainPath + "/library.json";
     QString compPath = mainPath + "/components";
+    QString ugoPath = mainPath + "/ugos/ansi";
 
     std::function<bool(nlohmann::json&, const std::string&)> findAndAddToCatalog;
 
@@ -494,11 +495,13 @@ void FillFromJsons::AddNewComponentToJson(nlohmann::json& jsonObj, Component& co
                 sourceUgoFile.copy(targetUgoFilePath);
             }
 
-            ////
-
             nlohmann::json fullComponentJson = CreateComponentJson(component);
-            QString filePath = compPath + "/" + component.name + ".json";
+            QString filePath = compPath + "/" + component.model + ".json";
             saveJsonToFile(fullComponentJson, filePath);
+
+            nlohmann::json fullUgoJson = CreateUgoJson(component);
+            QString fileUgoPath = ugoPath + "/" + component.model + ".json";
+            saveJsonToFile(fullUgoJson, fileUgoPath);
 
             saveJsonToFile(jsonObj, mainJsonFilePath);
             return true; 
@@ -583,6 +586,22 @@ nlohmann::json FillFromJsons::ParametersToJson(QList<Parameters>& params)
         arr.push_back(jParam);
     }
     return arr;
+}
+
+nlohmann::json FillFromJsons::CreateUgoJson(Component& comp)
+{
+    nlohmann::json j = {
+        {"file", comp.model.toStdString()+ ".svg"},
+        {"size", nlohmann::json::array()}
+    };
+
+    nlohmann::json pinsJson = nlohmann::json::array();
+    for (const auto& pin : comp.pins) {
+        pinsJson.push_back(pin.toStdString());
+    }
+    j["pins"] = pinsJson;
+
+    return j;
 }
 
 nlohmann::json FillFromJsons::CreateComponentJson(Component& comp)
