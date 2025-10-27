@@ -531,6 +531,57 @@ void FillFromJsons::AddNewComponentToJson(nlohmann::json& jsonObj, Component& co
     }
 }
 
+void FillFromJsons::AddNewCatalogToJson(nlohmann::json& jsonObj, QString libName, QString catalogName, QString NewCatalogName,
+    QString mainPath, QString thumbFileName)
+{
+    QString mainJsonFilePath = mainPath + "/library.json";
+
+    nlohmann::json newCatalog = {
+        {"name", NewCatalogName.toStdString()},
+        {"thumb", thumbFileName.toStdString()},
+        {"catalogs", nlohmann::json::array()},
+        {"components", nlohmann::json::array()}
+    };
+
+    if (catalogName.isEmpty())
+    {
+        if (!jsonObj.contains("catalogs") || !jsonObj["catalogs"].is_array())
+        {
+            jsonObj["catalogs"] = nlohmann::json::array();
+        }
+        jsonObj["catalogs"].push_back(newCatalog);
+        saveJsonToFile(jsonObj, mainJsonFilePath);
+        return;
+    }
+
+    std::string targetCatalogName = catalogName.toStdString();
+
+    for (auto& catalog : jsonObj["catalogs"])
+    {
+        if (catalog.contains("name") && catalog["name"] == targetCatalogName)
+        {
+            if (!catalog.contains("catalogs") || !catalog["catalogs"].is_array())
+            {
+                catalog["catalogs"] = nlohmann::json::array();
+            }
+            catalog["catalogs"].push_back(newCatalog);
+            saveJsonToFile(jsonObj, mainJsonFilePath);
+            return;
+        }
+    }
+
+    // Если каталог не найден, добавляем на верхний уровень
+    if (!jsonObj.contains("catalogs") || !jsonObj["catalogs"].is_array())
+    {
+        QString message = QString(QStringLiteral(u"Не сужествует такого каталога"));
+        showError(nullptr, message);
+        return;
+    }
+    jsonObj["catalogs"].push_back(newCatalog);
+    saveJsonToFile(jsonObj, mainJsonFilePath);
+}
+
+
 // Функция для преобразования QVariant в json
 nlohmann::json FillFromJsons::QVariantToJson(const QVariant& var)
 {

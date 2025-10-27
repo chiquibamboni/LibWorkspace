@@ -73,6 +73,12 @@
     <ClCompile Include="src\ValueValidator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\DeleteDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\NewCatalogDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Catalog.h">
@@ -123,6 +129,12 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\FullTableDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\DeleteDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\NewCatalogDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

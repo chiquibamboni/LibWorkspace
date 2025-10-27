@@ -8,6 +8,7 @@
 #include "ComponentEditor.h"
 #include "FullTableDialog.h"
 #include "NewComponentDialog.h"
+#include "NewCatalogDialog.h"
 #include "DeleteDialog.h"
 
 #include <QVBoxLayout>
@@ -43,11 +44,15 @@ private:
     QAction* newAction;
     QAction* deleteAction;
     QAction* refreshAction;
-    NewComponentDialog* dialog;
+    NewComponentDialog* dialogComp;
+    NewCatalogDialog* dialogCat;
     QAction* showFullTableAction;
+    QAction* catAction;
+    QAction* compAction;
     QStatusBar* statusBar;
 
     void createNewComponent(QString name, QString library, QString category, QString desc);
+    void createNewCatalog(QString name, QString library, QString directory);
 
     Library* currentLibrary;
     Catalog* currentCatalog;
@@ -71,6 +76,7 @@ private slots:
     void resetButtonClicked();
     void onShowFullTable();
     void openNewComponentDialog();
+    void openNewCatalogDialog();
     void openDeleteDialog();
     void refresh();
 };

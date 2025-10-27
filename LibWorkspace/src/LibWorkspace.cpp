@@ -170,10 +170,10 @@ void LibWorkspace::setupMenuBar()
     QAction* libAction = new QAction(QStringLiteral(u"Библиотеку"), this);
     editMenu->addAction(libAction);
 
-    QAction* catAction = new QAction(QStringLiteral(u"Каталог"), this);
+    catAction = new QAction(QStringLiteral(u"Каталог"), this);
     editMenu->addAction(catAction);
 
-    QAction* compAction = new QAction(QStringLiteral(u"Компонент"), this);
+    compAction = new QAction(QStringLiteral(u"Компонент"), this);
     editMenu->addAction(compAction);
 
     fileMenu->addSeparator();
@@ -214,6 +214,8 @@ void LibWorkspace::setupConnections()
     connect(resetButton, &QPushButton::clicked, this, &LibWorkspace::resetButtonClicked);
     connect(showFullTableAction, &QAction::triggered, this, &LibWorkspace::onShowFullTable);
     connect(newAction, &QAction::triggered, this, &LibWorkspace::openNewComponentDialog);
+    connect(compAction, &QAction::triggered, this, &LibWorkspace::openNewComponentDialog);
+    connect(catAction, &QAction::triggered, this, &LibWorkspace::openNewCatalogDialog);
     connect(deleteAction, &QAction::triggered, this, &LibWorkspace::openDeleteDialog);
     connect(refreshAction, &QAction::triggered, this, &LibWorkspace::refresh);
     connect(componentsTable->selectionModel(), &QItemSelectionModel::currentChanged, this, &LibWorkspace::SelectComponent);
@@ -432,20 +434,36 @@ void LibWorkspace::openDeleteDialog()
 
 void LibWorkspace::openNewComponentDialog()
 {
-    dialog = new NewComponentDialog(libraries, catalogs, components, this);
+    dialogComp = new NewComponentDialog(libraries, catalogs, components, this);
 
-    if (dialog->exec() == QDialog::Accepted) {
-        QString name = dialog->getName();
-        QString library = dialog->getLibrary();
-        QString directory = dialog->getDirectory();
-        QString category = dialog->getCategory();
-        QString desc = dialog->getDesc();
+    if (dialogComp->exec() == QDialog::Accepted) {
+        QString name = dialogComp->getName();
+        QString library = dialogComp->getLibrary();
+        QString directory = dialogComp->getDirectory();
+        QString category = dialogComp->getCategory();
+        QString desc = dialogComp->getDesc();
 
         createNewComponent(name, library, category, desc);
         refresh();
     }
 
-    delete dialog;
+    delete dialogComp;
+}
+
+void LibWorkspace::openNewCatalogDialog()
+{
+    dialogCat = new NewCatalogDialog(libraries, catalogs, this);
+
+    if (dialogCat->exec() == QDialog::Accepted) {
+        QString name = dialogCat->getName();
+        QString library = dialogCat->getLibrary();
+        QString directory = dialogCat->getDirectory();
+
+        createNewCatalog(name, library, directory);
+        refresh();
+    }
+
+    delete dialogCat;
 }
 
 void LibWorkspace::createNewComponent(QString name, QString library, QString category, QString desc)
@@ -473,6 +491,24 @@ void LibWorkspace::createNewComponent(QString name, QString library, QString cat
 
     FillFromJsons::AddNewComponentToJson(jsonObj, *newComponent, category, mainPath,
         *componentEditor->newThumbName, componentEditor->modelsComboBox->currentText());
+}
+
+void LibWorkspace::createNewCatalog(QString name, QString library, QString directory)
+{
+    QString libPath;
+    QString mainPath;
+
+    for (auto& lib : *libraries) {
+        if (lib.name == library) {
+            libPath = "./Libraries/" + lib.dir + "/library.json";
+            mainPath = "./Libraries/" + lib.dir;
+            break;
+        }
+    }
+
+    nlohmann::json jsonObj = FillFromJsons::readJson(libPath, this);
+
+    FillFromJsons::AddNewCatalogToJson(jsonObj, library, directory, name, mainPath, "");
 
 }
 
