@@ -23,7 +23,8 @@ private:
     void setupUI();
     void setupConnections();
 
-    QLabel* nameLabel;
+    QString currentType;
+    QString currentName;
 
     QString libName;
     QString catName;
@@ -34,6 +35,7 @@ private:
     Component* comp;
 
     QComboBox* elementComboBox;
+    QPushButton* deleteButton;
     QPushButton* okButton;
     QPushButton* cancelButton;
 

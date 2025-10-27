@@ -745,6 +745,32 @@ void FillFromJsons::deleteComponentFromJson(nlohmann::json& jsonObj, QString mai
     }
 }
 
+void FillFromJsons::deleteCatalogFromJson(nlohmann::json& j, const QString& targetName, const QString& mainPath) 
+{
+    if (!j.is_object()) {
+        return;
+    }
+
+    if (j.contains("catalogs") && j["catalogs"].is_array()) {
+        auto& catalogsArray = j["catalogs"];
+
+        for (auto it = catalogsArray.begin(); it != catalogsArray.end(); ) {
+            bool toErase = false;
+
+            if (it->contains("name") && QString::fromStdString((*it)["name"]) == targetName) {
+                it = catalogsArray.erase(it);
+                toErase = true;
+            }
+            else {
+                deleteCatalogFromJson(*it, targetName, mainPath);
+                ++it;
+            }
+        }
+        // После удалений сохраняем изменения
+        saveJsonToFile(j, mainPath);
+    }
+}
+
 void FillFromJsons::deleteJsonFile(const QString& folderPath, const QString& fileName)
 {
     QDir dir(folderPath);

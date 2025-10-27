@@ -23,8 +23,8 @@ void FullTableDialog::setupTable()
 {
     model = new QStandardItemModel(this);
     QStringList headers = {
-        "Symbol", "Model", "Veriloga", "Library",
-        "UGO ANSI", "UGO GOST", "Group", "Parameters", "Description"
+        "Thumb", "Model", "Veriloga", "Library",
+        "Symbol ANSI", "Symbol GOST", "Group", "Parameters", "Description"
     };
     model->setHorizontalHeaderLabels(headers);
 

@@ -422,6 +422,7 @@ void LibWorkspace::openDeleteDialog()
         QMessageBox::warning(this, QStringLiteral(u"Ошибка"), QStringLiteral(u"Выберите библиотеку/каталог/компонент, который хотите удалить"));
         return;
     }
+
     DeleteDialog*  delDialog = new DeleteDialog(currentLibrary, currentCatalog, currentComponent, this);
 
     if (delDialog->exec() == QDialog::Accepted) {

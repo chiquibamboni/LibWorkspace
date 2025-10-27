@@ -8,7 +8,7 @@ DeleteDialog::DeleteDialog(Library* currentLibrary, Catalog* currentCatalog, Com
 {
     setupUI();
     setupConnections();
-    updateNameLabel();
+    //updateNameLabel();
 }
 
 DeleteDialog::~DeleteDialog()
@@ -22,59 +22,116 @@ void DeleteDialog::setupUI()
 
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
 
-    QHBoxLayout* questionLayout = new QHBoxLayout();
+    // Создаем Label для полного сообщения
+    QLabel* questionTextLabel = new QLabel();
+    questionTextLabel->setWordWrap(true);
+    mainLayout->addWidget(questionTextLabel);
 
-    QLabel* questionLabel1 = new QLabel(QStringLiteral(u"Вы действительно хотите удалить "));
-    questionLabel1->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
-    questionLayout->addWidget(questionLabel1);
-
-    elementComboBox = new QComboBox();
+    // Инициализация типа и имени
     QString item1 = QStringLiteral(u"компонент");
     QString item2 = QStringLiteral(u"каталог");
-    QString item3 = QStringLiteral(u"библиотеку");
+    QString item3 = QStringLiteral(u"библиотека");
+
+    bool canDelete = true; // флаг, можно ли удалить объект
+
+    int contentCount = 0; // для подсчета содержимого библиотеки
+
     if (comp != nullptr)
     {
-        elementComboBox->addItem(item1);
+        currentType = item1;
+        currentName = comp->model;
     }
-    if (cat != nullptr)
+    else if (cat != nullptr)
     {
-        elementComboBox->addItem(item2);
+        // Проверка на непустой каталог
+        if (!cat->catalogs.isEmpty() || !cat->components.isEmpty())
+        {
+            canDelete = false;
+        }
+        currentType = item2;
+        currentName = cat->name;
     }
-    elementComboBox->addItem(item3);
-    questionLayout->addWidget(elementComboBox);
+    else if (lib != nullptr)
+    {
+        // Проверка на непустую библиотеку
+        contentCount = lib->catalogs.size();
 
-    nameLabel = new QLabel();
-    nameLabel->setStyleSheet("font-weight: bold;");
-    questionLayout->addWidget(nameLabel);
+        if (contentCount > 0)
+        {
+            canDelete = false;
+        }
+        currentType = item3;
+        currentName = lib->name;
+    }
+    else
+    {
+        currentType = "";
+        currentName = "";
+    }
 
-    QLabel* questionLabel2 = new QLabel(QStringLiteral(u"?"));
-    questionLabel2->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
-    questionLayout->addWidget(questionLabel2);
+    if (canDelete)
+    {
+        // Формируем обычное сообщение
+        QString fullText = QStringLiteral(u"Вы действительно хотите удалить %1 %2?")
+            .arg(currentType)
+            .arg(currentName);
+        questionTextLabel->setText(fullText);
+    }
+    else
+    {
+        // Сообщение, что удаление невозможно
+        QString errorMsg;
 
-    questionLayout->addStretch();
+        if (currentType == item3 && contentCount > 0)
+        {
+            // Правильное склонение для количества каталогов
+            errorMsg = QStringLiteral(u"Удаление невозможно: выбранная %1 '%2' не пустая.")
+                .arg(currentType)
+                .arg(currentName);
+        }
+        else
+        {
+            // Общее сообщение для других случаев
+            errorMsg = QStringLiteral(u"Удаление невозможно: выбранный %1 '%2' не пустой.")
+                .arg(currentType)
+                .arg(currentName);
+        }
 
-    mainLayout->addLayout(questionLayout);
+        questionTextLabel->setText(errorMsg);
+    }
 
+    // Создаём кнопку
     QDialogButtonBox* buttonBox = new QDialogButtonBox();
-    okButton = buttonBox->addButton(QDialogButtonBox::Ok);
-    cancelButton = buttonBox->addButton(QDialogButtonBox::Cancel);
 
-    okButton->setText(QStringLiteral(u"Удалить"));
-    cancelButton->setText(QStringLiteral(u"Отмена"));
+    if (canDelete)
+    {
+        // Обычные кнопки "Удалить" и "Отмена"
+        deleteButton = buttonBox->addButton(QDialogButtonBox::Ok);
+        cancelButton = buttonBox->addButton(QDialogButtonBox::Cancel);
+
+        deleteButton->setText(QStringLiteral(u"Удалить"));
+        cancelButton->setText(QStringLiteral(u"Отмена"));
+    }
+    else
+    {
+        okButton = new QPushButton(QStringLiteral(u"ОК"));
+        buttonBox->addButton(okButton, QDialogButtonBox::AcceptRole);
+    }
 
     mainLayout->addWidget(buttonBox);
 }
 
 void DeleteDialog::setupConnections()
 {
-    connect(okButton, &QPushButton::clicked, this, &DeleteDialog::onAccept);
+    connect(deleteButton, &QPushButton::clicked, this, &DeleteDialog::onAccept);
     connect(cancelButton, &QPushButton::clicked, this, &DeleteDialog::onReject);
+    connect(okButton, &QPushButton::clicked, this, &DeleteDialog::onReject);
     connect(elementComboBox, &QComboBox::currentTextChanged, this, &DeleteDialog::updateNameLabel);
 }
 
 void DeleteDialog::onReject()
 {
-    elementComboBox->clear();
+    //elementComboBox->clear();
     lib = nullptr;
     cat = nullptr;
     comp = nullptr;
@@ -84,25 +141,24 @@ void DeleteDialog::onReject()
 void DeleteDialog::updateNameLabel()
 {
 
-    QString currentText = elementComboBox->currentText();
+    //QString currentText = elementComboBox->currentText();
 
-    if (currentText == QStringLiteral(u"компонент")) {
-        nameLabel->setText(comp->model);
-    }
-    else if (currentText == QStringLiteral(u"каталог")) {
-        nameLabel->setText(cat->name);
-    }
-    else if (currentText == QStringLiteral(u"библиотеку")) {
-        nameLabel->setText(lib->name);
-    }
+    //if (currentText == QStringLiteral(u"компонент")) {
+    //    nameLabel->setText(comp->model);
+    //}
+    //else if (currentText == QStringLiteral(u"каталог")) {
+    //    nameLabel->setText(cat->name);
+    //}
+    //else if (currentText == QStringLiteral(u"библиотеку")) {
+    //    nameLabel->setText(lib->name);
+    //}
 }
 
 
 void DeleteDialog::onAccept()
 {
-    QString currentText = elementComboBox->currentText();
 
-    if (currentText == QStringLiteral(u"компонент")) {
+    if (currentType == QStringLiteral(u"компонент")) {
         // Вызов метода для удаления компонента
         QString filePath = "./Libraries/" + lib->dir + "/" + lib->components_location;
         QString fileName = comp->model + ".json";
@@ -111,11 +167,16 @@ void DeleteDialog::onAccept()
         nlohmann::json jsonObj = FillFromJsons::readJson(libraryPath, this);
         FillFromJsons::deleteComponentFromJson(jsonObj, libraryPath, cat->name, comp->model);
     }
-    else if (currentText == QStringLiteral(u"каталог")) {
-        // Вызов метода для удаления каталога
+    else if (currentType == QStringLiteral(u"каталог")) {
+        QString filePath = "./Libraries/" + lib->dir + "/" + lib->components_location;
+        QString libraryPath = "./Libraries/" + lib->dir + "/library.json";
+        nlohmann::json jsonObj = FillFromJsons::readJson(libraryPath, this);
+        FillFromJsons::deleteCatalogFromJson(jsonObj, cat->name, libraryPath);
     }
-    else if (currentText == QStringLiteral(u"библиотеку")) {
-        // Вызов метода для удаления библиотеки
+    else if (currentType == QStringLiteral(u"библиотеку")) {
+        QString filePath = "./Libraries/" + lib->dir;
+        QString fileName = "library.json";
+        FillFromJsons::deleteJsonFile(filePath, fileName);
     }
 
     accept();
