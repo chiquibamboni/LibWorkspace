@@ -40,13 +40,14 @@ public:
 
     QString* newThumbName;
 
+    ParameterEditor* parameterEditor;
+
 private:
     void setupUi();
     void setupConnections();
 
     QPushButton* selectIconBtn;
 
-    ParameterEditor* parameterEditor;
     UgoTabs* ugoTabs;
  
     QList<Library>* librariesList;

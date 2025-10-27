@@ -34,10 +34,10 @@ public:
     QCheckBox* editedCheckBox;
     QCheckBox* netlistedCheckBox;
     QPushButton* addButton;
+    void loadComboBoxData(QList<Parameters>* parameters);
 private:
     void setupUi();
-    static const QStringList TYPE_ITEMS;
+    //static const QStringList TYPE_ITEMS;
     static const QStringList FEATURE_ITEMS;
     static const QStringList UNIT_ITEMS;
-
 };

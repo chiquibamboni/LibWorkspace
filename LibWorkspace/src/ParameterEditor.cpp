@@ -7,24 +7,21 @@
 
 #include <QLabel>
 
-const QStringList ParameterEditor::TYPE_ITEMS = {
-    "Real", "Integer", "Complex", "String", "Link"
-};
-
 const QStringList ParameterEditor::FEATURE_ITEMS = {
     "No Unit", "Angle", "Capacitance", "Conductance", "Current",
     "Datarate","dB", "Distance", "Frequency", "Inductance", "Length",
     "Power", "Resistance", "String", "Temperature", "Time", "Voltage"
 };
 
-const QStringList ParameterEditor::UNIT_ITEMS = {
-    "Ohm", "Hz", "F", "m", "H", "sec", "V", "A"
-};
+//const QStringList ParameterEditor::UNIT_ITEMS = {
+//    "Ohm", "Hz", "F", "m", "H", "sec", "V", "A"
+//};
 
 ParameterEditor::ParameterEditor(QWidget* parent)
     : QMainWindow(parent)
 {
     setupUi();
+    //loadComboBoxData(parameters);
 }
 
 ParameterEditor::~ParameterEditor()
@@ -54,7 +51,7 @@ void ParameterEditor::setupUi()
     formLayout->addRow(new QLabel(QStringLiteral(u"Имя")), nameEdit);
 
     typeComboBox = new QComboBox();
-    typeComboBox->addItems(TYPE_ITEMS);
+    //typeComboBox->addItems(TYPE_ITEMS);
     formLayout->addRow(new QLabel(QStringLiteral(u"Тип")), typeComboBox);
 
     formLayout->addRow(new QLabel(""), new QLabel(QStringLiteral(u"Пример: 12.34e+6")));
@@ -67,7 +64,7 @@ void ParameterEditor::setupUi()
     formLayout->addRow(new QLabel(QStringLiteral(u"Характеристика")), featureComboBox);
 
     unitComboBox = new QComboBox();
-    unitComboBox->addItems(UNIT_ITEMS);
+    //unitComboBox->addItems(UNIT_ITEMS);
     formLayout->addRow((QStringLiteral(u"Единица измерения")), unitComboBox);
 
     descLineEdit = new QTextEdit();
@@ -99,6 +96,21 @@ void ParameterEditor::setupUi()
 
     mainLayout->setContentsMargins(5, 5, 5, 5);
    parametersGroup->setMinimumWidth(300);   
+}
+
+void ParameterEditor::loadComboBoxData(QList<Parameters>* parameters)
+{
+    QSet<QString> typeItems = {};
+    QSet<QString> unitItems = {};
+
+    for (auto& param : *parameters)
+    {
+        typeItems.insert(param.type);
+        unitItems.insert(param.unit);
+    }
+
+    unitComboBox->addItems(unitItems.values());
+    typeComboBox->addItems(typeItems.values());
 }
 
 QString ParameterEditor::buildingLink(Parameters* parameter)

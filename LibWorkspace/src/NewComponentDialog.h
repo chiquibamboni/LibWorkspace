@@ -38,7 +38,6 @@ private:
     void setupConnections();
     void loadComboBoxData(QList<Library>* lib, QList<Catalog>* catalogs);
     void updateCategories(const QString& directoryName);
-    //bool hasCyrillicCharacters(const QString& text);
 
     QLineEdit* nameEdit;
     QTextEdit* descEdit;

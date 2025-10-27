@@ -24,7 +24,7 @@ ComponentEditor::~ComponentEditor()
     delete librariesList;
     delete catalogsList;
     delete componentsList;
-    delete parametersList;
+    //delete parametersList;
     delete tabs;
 }
 
@@ -64,11 +64,11 @@ void ComponentEditor::setupUi()
 
     imageLayout->addSpacing(10);
 
-    parameterEditor = new ParameterEditor();
+    
     parametersListWidget = new ParametersList();
     parametersListWidget->parameters = parametersList;
     QHBoxLayout* leftLayout = new QHBoxLayout();
-
+    parameterEditor = new ParameterEditor();
     leftLayout->addLayout(imageLayout);
     leftLayout->addWidget(parameterEditor);
 
