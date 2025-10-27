@@ -63,8 +63,7 @@ void ComponentEditor::setupUi()
     imageLayout->addWidget(iconDisplay, 0, Qt::AlignHCenter);
 
     imageLayout->addSpacing(10);
-
-    
+  
     parametersListWidget = new ParametersList();
     parametersListWidget->parameters = parametersList;
     QHBoxLayout* leftLayout = new QHBoxLayout();
@@ -111,7 +110,9 @@ void ComponentEditor::setupUi()
     
     currentParameterListWidget = new ParametersList;
 
+    listLayout->addWidget(new QLabel(QStringLiteral(u"Список параметров")));
     listLayout->addWidget(parametersListWidget);
+    listLayout->addWidget(new QLabel(QStringLiteral(u"Список текущих параметров компонента")));
     listLayout->addWidget(currentParameterListWidget);
 
     listLayout->setStretchFactor(parametersListWidget, 2);
@@ -206,12 +207,22 @@ void ComponentEditor::addNewParameter()
     }
     bool descValid = !ValueValidator::hasCyrillicCharacters(currentParameter->desc);
     bool nameValid = !ValueValidator::hasCyrillicCharacters(currentParameter->name);
-    if (!descValid || !nameValid) {
+    bool typeValid = !ValueValidator::hasCyrillicCharacters(currentParameter->type);
+    bool featureValid = !ValueValidator::hasCyrillicCharacters(currentParameter->feature);
+    bool unitValid = !ValueValidator::hasCyrillicCharacters(currentParameter->unit);
+    bool defaultValueValid = true;
+    if (currentParameter->pdefault.value().canConvert<QString>())
+    {
+        defaultValueValid = !ValueValidator::hasCyrillicCharacters(currentParameter->pdefault.value().toString());
+    }
+
+    if (!descValid || !nameValid || !typeValid || !featureValid || !unitValid  || !defaultValueValid) {
         QMessageBox::information(this, QStringLiteral(u"Ошибка"),
             QStringLiteral(u"Допустимы только латинские буквы"));
         return;
     }
     currentParameterListWidget->ParametersList::insertItem(*currentParameter);
+    parameterEditor->clearEditor();
 }
 
 void ComponentEditor::delParameter()

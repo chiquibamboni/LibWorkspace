@@ -53,6 +53,7 @@ void LibWorkspace::setupFields()
             componentEditor->parametersListWidget->location = location;
             componentEditor->parametersListWidget->setItems();
             componentEditor->parameterEditor->loadComboBoxData(componentEditor->parametersListWidget->parameters);
+            componentEditor->parameterEditor->clearEditor();
         } else {
             QString message = QString(QStringLiteral(u"Каталог компонентов библиотеки не найден: %1")).arg(location);
             FillFromJsons::showError(this, message);

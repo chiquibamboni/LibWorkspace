@@ -13,6 +13,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include "Parameters.h"
+#include "ValueValidator.h"
 
 class ParameterEditor : public QMainWindow
 {
@@ -34,10 +35,10 @@ public:
     QCheckBox* editedCheckBox;
     QCheckBox* netlistedCheckBox;
     QPushButton* addButton;
+
     void loadComboBoxData(QList<Parameters>* parameters);
+    void clearEditor();
 private:
     void setupUi();
-    //static const QStringList TYPE_ITEMS;
     static const QStringList FEATURE_ITEMS;
-    static const QStringList UNIT_ITEMS;
 };

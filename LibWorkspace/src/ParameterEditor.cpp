@@ -13,15 +13,10 @@ const QStringList ParameterEditor::FEATURE_ITEMS = {
     "Power", "Resistance", "String", "Temperature", "Time", "Voltage"
 };
 
-//const QStringList ParameterEditor::UNIT_ITEMS = {
-//    "Ohm", "Hz", "F", "m", "H", "sec", "V", "A"
-//};
-
 ParameterEditor::ParameterEditor(QWidget* parent)
     : QMainWindow(parent)
 {
     setupUi();
-    //loadComboBoxData(parameters);
 }
 
 ParameterEditor::~ParameterEditor()
@@ -51,8 +46,8 @@ void ParameterEditor::setupUi()
     formLayout->addRow(new QLabel(QStringLiteral(u"Имя")), nameEdit);
 
     typeComboBox = new QComboBox();
-    //typeComboBox->addItems(TYPE_ITEMS);
     formLayout->addRow(new QLabel(QStringLiteral(u"Тип")), typeComboBox);
+    typeComboBox->setEditable(true);
 
     formLayout->addRow(new QLabel(""), new QLabel(QStringLiteral(u"Пример: 12.34e+6")));
 
@@ -62,10 +57,11 @@ void ParameterEditor::setupUi()
     featureComboBox = new QComboBox();
     featureComboBox->addItems(FEATURE_ITEMS);
     formLayout->addRow(new QLabel(QStringLiteral(u"Характеристика")), featureComboBox);
+    featureComboBox->setEditable(true);
 
     unitComboBox = new QComboBox();
-    //unitComboBox->addItems(UNIT_ITEMS);
     formLayout->addRow((QStringLiteral(u"Единица измерения")), unitComboBox);
+    unitComboBox->setEditable(true);
 
     descLineEdit = new QTextEdit();
     formLayout->addRow(new QLabel(QStringLiteral(u"Описание")), descLineEdit);
@@ -105,12 +101,31 @@ void ParameterEditor::loadComboBoxData(QList<Parameters>* parameters)
 
     for (auto& param : *parameters)
     {
+        if (!param.type.isEmpty())
         typeItems.insert(param.type);
+        if (!param.unit.isEmpty())
         unitItems.insert(param.unit);
     }
 
+    unitComboBox->clear();
+    typeComboBox->clear();
+
     unitComboBox->addItems(unitItems.values());
     typeComboBox->addItems(typeItems.values());
+}
+
+void ParameterEditor::clearEditor()
+{
+    nameEdit->clear();
+    typeComboBox->setCurrentText("");
+    defaultValueLineEdit->clear();
+    featureComboBox->setCurrentText("");
+    unitComboBox->setCurrentText("");
+    descLineEdit->clear();
+    displayCheckBox->setChecked(false);
+    optimizableCheckBox->setChecked(false);
+    editedCheckBox->setChecked(false);
+    netlistedCheckBox->setChecked(false);
 }
 
 QString ParameterEditor::buildingLink(Parameters* parameter)
