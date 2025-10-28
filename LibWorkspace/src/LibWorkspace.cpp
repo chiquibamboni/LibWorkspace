@@ -92,6 +92,7 @@ void LibWorkspace::setupFields()
             {
                 for (auto& component : subCat.components)
                 {
+                    if (!component.ugo.ansiUgoSymbol.isNull() || !component.ugo.gostUgoSymbol.isNull())
                     componentEditor->modelsComboBox->addItem(component.model);
                     components->push_back(component);
                 }
@@ -154,7 +155,7 @@ void LibWorkspace::setupMenuBar()
     menuBar = new QMenuBar(this);
     setMenuBar(menuBar);
 
-    QMenu* fileMenu = menuBar->addMenu(QStringLiteral(u"Файл"));
+    /*QMenu* fileMenu = menuBar->addMenu(QStringLiteral(u"Файл"));
 
     QAction* newAction = new QAction(QStringLiteral(u"Создать"), this);
     newAction->setShortcut(QKeySequence::New);
@@ -164,12 +165,12 @@ void LibWorkspace::setupMenuBar()
     openAction->setShortcut(QKeySequence::Open);
     fileMenu->addAction(openAction);
 
-    fileMenu->addSeparator();
+    fileMenu->addSeparator();*/
 
     QMenu* editMenu = menuBar->addMenu(QStringLiteral(u"Добавить"));
 
-    QAction* libAction = new QAction(QStringLiteral(u"Библиотеку"), this);
-    editMenu->addAction(libAction);
+    //QAction* libAction = new QAction(QStringLiteral(u"Библиотеку"), this);
+    //editMenu->addAction(libAction);
 
     catAction = new QAction(QStringLiteral(u"Каталог"), this);
     editMenu->addAction(catAction);
@@ -177,14 +178,14 @@ void LibWorkspace::setupMenuBar()
     compAction = new QAction(QStringLiteral(u"Компонент"), this);
     editMenu->addAction(compAction);
 
-    fileMenu->addSeparator();
+    //fileMenu->addSeparator();
 
     QMenu* viewMenu = menuBar->addMenu(QStringLiteral(u"Вид"));
     showFullTableAction = viewMenu->addAction(QStringLiteral(u"Показать полную таблицу компонентов"));
 
-    fileMenu->addSeparator();
+    //fileMenu->addSeparator();
 
-    QMenu* helpMenu = menuBar->addMenu(QStringLiteral(u"Помощь"));
+    //QMenu* helpMenu = menuBar->addMenu(QStringLiteral(u"Помощь"));
 }
 
 void LibWorkspace::setupToolBar()
@@ -196,14 +197,14 @@ void LibWorkspace::setupToolBar()
 
     newAction = new QAction(QIcon("icons/plus.svg"), QStringLiteral(u"Добавить"), this);
     deleteAction = new QAction(QIcon("icons/cross.svg"), QStringLiteral(u"Удалить"), this);
-    QAction* downAction = new QAction(QIcon("icons/arrow-down.svg"), QStringLiteral(u"Вниз"), this);
-    QAction* upAction = new QAction(QIcon("icons/arrow-up.svg"), QStringLiteral(u"Вверх"), this);
+    //QAction* downAction = new QAction(QIcon("icons/arrow-down.svg"), QStringLiteral(u"Вниз"), this);
+    //QAction* upAction = new QAction(QIcon("icons/arrow-up.svg"), QStringLiteral(u"Вверх"), this);
     refreshAction = new QAction(QIcon("icons/refresh.svg"), QStringLiteral(u"Обновить"), this);
 
     toolBar->addAction(newAction);
     toolBar->addAction(deleteAction);
-    toolBar->addAction(downAction);
-    toolBar->addAction(upAction);
+    //toolBar->addAction(downAction);
+    //toolBar->addAction(upAction);
     toolBar->addAction(refreshAction);
 }
 
@@ -225,6 +226,8 @@ void LibWorkspace::setupConnections()
 void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
 {
     QString selectedItem = libraryManager->model->data(index, Qt::DisplayRole).toString();
+    QModelIndex parentIndex = index.parent();
+    QString parentItem = libraryManager->model->data(parentIndex, Qt::DisplayRole).toString();
     if (!index.isValid()) {
         return;
     }
@@ -254,7 +257,8 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
             }
             return;
         }
-        else {
+        else if (catalog.name == parentItem){
+
             for (auto& subCat : catalog.catalogs)
             {
                 if (subCat.name == selectedItem) {
