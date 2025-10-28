@@ -529,4 +529,7 @@ void LibWorkspace::refresh()
     libraryManager->request();
     setupFields();
     componentsTable->setRowCount(0);
+    currentLibrary = nullptr;
+    currentCatalog = nullptr;
+    currentComponent = nullptr;
 }
