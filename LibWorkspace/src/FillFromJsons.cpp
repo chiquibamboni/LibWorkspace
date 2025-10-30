@@ -137,7 +137,10 @@ Catalog FillFromJsons::CatalogFromJson(const nlohmann::json& jsonObj, Library* c
 {
     QIcon folderIcon = QIcon("./icons/folder.svg");
     Catalog catalog;
-    catalog.parent = parent->name;
+    if (parent != nullptr)
+    {
+        catalog.parent = parent->name;
+    }
 
     if (jsonObj.contains("name")) {
         catalog.name = QString::fromStdString(jsonObj["name"].get<std::string>());
