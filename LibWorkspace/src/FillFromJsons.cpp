@@ -137,7 +137,7 @@ Catalog FillFromJsons::CatalogFromJson(const nlohmann::json& jsonObj, Library* c
 {
     QIcon folderIcon = QIcon("./icons/folder.svg");
     Catalog catalog;
-    catalog.parentCatalog = parent;
+    catalog.parent = parent->name;
 
     if (jsonObj.contains("name")) {
         catalog.name = QString::fromStdString(jsonObj["name"].get<std::string>());
@@ -766,7 +766,7 @@ void FillFromJsons::deleteCatalogFromJson(nlohmann::json& j, Catalog& catalog, c
                 nameMatches = true;
             }
 
-            if (it->contains("parent") && QString::fromStdString((*it)["parent"]) == catalog.parentCatalog->name) {
+            if (it->contains("parent") && QString::fromStdString((*it)["parent"]) == catalog.parent) {
                 parentMatches = true;
             }
 

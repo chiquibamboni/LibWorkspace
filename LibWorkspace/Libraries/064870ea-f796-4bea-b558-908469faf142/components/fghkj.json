@@ -1,0 +1,51 @@
+{
+    "desc": "",
+    "group": "",
+    "layout": {
+        "model": ""
+    },
+    "library": "Basic",
+    "model": "fghkj",
+    "name": "fghkj",
+    "parameters": [
+        {
+            "default": "MSub1",
+            "display": true,
+            "name": "Subst",
+            "ref": "",
+            "type": "String"
+        },
+        {
+            "default": 25.0,
+            "display": true,
+            "factor": "u",
+            "name": "W",
+            "ref": "",
+            "type": "Real",
+            "unit": "m"
+        },
+        {
+            "default": 10.0,
+            "display": true,
+            "factor": "u",
+            "name": "S",
+            "ref": "",
+            "type": "Real",
+            "unit": "m"
+        }
+    ],
+    "pins": [],
+    "schematic": {
+        "netlist": {
+            "model": "",
+            "params": {}
+        }
+    },
+    "thumbName": "fghkj",
+    "ugo": {
+        "model": ""
+    },
+    "veriloga": {
+        "model": ""
+    }
+}
