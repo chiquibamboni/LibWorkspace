@@ -79,6 +79,9 @@
     <ClCompile Include="src\NewCatalogDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\MoveDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Catalog.h">
@@ -135,6 +138,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\NewCatalogDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\MoveDialog.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

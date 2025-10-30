@@ -197,14 +197,14 @@ void LibWorkspace::setupToolBar()
 
     newAction = new QAction(QIcon("icons/plus.svg"), QStringLiteral(u"Добавить"), this);
     deleteAction = new QAction(QIcon("icons/cross.svg"), QStringLiteral(u"Удалить"), this);
-    //QAction* downAction = new QAction(QIcon("icons/arrow-down.svg"), QStringLiteral(u"Вниз"), this);
-    //QAction* upAction = new QAction(QIcon("icons/arrow-up.svg"), QStringLiteral(u"Вверх"), this);
+    QAction* downAction = new QAction(QIcon("icons/arrow-down.svg"), QStringLiteral(u"Вниз"), this);
+    QAction* upAction = new QAction(QIcon("icons/arrow-up.svg"), QStringLiteral(u"Вверх"), this);
     refreshAction = new QAction(QIcon("icons/refresh.svg"), QStringLiteral(u"Обновить"), this);
 
     toolBar->addAction(newAction);
     toolBar->addAction(deleteAction);
-    //toolBar->addAction(downAction);
-    //toolBar->addAction(upAction);
+    toolBar->addAction(downAction);
+    toolBar->addAction(upAction);
     toolBar->addAction(refreshAction);
 }
 
@@ -495,7 +495,7 @@ void LibWorkspace::createNewComponent(QString name, QString library, QString cat
     
     nlohmann::json jsonObj = FillFromJsons::readJson(libPath, this);
 
-    FillFromJsons::AddNewComponentToJson(jsonObj, *newComponent, category, mainPath,
+    FillFromJsons::AddNewComponentToJson(jsonObj, mainPath, *newComponent, category,
         *componentEditor->newThumbName, componentEditor->modelsComboBox->currentText());
 }
 

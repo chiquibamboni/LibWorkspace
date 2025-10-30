@@ -6,6 +6,7 @@
 struct Catalog
 {
 	QStandardItem* item;
+	Catalog* parentCatalog = nullptr;
 	QString name;
 	QString thumb;
 	QList<Catalog> catalogs;

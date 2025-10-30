@@ -102,6 +102,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\MoveDialog.cpp" />
     <ClCompile Include="src\NewCatalogDialog.cpp" />
     <ClCompile Include="src\DeleteDialog.cpp" />
     <ClCompile Include="src\ErrorHandler.cpp" />
@@ -123,6 +124,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\NewCatalogDialog.h" />
+    <QtMoc Include="src\MoveDialog.h" />
     <ClInclude Include="src\ValueValidator.h" />
     <QtMoc Include="src\ComponentEditor.h" />
     <QtMoc Include="src\FullTableDialog.h" />

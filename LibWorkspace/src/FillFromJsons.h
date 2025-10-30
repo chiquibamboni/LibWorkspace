@@ -16,26 +16,24 @@ class FillFromJsons {
 public:
 	static nlohmann::json readJson(QString currentPath, QWidget* parent);
 	static QList<Library> addRootJsonToModel(const nlohmann::json& jsonObj);
-	static Catalog CatalogFromJson(const nlohmann::json& jsonObj,
-		Library* currentLibrary, QList<Catalog>* catalogsList);
+	static Catalog CatalogFromJson(const nlohmann::json& jsonObj, Library* currentLibrary, QList<Catalog>* catalogsList, Catalog* parent = nullptr);
 	static void ComponentFromJson(const nlohmann::json& jsonObj,
 		Component& component, Library* currentLibrary);
 	static void addParametrFromJson(nlohmann::json jsonObj, Parameters& parametr);
 	static void addComponentRest(QString& componentModel, Component& component, Library* currentLibrary);
-	static void AddNewComponentToJson(nlohmann::json& jsonObj,Component& component, QString catalogName,
-		QString mainPath, QString thumbFileName, QString ugoFileName);
+	static void AddNewComponentToJson(nlohmann::json& jsonObj, QString mainPath, Component& component, QString catalogName,
+		QString thumbFileName, QString ugoFileName);
 	static void AddNewCatalogToJson(nlohmann::json& jsonObj, QString libName, QString catalogName, QString NewCatalogName,
 		QString mainPath, QString thumbFileName);
 	static nlohmann::json QVariantToJson(const QVariant& var);
 	static nlohmann::json ParametersToJson(QList<Parameters>& params);
 	static nlohmann::json CreateComponentJson(Component& comp);
 	static nlohmann::json* findCatalogByName(nlohmann::json& j, const QString& targetName);
-	static void deleteCatalogFromJson(nlohmann::json& j, const QString& targetName, const QString& mainPath);
+	static void deleteCatalogFromJson(nlohmann::json& j, Catalog& catalog, const QString& mainPath);
 	static void deleteComponentFromJson(nlohmann::json& jsonObj, QString mainPath, const QString& catalogName, const QString& componentName);
 	static void deleteJsonFile(const QString& folderPath, const QString& fileName);
 	static void saveJsonToFile(const nlohmann::json& j, const QString& filePath);
-	static void MoveComponentUp(nlohmann::json jsonObj, Component& component);
-	static void MoveComponentDown(nlohmann::json jsonObj, Component& component);
+	static void MoveComponent(nlohmann::json jsonObj, QString mainPath, Catalog& currentCatalog, Catalog& nextCatalog, Component& component);
     static nlohmann::json CreateUgoJson(Component& comp);
     // Метод для установки статус бара
     static void setStatusBar(QStatusBar* statusBar);
