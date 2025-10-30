@@ -707,28 +707,47 @@ nlohmann::json FillFromJsons::CreateComponentJson(Component& comp)
     return j;
 }
 
-// Рекурсивный поиск каталога по имени
-nlohmann::json* FillFromJsons::findCatalogByName(nlohmann::json& j, const QString& targetName) {
+nlohmann::json* FillFromJsons::findCatalog(nlohmann::json& j, Catalog& currentCatalog, bool findP) {
     if (!j.is_object()) {
         return nullptr;
     }
 
+    if (currentCatalog.parent.isEmpty())
+    {
+        findCatalog(j, currentCatalog, true);
+    }
+
+    if (!findP)
+    {
+        if (j.contains("catalogs") && j["catalogs"].is_array()) {
+            for (auto& catalog : j["catalogs"]) {
+                if (catalog.contains("name") && QString::fromStdString(catalog["name"]) == currentCatalog.parent)
+                {
+                    nlohmann::json* found = findCatalog(catalog, currentCatalog, true);
+                    if (found != nullptr) {
+                        return found;
+                    }
+                    else
+                    {
+                        return nullptr;
+                    }
+                }
+            }
+        }
+    }
+
     if (j.contains("catalogs") && j["catalogs"].is_array()) {
         for (auto& catalog : j["catalogs"]) {
-            if (catalog.contains("name") && QString::fromStdString(catalog["name"]) == targetName) {
+            if (catalog.contains("name") && QString::fromStdString(catalog["name"]) == currentCatalog.name) {
                 return &catalog;
-            }
-            nlohmann::json* found = findCatalogByName(catalog, targetName);
-            if (found != nullptr) {
-                return found;
             }
         }
     }
     return nullptr;
 }
 
-void FillFromJsons::deleteComponentFromJson(nlohmann::json& jsonObj, QString mainPath, const QString& catalogName, const QString& componentName) {
-    nlohmann::json* catalogPtr = findCatalogByName(jsonObj, catalogName);
+void FillFromJsons::deleteComponentFromJson(nlohmann::json& jsonObj, QString mainPath, Catalog& catalog, const QString& componentName) {
+    nlohmann::json* catalogPtr = findCatalog(jsonObj, catalog);
     if (catalogPtr == nullptr || !catalogPtr->contains("components")) {
         return;
     }
@@ -750,41 +769,55 @@ void FillFromJsons::deleteComponentFromJson(nlohmann::json& jsonObj, QString mai
     }
 }
 
-void FillFromJsons::deleteCatalogFromJson(nlohmann::json& j, Catalog& catalog, const QString& mainPath)
+void FillFromJsons::deleteCatalogFromJson(nlohmann::json& j, Catalog& catalog, const QString& mainPath, bool findP)
 {
-    if (!j.is_object()) {
+    if (!j.contains("catalogs") || !j["catalogs"].is_array()) {
         return;
     }
 
-    if (j.contains("catalogs") && j["catalogs"].is_array()) {
-        auto& catalogsArray = j["catalogs"];
+    if (catalog.parent.isEmpty())
+    {
+        findP = true;
+        deleteCatalogFromJson(j, catalog, mainPath, findP);
+        saveJsonToFile(j, mainPath);
+        return;
+    }
 
-        for (auto it = catalogsArray.begin(); it != catalogsArray.end(); ) {
-            bool toErase = false;
+    auto& catalogsArray = j["catalogs"];
 
-            bool nameMatches = false;
-            bool parentMatches = false;
-
-            if (it->contains("name") && QString::fromStdString((*it)["name"]) == catalog.name) {
-                nameMatches = true;
+    if (!findP)
+    {
+        for (auto it = catalogsArray.begin(); it != catalogsArray.end();)
+        {
+            if (it->contains("name") && QString::fromStdString((*it)["name"]) == catalog.parent)
+            {
+                findP = true;
+                deleteCatalogFromJson(*it, catalog, mainPath, findP);
+                saveJsonToFile(j, mainPath);
+                return;
             }
-
-            if (it->contains("parent") && QString::fromStdString((*it)["parent"]) == catalog.parent) {
-                parentMatches = true;
-            }
-
-            if (nameMatches && parentMatches) {
-                it = catalogsArray.erase(it);
-                toErase = true;
-            }
-            else {
-                deleteCatalogFromJson(*it, catalog, mainPath);
+            else
+            {
                 ++it;
             }
         }
-
-        saveJsonToFile(j, mainPath);
     }
+
+    for (auto it = catalogsArray.begin(); it != catalogsArray.end();)
+    {
+        bool nameMatches = false;
+        if (it->contains("name") && QString::fromStdString((*it)["name"]) == catalog.name)
+        {
+            nameMatches = true;
+        }
+        if (nameMatches) {
+            it = catalogsArray.erase(it);
+        }
+        else {
+            ++it;
+        }
+    }
+    saveJsonToFile(j, mainPath);
 }
 
 void FillFromJsons::deleteJsonFile(const QString& folderPath, const QString& fileName)
@@ -825,6 +858,6 @@ void FillFromJsons::saveJsonToFile(const nlohmann::json& j, const QString& fileP
 
 void FillFromJsons::MoveComponent(nlohmann::json jsonObj, QString mainPath, Catalog& currentCatalog, Catalog& nextCatalog, Component& component)
 {
-    deleteComponentFromJson(jsonObj, mainPath, currentCatalog.name, component.name);
+    deleteComponentFromJson(jsonObj, mainPath, currentCatalog, component.name);
     AddNewComponentToJson(jsonObj, mainPath, component, nextCatalog.name, component.thumbName, component.ugo.model);
 }

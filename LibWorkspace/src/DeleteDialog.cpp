@@ -165,7 +165,7 @@ void DeleteDialog::onAccept()
         FillFromJsons::deleteJsonFile(filePath, fileName);
         QString libraryPath = "./Libraries/" + lib->dir + "/library.json";
         nlohmann::json jsonObj = FillFromJsons::readJson(libraryPath, this);
-        FillFromJsons::deleteComponentFromJson(jsonObj, libraryPath, cat->name, comp->model);
+        FillFromJsons::deleteComponentFromJson(jsonObj, libraryPath, *cat, comp->model);
     }
     else if (currentType == QStringLiteral(u"каталог")) {
         QString filePath = "./Libraries/" + lib->dir + "/" + lib->components_location;
