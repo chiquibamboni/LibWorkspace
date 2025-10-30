@@ -207,12 +207,41 @@ void NewComponentDialog::editComponent(QString currentName, QString currentDesc)
                         FillFromJsons::deleteJsonFile(filePath, fileName);
                         QString libraryPath = "./Libraries/" + lib.dir + "/library.json";
                         nlohmann::json jsonObj = FillFromJsons::readJson(libraryPath, this);
-                        FillFromJsons::deleteComponentFromJson(jsonObj, libraryPath, cat.name, comp.model);
+                        FillFromJsons::deleteComponentFromJson(jsonObj, libraryPath, cat, comp.model);
                         createNewComponent(comp.model, foundLib, foundDur, foundCat, currentDesc);
+                        return;
+                    }
+                }
+
+            } 
+            if (!cat.catalogs.isEmpty())
+            {
+                for (auto& Subcat : cat.catalogs)
+                {
+                    if (!Subcat.components.isEmpty())
+                    {
+                        for (auto& comp : Subcat.components)
+                        {
+                            if (comp.model == currentName)
+                            {
+                                foundLib = lib.name;
+                                foundDur = Subcat.parent;
+                                foundCat = Subcat.name;
+                                QString filePath = "./Libraries/" + lib.dir + "/" + lib.components_location;
+                                QString fileName = comp.model + ".json";
+                                FillFromJsons::deleteJsonFile(filePath, fileName);
+                                QString libraryPath = "./Libraries/" + lib.dir + "/library.json";
+                                nlohmann::json jsonObj = FillFromJsons::readJson(libraryPath, this);
+                                FillFromJsons::deleteComponentFromJson(jsonObj, libraryPath, Subcat, comp.model);
+                                createNewComponent(comp.model, foundLib, foundDur, foundCat, currentDesc);
+                                return;
+                            }
+                        }
+
                     }
                 }
             }
-       }
+        }
     }
 }
 

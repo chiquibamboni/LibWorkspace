@@ -476,7 +476,7 @@ void FillFromJsons::AddNewComponentToJson(nlohmann::json& jsonObj, QString mainP
             QFile sourceFile(sourceFilePath);
             QFile targetFile(targetFilePath);
 
-            if (sourceFile.exists()) {
+            if (sourceFile.exists() && targetFilePath != sourceFilePath) {
                 if (targetFile.exists()) {
                     targetFile.remove();
                 }
@@ -494,7 +494,7 @@ void FillFromJsons::AddNewComponentToJson(nlohmann::json& jsonObj, QString mainP
             QFile sourceUgoFile(sourceUgoFilePath);
             QFile targetUgoFile(targetUgoFilePath);
 
-            if (sourceUgoFile.exists()) {
+            if (sourceUgoFile.exists() && targetUgoFilePath != sourceUgoFilePath) {
                 if (targetUgoFile.exists()) {
                     targetUgoFile.remove();
                 }
@@ -858,5 +858,5 @@ void FillFromJsons::saveJsonToFile(const nlohmann::json& j, const QString& fileP
 void FillFromJsons::MoveComponent(nlohmann::json jsonObj, QString mainPath, Catalog& currentCatalog, Catalog& nextCatalog, Component& component)
 {
     deleteComponentFromJson(jsonObj, mainPath, currentCatalog, component.name);
-    AddNewComponentToJson(jsonObj, mainPath, component, nextCatalog.name, component.thumbName, component.ugo.model);
+    //AddNewComponentToJson(jsonObj, mainPath, component, nextCatalog.name, component.thumbName, component.ugo.model);
 }
