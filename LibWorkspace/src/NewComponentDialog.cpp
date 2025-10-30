@@ -4,9 +4,14 @@
 #include <QHBoxLayout>
 #include <QMessageBox>
 
-NewComponentDialog::NewComponentDialog(QList<Library>* libraries, QList<Catalog>* catalogs, QList<Component>* components, QWidget* parent)
-    : QDialog(parent), catalogsList(catalogs), componentsList(components)
+NewComponentDialog::NewComponentDialog(QList<Library>* libraries, QList<Catalog>* catalogs,
+    QList<Component>* components, QList<Parameters>* curParameters, QString thumbName,
+    QString ugoName, QWidget* parent)
+    : QDialog(parent),librariesList(libraries), catalogsList(catalogs), componentsList(components)
 {
+    curParametersList = curParameters;
+    newThumbName = thumbName;
+    newUgoName = ugoName;
     setupUI();
     setupConnections();
     loadComboBoxData(libraries, catalogs);
@@ -152,6 +157,65 @@ void NewComponentDialog::updateCategories(const QString& directoryName)
     }
 }
 
+void NewComponentDialog::createNewComponent(QString name, QString library, QString directory, QString category, QString desc)
+{
+    Component* newComponent = new Component();
+    QString libPath;
+    QString mainPath;
+
+    newComponent->name = name;
+    newComponent->desc = desc;
+    newComponent->library = library;
+    newComponent->model = name;
+    newComponent->parameters = *curParametersList;
+    newComponent->thumbName = name;
+
+    for (auto& lib : *librariesList) {
+        if (lib.name == newComponent->library) {
+            libPath = "./Libraries/" + lib.dir + "/library.json";
+            mainPath = "./Libraries/" + lib.dir;
+            break;
+        }
+    }
+
+    nlohmann::json jsonObj = FillFromJsons::readJson(libPath, this);
+
+    FillFromJsons::AddNewComponentToJson(jsonObj, mainPath, *newComponent, directory, category,
+        newThumbName, newUgoName);
+}
+
+void NewComponentDialog::editComponent(QString currentName, QString currentDesc)
+{
+    QString foundLib;
+    QString foundDur;
+    QString foundCat;
+
+    for (auto& lib : *librariesList) {
+        for (auto& cat : *catalogsList)
+        {
+            if (!cat.components.isEmpty())
+            {
+                for (auto& comp : cat.components)
+                {
+                    if (comp.model == currentName)
+                    {
+                        foundLib = lib.name;
+                        foundDur = cat.parent;
+                        foundCat = cat.name;
+                        QString filePath = "./Libraries/" + lib.dir + "/" + lib.components_location;
+                        QString fileName = comp.model + ".json";
+                        FillFromJsons::deleteJsonFile(filePath, fileName);
+                        QString libraryPath = "./Libraries/" + lib.dir + "/library.json";
+                        nlohmann::json jsonObj = FillFromJsons::readJson(libraryPath, this);
+                        FillFromJsons::deleteComponentFromJson(jsonObj, libraryPath, cat.name, comp.model);
+                        createNewComponent(comp.model, foundLib, foundDur, foundCat, currentDesc);
+                    }
+                }
+            }
+       }
+    }
+}
+
 void NewComponentDialog::onAccept()
 {
     currentName = nameEdit->text();
@@ -172,11 +236,20 @@ void NewComponentDialog::onAccept()
 
     for (auto& newComp : *componentsList) {
     if (newComp.model == currentName) {
-        QMessageBox::information(this, QStringLiteral(u"Ошибка"),
-            QStringLiteral(u"Компонент с таким именем уже существует"));
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this,
+            QStringLiteral(u"Подтверждение"),
+            QStringLiteral(u"Компонент с таким именем уже существует. Хотите его отредактировать?"),
+            QMessageBox::Yes | QMessageBox::No);
+        if (reply == QMessageBox::Yes) {
+            editComponent(currentName, currentDesc);
+            reject();
+        }
         return;
     }
     }
+    
+    createNewComponent(currentName, currentLib, currentDirectory, currentCategory, currentDesc);
 
     accept();
 }

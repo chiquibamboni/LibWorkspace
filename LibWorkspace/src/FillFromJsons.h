@@ -21,8 +21,8 @@ public:
 		Component& component, Library* currentLibrary);
 	static void addParametrFromJson(nlohmann::json jsonObj, Parameters& parametr);
 	static void addComponentRest(QString& componentModel, Component& component, Library* currentLibrary);
-	static void AddNewComponentToJson(nlohmann::json& jsonObj, QString mainPath, Component& component, QString catalogName,
-		QString thumbFileName, QString ugoFileName);
+	static void AddNewComponentToJson(nlohmann::json& jsonObj, QString mainPath, Component& component, QString parentCatName,
+		QString catalogName, QString thumbFileName, QString ugoFileName);
 	static void AddNewCatalogToJson(nlohmann::json& jsonObj, QString libName, QString catalogName, QString NewCatalogName,
 		QString mainPath, QString thumbFileName);
 	static nlohmann::json QVariantToJson(const QVariant& var);

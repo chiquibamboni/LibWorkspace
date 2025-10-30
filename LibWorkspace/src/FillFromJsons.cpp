@@ -439,7 +439,7 @@ void FillFromJsons::addComponentRest(QString& componentModel, Component& compone
     component.parameters = paramList;
 }
 
-void FillFromJsons::AddNewComponentToJson(nlohmann::json& jsonObj, QString mainPath, Component& component, QString catalogName,
+void FillFromJsons::AddNewComponentToJson(nlohmann::json& jsonObj, QString mainPath, Component& component, QString parentCatName, QString catalogName,
     QString thumbFileName, QString ugoFileName)
 {
     QString mainJsonFilePath = mainPath + "/library.json";
@@ -513,7 +513,7 @@ void FillFromJsons::AddNewComponentToJson(nlohmann::json& jsonObj, QString mainP
             return true; 
         }
 
-        if (catalogObj.contains("catalogs") && catalogObj["catalogs"].is_array())
+        if (catalogObj.contains("catalogs") && catalogObj["catalogs"].is_array() && catalogObj["name"]== parentCatName.toStdString())
         {
             for (auto& subCatalog : catalogObj["catalogs"])
             {
@@ -575,10 +575,9 @@ void FillFromJsons::AddNewCatalogToJson(nlohmann::json& jsonObj, QString libName
         }
     }
 
-    // Если каталог не найден, добавляем на верхний уровень
     if (!jsonObj.contains("catalogs") || !jsonObj["catalogs"].is_array())
     {
-        QString message = QString(QStringLiteral(u"Не сужествует такого каталога"));
+        QString message = QString(QStringLiteral(u"Не существует такого каталога"));
         showError(nullptr, message);
         return;
     }
