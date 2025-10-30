@@ -161,8 +161,10 @@ void DeleteDialog::onAccept()
     if (currentType == QStringLiteral(u"компонент")) {
         // Вызов метода для удаления компонента
         QString filePath = "./Libraries/" + lib->dir + "/" + lib->components_location;
+        QString ugoPath = "./Libraries/" + lib->dir + "/" + lib->ugos_location + "/ansi";
         QString fileName = comp->model + ".json";
         FillFromJsons::deleteJsonFile(filePath, fileName);
+        FillFromJsons::deleteJsonFile(ugoPath, fileName);
         QString libraryPath = "./Libraries/" + lib->dir + "/library.json";
         nlohmann::json jsonObj = FillFromJsons::readJson(libraryPath, this);
         FillFromJsons::deleteComponentFromJson(jsonObj, libraryPath, *cat, comp->model);

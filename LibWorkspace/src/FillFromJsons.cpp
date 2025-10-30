@@ -712,7 +712,7 @@ nlohmann::json* FillFromJsons::findCatalog(nlohmann::json& j, Catalog& currentCa
         return nullptr;
     }
 
-    if (currentCatalog.parent.isEmpty())
+    if (currentCatalog.parent.isEmpty() && findP)
     {
         findCatalog(j, currentCatalog, true);
     }
@@ -775,7 +775,7 @@ void FillFromJsons::deleteCatalogFromJson(nlohmann::json& j, Catalog& catalog, c
         return;
     }
 
-    if (catalog.parent.isEmpty())
+    if (catalog.parent.isEmpty() && findP)
     {
         findP = true;
         deleteCatalogFromJson(j, catalog, mainPath, findP);
