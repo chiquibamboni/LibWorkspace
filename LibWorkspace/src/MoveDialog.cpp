@@ -8,7 +8,7 @@ MoveDialog::MoveDialog(Library* currentLibrary, Catalog* currentCatalog, Compone
 {
     nextCat = findNeighborCatalog(lib, cat, direction);
 
-    setupUI();
+    setupUI(direction);
     setupConnections();
 }
 
@@ -16,7 +16,7 @@ MoveDialog::~MoveDialog()
 {
 }
 
-void MoveDialog::setupUI()
+void MoveDialog::setupUI(QString direction)
 {
     setWindowTitle(QStringLiteral(u"Перемещение"));
     setMinimumWidth(400);
@@ -26,21 +26,48 @@ void MoveDialog::setupUI()
     QLabel* messageLabel = new QLabel(this);
     messageLabel->setWordWrap(true);
 
-    QString message = QStringLiteral(u"Вы действительно хотите переместить компонент %1 из %2 в %3 ?")
-        .arg(comp->model)
-        .arg(cat->name)
-        .arg(nextCat->name);
+    QString message;
+    if (!nextCat)
+    {
+        QString directionStr;
+        if (direction == "up")
+            directionStr = QStringLiteral(u"вверх");
+        else  if (direction == "down")
+            directionStr = QStringLiteral(u"вниз");
+
+        message = QStringLiteral(u"Перемещение компонента <b>%1</b> %2 невозможно.")
+            .arg(comp->model)
+            .arg(directionStr);
+    }
+    else
+    {
+        message = QStringLiteral(u"Вы действительно хотите переместить компонент <b>%1</b> из %2 в %3?")
+            .arg(comp->model)
+            .arg(cat->name)
+            .arg(nextCat->name);
+    }
 
     messageLabel->setText(message);
     mainLayout->addWidget(messageLabel);
 
     QDialogButtonBox* buttonBox = new QDialogButtonBox();
 
-    moveButton = buttonBox->addButton(QDialogButtonBox::Ok);
-    cancelButton = buttonBox->addButton(QDialogButtonBox::Cancel);
+    if (!nextCat)
+    {
+        okButton = buttonBox->addButton(QDialogButtonBox::Ok);
+        okButton->setText(QStringLiteral(u"OK"));
+        buttonBox->setCenterButtons(true);
+    }
+    else
+    {
+        moveButton = buttonBox->addButton(QDialogButtonBox::Ok);
+        cancelButton = buttonBox->addButton(QDialogButtonBox::Cancel);
 
-    moveButton->setText(QStringLiteral(u"Переместить"));
-    cancelButton->setText(QStringLiteral(u"Отмена"));
+        moveButton->setText(QStringLiteral(u"Переместить"));
+        cancelButton->setText(QStringLiteral(u"Отмена"));
+
+        buttonBox->setCenterButtons(false);
+    }
 
     mainLayout->addWidget(buttonBox);
 }
@@ -49,6 +76,7 @@ void MoveDialog::setupConnections()
 {
     connect(moveButton, &QPushButton::clicked, this, &MoveDialog::onAccept);
     connect(cancelButton, &QPushButton::clicked, this, &MoveDialog::onReject);
+    connect(okButton, &QPushButton::clicked, this, &MoveDialog::onReject);
 }
 
 Catalog* MoveDialog::findNeighborCatalog(Library* lib, Catalog* currentCatalog, QString direction) {

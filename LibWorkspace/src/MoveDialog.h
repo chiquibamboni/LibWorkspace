@@ -20,7 +20,7 @@ public:
     ~MoveDialog();
 
 private:
-    void setupUI();
+    void setupUI(QString direction);
     void setupConnections();
     Catalog* findNeighborCatalog(Library* lib, Catalog* currentCatalog, QString direction);
 
@@ -29,6 +29,7 @@ private:
     Catalog* nextCat;
     Component* comp;
 
+    QPushButton* okButton;
     QPushButton* moveButton;
     QPushButton* cancelButton;
 

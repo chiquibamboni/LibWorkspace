@@ -427,7 +427,7 @@ void LibWorkspace::openDeleteDialog()
 {
     if (!currentLibrary)
     {
-        QMessageBox::warning(this, QStringLiteral(u"Ошибка"), QStringLiteral(u"Выберите библиотеку/каталог/компонент, который хотите удалить"));
+        QMessageBox::warning(this, QStringLiteral(u"Ошибка"), QStringLiteral(u"Выберите библиотеку/каталог/компонент, который хотите удалить."));
         return;
     }
 
@@ -447,7 +447,7 @@ void LibWorkspace::openMoveDownDialog()
 
     if (!currentComponent)
     {
-        QMessageBox::warning(this, QStringLiteral(u"Ошибка"), QStringLiteral(u"Выберите компонент, который хотите переместить"));
+        QMessageBox::warning(this, QStringLiteral(u"Ошибка"), QStringLiteral(u"Выберите компонент, который хотите переместить."));
         return;
     }
 
@@ -467,7 +467,7 @@ void LibWorkspace::openMoveUpDialog()
 
     if (!currentComponent)
     {
-        QMessageBox::warning(this, QStringLiteral(u"Ошибка"), QStringLiteral(u"Выберите компонент, который хотите переместить"));
+        QMessageBox::warning(this, QStringLiteral(u"Ошибка"), QStringLiteral(u"Выберите компонент, который хотите переместить."));
         return;
     }
 

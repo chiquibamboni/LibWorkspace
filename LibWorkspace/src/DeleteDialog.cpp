@@ -22,19 +22,17 @@ void DeleteDialog::setupUI()
 
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
 
-    // Создаем Label для полного сообщения
     QLabel* questionTextLabel = new QLabel();
     questionTextLabel->setWordWrap(true);
     mainLayout->addWidget(questionTextLabel);
 
-    // Инициализация типа и имени
     QString item1 = QStringLiteral(u"компонент");
     QString item2 = QStringLiteral(u"каталог");
     QString item3 = QStringLiteral(u"библиотека");
 
-    bool canDelete = true; // флаг, можно ли удалить объект
+    bool canDelete = true; 
 
-    int contentCount = 0; // для подсчета содержимого библиотеки
+    int contentCount = 0;
 
     if (comp != nullptr)
     {
@@ -71,7 +69,6 @@ void DeleteDialog::setupUI()
 
     if (canDelete)
     {
-        // Формируем обычное сообщение
         QString fullText = QStringLiteral(u"Вы действительно хотите удалить %1 %2?")
             .arg(currentType)
             .arg(currentName);
@@ -84,14 +81,12 @@ void DeleteDialog::setupUI()
 
         if (currentType == item3 && contentCount > 0)
         {
-            // Правильное склонение для количества каталогов
             errorMsg = QStringLiteral(u"Удаление невозможно: выбранная %1 '%2' не пустая.")
                 .arg(currentType)
                 .arg(currentName);
         }
         else
         {
-            // Общее сообщение для других случаев
             errorMsg = QStringLiteral(u"Удаление невозможно: выбранный %1 '%2' не пустой.")
                 .arg(currentType)
                 .arg(currentName);
@@ -100,12 +95,10 @@ void DeleteDialog::setupUI()
         questionTextLabel->setText(errorMsg);
     }
 
-    // Создаём кнопку
     QDialogButtonBox* buttonBox = new QDialogButtonBox();
 
     if (canDelete)
     {
-        // Обычные кнопки "Удалить" и "Отмена"
         deleteButton = buttonBox->addButton(QDialogButtonBox::Ok);
         cancelButton = buttonBox->addButton(QDialogButtonBox::Cancel);
 
@@ -116,6 +109,7 @@ void DeleteDialog::setupUI()
     {
         okButton = new QPushButton(QStringLiteral(u"ОК"));
         buttonBox->addButton(okButton, QDialogButtonBox::AcceptRole);
+        buttonBox->setCenterButtons(true);
     }
 
     mainLayout->addWidget(buttonBox);
@@ -159,7 +153,6 @@ void DeleteDialog::onAccept()
 {
 
     if (currentType == QStringLiteral(u"компонент")) {
-        // Вызов метода для удаления компонента
         QString filePath = "./Libraries/" + lib->dir + "/" + lib->components_location;
         QString ugoPath = "./Libraries/" + lib->dir + "/" + lib->ugos_location + "/ansi";
         QString fileName = comp->model + ".json";
