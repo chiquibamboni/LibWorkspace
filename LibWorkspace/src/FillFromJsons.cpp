@@ -442,7 +442,6 @@ void FillFromJsons::addComponentRest(QString& componentModel, Component& compone
 void FillFromJsons::AddNewComponentToJson(nlohmann::json& jsonObj, QString mainPath, Component& component, QString catalogName,
     QString thumbFileName, QString ugoFileName)
 {
-    QString mainJsonFilePath = mainPath + "/library.json";
     QString compPath = mainPath + "/components";
     QString ugoPath = mainPath + "/ugos/ansi";
 
@@ -509,7 +508,7 @@ void FillFromJsons::AddNewComponentToJson(nlohmann::json& jsonObj, QString mainP
             QString fileUgoPath = ugoPath + "/" + component.model + ".json";
             saveJsonToFile(fullUgoJson, fileUgoPath);
 
-            saveJsonToFile(jsonObj, mainJsonFilePath);
+            saveJsonToFile(jsonObj, mainPath);
             return true; 
         }
 
@@ -746,6 +745,27 @@ nlohmann::json* FillFromJsons::findCatalog(nlohmann::json& j, Catalog& currentCa
     return nullptr;
 }
 
+// Рекурсивный поиск каталога по имени
+nlohmann::json* FillFromJsons::findCatalogByName(nlohmann::json& j, const QString& targetName)
+{
+    if (!j.is_object()) {
+        return nullptr;
+    }
+
+    if (j.contains("catalogs") && j["catalogs"].is_array()) {
+        for (auto& catalog : j["catalogs"]) {
+            if (catalog.contains("name") && QString::fromStdString(catalog["name"]) == targetName) {
+                return &catalog;
+            }
+            nlohmann::json* found = findCatalogByName(catalog, targetName);
+            if (found != nullptr) {
+                return found;
+            }
+        }
+    }
+    return nullptr;
+}
+
 void FillFromJsons::deleteComponentFromJson(nlohmann::json& jsonObj, QString mainPath, Catalog& catalog, const QString& componentName) {
     nlohmann::json* catalogPtr = findCatalog(jsonObj, catalog);
     if (catalogPtr == nullptr || !catalogPtr->contains("components")) {
@@ -856,8 +876,8 @@ void FillFromJsons::saveJsonToFile(const nlohmann::json& j, const QString& fileP
     }
 }
 
-void FillFromJsons::MoveComponent(nlohmann::json jsonObj, QString mainPath, Catalog& currentCatalog, Catalog& nextCatalog, Component& component)
+void FillFromJsons::moveComponent(nlohmann::json jsonObj, QString mainPath, Catalog& currentCatalog, Catalog& nextCatalog, Component& component)
 {
-    deleteComponentFromJson(jsonObj, mainPath, currentCatalog, component.name);
+    deleteComponentFromJson(jsonObj, mainPath, currentCatalog, component.model);
     AddNewComponentToJson(jsonObj, mainPath, component, nextCatalog.name, component.thumbName, component.ugo.model);
 }

@@ -197,8 +197,8 @@ void LibWorkspace::setupToolBar()
 
     newAction = new QAction(QIcon("icons/plus.svg"), QStringLiteral(u"Добавить"), this);
     deleteAction = new QAction(QIcon("icons/cross.svg"), QStringLiteral(u"Удалить"), this);
-    QAction* downAction = new QAction(QIcon("icons/arrow-down.svg"), QStringLiteral(u"Вниз"), this);
-    QAction* upAction = new QAction(QIcon("icons/arrow-up.svg"), QStringLiteral(u"Вверх"), this);
+    downAction = new QAction(QIcon("icons/arrow-down.svg"), QStringLiteral(u"Вниз"), this);
+    upAction = new QAction(QIcon("icons/arrow-up.svg"), QStringLiteral(u"Вверх"), this);
     refreshAction = new QAction(QIcon("icons/refresh.svg"), QStringLiteral(u"Обновить"), this);
 
     toolBar->addAction(newAction);
@@ -220,6 +220,8 @@ void LibWorkspace::setupConnections()
     connect(catAction, &QAction::triggered, this, &LibWorkspace::openNewCatalogDialog);
     connect(deleteAction, &QAction::triggered, this, &LibWorkspace::openDeleteDialog);
     connect(refreshAction, &QAction::triggered, this, &LibWorkspace::refresh);
+    connect(downAction, &QAction::triggered, this, &LibWorkspace::openMoveDownDialog);
+    connect(upAction, &QAction::triggered, this, &LibWorkspace::openMoveUpDialog);
     connect(componentsTable->selectionModel(), &QItemSelectionModel::currentChanged, this, &LibWorkspace::SelectComponent);
 }
 
@@ -438,6 +440,46 @@ void LibWorkspace::openDeleteDialog()
     delete delDialog;
 }
 
+void LibWorkspace::openMoveDownDialog()
+{
+    QString direction = "down";
+
+    if (!currentComponent)
+    {
+        QMessageBox::warning(this, QStringLiteral(u"Ошибка"), QStringLiteral(u"Выберите компонент, который хотите переместить"));
+        return;
+    }
+
+    MoveDialog* moveDialog = new MoveDialog(currentLibrary, currentCatalog, currentComponent, direction, this);
+
+    if (moveDialog->exec() == QDialog::Accepted) {
+
+        refresh();
+    }
+
+    delete moveDialog;
+}
+
+void LibWorkspace::openMoveUpDialog()
+{
+    QString direction = "up";
+
+    if (!currentComponent)
+    {
+        QMessageBox::warning(this, QStringLiteral(u"Ошибка"), QStringLiteral(u"Выберите компонент, который хотите переместить"));
+        return;
+    }
+
+    MoveDialog* moveDialog = new MoveDialog(currentLibrary, currentCatalog, currentComponent, direction, this);
+
+    if (moveDialog->exec() == QDialog::Accepted) {
+
+        refresh();
+    }
+
+    delete moveDialog;
+}
+
 void LibWorkspace::openNewComponentDialog()
 {
     dialogComp = new NewComponentDialog(libraries, catalogs, components, this);
@@ -488,14 +530,13 @@ void LibWorkspace::createNewComponent(QString name, QString library, QString cat
     for (auto& lib : *libraries) {
         if (lib.name == newComponent->library) {
             libPath = "./Libraries/" + lib.dir + "/library.json";
-            mainPath = "./Libraries/" + lib.dir;
             break;
         }
     }
     
     nlohmann::json jsonObj = FillFromJsons::readJson(libPath, this);
 
-    FillFromJsons::AddNewComponentToJson(jsonObj, mainPath, *newComponent, category,
+    FillFromJsons::AddNewComponentToJson(jsonObj, libPath, *newComponent, category,
         *componentEditor->newThumbName, componentEditor->modelsComboBox->currentText());
 }
 

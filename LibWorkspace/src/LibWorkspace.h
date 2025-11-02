@@ -10,6 +10,7 @@
 #include "NewComponentDialog.h"
 #include "NewCatalogDialog.h"
 #include "DeleteDialog.h"
+#include "MoveDialog.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -43,6 +44,8 @@ private:
     QMenuBar* menuBar;
     QAction* newAction;
     QAction* deleteAction;
+    QAction* downAction;
+    QAction* upAction;
     QAction* refreshAction;
     NewComponentDialog* dialogComp;
     NewCatalogDialog* dialogCat;
@@ -78,6 +81,8 @@ private slots:
     void openNewComponentDialog();
     void openNewCatalogDialog();
     void openDeleteDialog();
+    void openMoveDownDialog();
+    void openMoveUpDialog();
     void refresh();
 };
 

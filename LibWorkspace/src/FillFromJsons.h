@@ -29,11 +29,12 @@ public:
 	static nlohmann::json ParametersToJson(QList<Parameters>& params);
 	static nlohmann::json CreateComponentJson(Component& comp);
 	static nlohmann::json* findCatalog(nlohmann::json& j, Catalog& currentCatalog, bool findP = false);
+	static nlohmann::json* findCatalogByName(nlohmann::json& j, const QString& targetName);
 	static void deleteCatalogFromJson(nlohmann::json& j, Catalog& catalog, const QString& mainPath, bool findP = false);
 	static void deleteComponentFromJson(nlohmann::json& jsonObj, QString mainPath, Catalog& catalog, const QString& componentName);
 	static void deleteJsonFile(const QString& folderPath, const QString& fileName);
 	static void saveJsonToFile(const nlohmann::json& j, const QString& filePath);
-	static void MoveComponent(nlohmann::json jsonObj, QString mainPath, Catalog& currentCatalog, Catalog& nextCatalog, Component& component);
+	static void moveComponent(nlohmann::json jsonObj, QString mainPath, Catalog& currentCatalog, Catalog& nextCatalog, Component& component);
     static nlohmann::json CreateUgoJson(Component& comp);
     // Метод для установки статус бара
     static void setStatusBar(QStatusBar* statusBar);

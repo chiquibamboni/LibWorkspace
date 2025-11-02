@@ -16,12 +16,13 @@ class MoveDialog : public QDialog
     Q_OBJECT
 
 public:
-    MoveDialog(Library* currentLibrary, Catalog* currentCatalog, Component* currentComponent, QWidget* parent = nullptr);
+    MoveDialog(Library* currentLibrary, Catalog* currentCatalog, Component* currentComponent, QString direction, QWidget* parent = nullptr);
     ~MoveDialog();
 
 private:
     void setupUI();
     void setupConnections();
+    Catalog* findNeighborCatalog(Library* lib, Catalog* currentCatalog, QString direction);
 
     Library* lib;
     Catalog* cat;
