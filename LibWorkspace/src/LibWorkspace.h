@@ -54,7 +54,7 @@ private:
     QAction* compAction;
     QStatusBar* statusBar;
 
-    void createNewComponent(QString name, QString library, QString category, QString desc);
+    void createNewComponent(QString name, QString library, QString directory, QString category, QString desc);
     void createNewCatalog(QString name, QString library, QString directory);
 
     Library* currentLibrary;

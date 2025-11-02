@@ -482,16 +482,18 @@ void LibWorkspace::openMoveUpDialog()
 
 void LibWorkspace::openNewComponentDialog()
 {
-    dialogComp = new NewComponentDialog(libraries, catalogs, components, this);
+    dialogComp = new NewComponentDialog(libraries, catalogs, components,
+        componentEditor->currentParameterListWidget->parameters,
+        *componentEditor->newThumbName, componentEditor->modelsComboBox->currentText(), this);
 
     if (dialogComp->exec() == QDialog::Accepted) {
-        QString name = dialogComp->getName();
-        QString library = dialogComp->getLibrary();
-        QString directory = dialogComp->getDirectory();
-        QString category = dialogComp->getCategory();
-        QString desc = dialogComp->getDesc();
+        //QString name = dialogComp->getName();
+        //QString library = dialogComp->getLibrary();
+        //QString directory = dialogComp->getDirectory();
+        //QString category = dialogComp->getCategory();
+        //QString desc = dialogComp->getDesc();
 
-        createNewComponent(name, library, category, desc);
+        //createNewComponent(name, library, directory, category, desc);
         refresh();
     }
 
@@ -514,7 +516,7 @@ void LibWorkspace::openNewCatalogDialog()
     delete dialogCat;
 }
 
-void LibWorkspace::createNewComponent(QString name, QString library, QString category, QString desc)
+void LibWorkspace::createNewComponent(QString name, QString library, QString directory, QString category, QString desc)
 {
     Component* newComponent = new Component();
     QString libPath;

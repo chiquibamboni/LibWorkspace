@@ -10,6 +10,7 @@
 #include <QLabel>
 #include <QDialogButtonBox>
 #include <QToolTip>
+#include "FillFromJsons.h"
 #include "Library.h"
 #include "ValueValidator.h"
 
@@ -18,8 +19,9 @@ class NewComponentDialog : public QDialog
     Q_OBJECT
 
 public:
-    NewComponentDialog(QList<Library>* libraries, QList<Catalog>* catalogs, QList<Component>* components,
-        QWidget* parent = nullptr);
+    NewComponentDialog(QList<Library>* libraries, QList<Catalog>* catalogs,
+        QList<Component>* components, QList<Parameters>* curParameters,
+        QString thumbName, QString ugoName, QWidget* parent = nullptr);
     ~NewComponentDialog();
 
     QString getName() const { return currentName; }
@@ -38,6 +40,8 @@ private:
     void setupConnections();
     void loadComboBoxData(QList<Library>* lib, QList<Catalog>* catalogs);
     void updateCategories(const QString& directoryName);
+    void createNewComponent(QString name, QString library, QString directory, QString category, QString desc);
+    void editComponent(QString currentName, QString currentDesc);
 
     QLineEdit* nameEdit;
     QTextEdit* descEdit;
@@ -47,8 +51,13 @@ private:
     QPushButton* okButton;
     QPushButton* cancelButton;
 
+    QList<Library>*librariesList;
     QList<Catalog>* catalogsList;
     QList <Component>* componentsList;
+    QList <Parameters>* curParametersList;
+
+    QString newThumbName;
+    QString newUgoName;
 
     QString currentName;
     QString currentDesc;

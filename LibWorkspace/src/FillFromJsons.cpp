@@ -439,7 +439,7 @@ void FillFromJsons::addComponentRest(QString& componentModel, Component& compone
     component.parameters = paramList;
 }
 
-void FillFromJsons::AddNewComponentToJson(nlohmann::json& jsonObj, QString mainPath, Component& component, QString catalogName,
+void FillFromJsons::AddNewComponentToJson(nlohmann::json& jsonObj, QString mainPath, Component& component, QString parentCatName, QString catalogName,
     QString thumbFileName, QString ugoFileName)
 {
     QString compPath = mainPath + "/components";
@@ -475,7 +475,7 @@ void FillFromJsons::AddNewComponentToJson(nlohmann::json& jsonObj, QString mainP
             QFile sourceFile(sourceFilePath);
             QFile targetFile(targetFilePath);
 
-            if (sourceFile.exists()) {
+            if (sourceFile.exists() && targetFilePath != sourceFilePath) {
                 if (targetFile.exists()) {
                     targetFile.remove();
                 }
@@ -493,7 +493,7 @@ void FillFromJsons::AddNewComponentToJson(nlohmann::json& jsonObj, QString mainP
             QFile sourceUgoFile(sourceUgoFilePath);
             QFile targetUgoFile(targetUgoFilePath);
 
-            if (sourceUgoFile.exists()) {
+            if (sourceUgoFile.exists() && targetUgoFilePath != sourceUgoFilePath) {
                 if (targetUgoFile.exists()) {
                     targetUgoFile.remove();
                 }
@@ -512,7 +512,7 @@ void FillFromJsons::AddNewComponentToJson(nlohmann::json& jsonObj, QString mainP
             return true; 
         }
 
-        if (catalogObj.contains("catalogs") && catalogObj["catalogs"].is_array())
+        if (catalogObj.contains("catalogs") && catalogObj["catalogs"].is_array() && catalogObj["name"]== parentCatName.toStdString())
         {
             for (auto& subCatalog : catalogObj["catalogs"])
             {
@@ -574,10 +574,9 @@ void FillFromJsons::AddNewCatalogToJson(nlohmann::json& jsonObj, QString libName
         }
     }
 
-    // Если каталог не найден, добавляем на верхний уровень
     if (!jsonObj.contains("catalogs") || !jsonObj["catalogs"].is_array())
     {
-        QString message = QString(QStringLiteral(u"Не сужествует такого каталога"));
+        QString message = QString(QStringLiteral(u"Не существует такого каталога"));
         showError(nullptr, message);
         return;
     }
