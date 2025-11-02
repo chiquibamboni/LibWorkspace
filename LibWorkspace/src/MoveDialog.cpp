@@ -62,13 +62,11 @@ Catalog* MoveDialog::findNeighborCatalog(Library* lib, Catalog* currentCatalog, 
         }
     }
     if (!parentCat) {
-        // Если родителя нет, ищем среди корневых (может быть логика)
         parentCat = currentCatalog;
     }
 
     auto& subCatalogs = parentCat->catalogs;
 
-    // Найти индекс текущего каталога по имени
     int index = -1;
     for (int i = 0; i < subCatalogs.size(); ++i) {
         if (subCatalogs[i].name == currentCatalog->name) {
@@ -94,17 +92,8 @@ Catalog* MoveDialog::findNeighborCatalog(Library* lib, Catalog* currentCatalog, 
     }
 
     if (targetIndex >= 0 && targetIndex < subCatalogs.size()) {
-        QString neighborName = subCatalogs[targetIndex].name;
-
-        for (auto& catalog : lib->catalogs)
-        {
-            for (auto& catalogN : catalog.catalogs)
-            {
-                if (catalogN.name == neighborName) {
-                    return &catalogN;
-                }
-            }
-        }
+        Catalog* neighborCatalog = &subCatalogs[targetIndex];
+        return neighborCatalog;
     }
 
     return nullptr;

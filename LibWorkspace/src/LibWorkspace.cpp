@@ -315,13 +315,14 @@ void LibWorkspace::SelectComponent(const QModelIndex& index)
 }
 void LibWorkspace::resetButtonClicked()
 {
-    QMessageBox::StandardButton reply;
-    reply = QMessageBox::question(this,
-        QStringLiteral(u"Подтверждение"),
-        QStringLiteral(u"Вы действительно хотите сбросить библиотеки до начальных?"),
-        QMessageBox::Yes | QMessageBox::No);
-    if (reply == QMessageBox::Yes) {
-        // Проверяем существование каталогов перед сбросом
+    QMessageBox msgBox;
+    msgBox.setWindowTitle(QStringLiteral(u"Подтверждение сброса"));
+    msgBox.setText(QStringLiteral(u"Вы действительно хотите сбросить библиотеки до начальных?"));
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgBox.setButtonText(QMessageBox::Yes, QStringLiteral(u"Да"));
+    msgBox.setButtonText(QMessageBox::No, QStringLiteral(u"Нет"));
+
+    if (msgBox.exec() == QMessageBox::Yes) {
         QDir librariesDir("./Libraries");
         QDir defaultLibrariesDir("./DefaultLibraries");
         
@@ -538,7 +539,7 @@ void LibWorkspace::createNewComponent(QString name, QString library, QString dir
     
     nlohmann::json jsonObj = FillFromJsons::readJson(libPath, this);
 
-    FillFromJsons::AddNewComponentToJson(jsonObj, libPath, *newComponent, category,
+    FillFromJsons::AddNewComponentToJson(jsonObj, libPath, *newComponent, directory, category,
         *componentEditor->newThumbName, componentEditor->modelsComboBox->currentText());
 }
 

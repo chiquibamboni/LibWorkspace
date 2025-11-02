@@ -878,5 +878,5 @@ void FillFromJsons::saveJsonToFile(const nlohmann::json& j, const QString& fileP
 void FillFromJsons::moveComponent(nlohmann::json jsonObj, QString mainPath, Catalog& currentCatalog, Catalog& nextCatalog, Component& component)
 {
     deleteComponentFromJson(jsonObj, mainPath, currentCatalog, component.model);
-    AddNewComponentToJson(jsonObj, mainPath, component, nextCatalog.name, component.thumbName, component.ugo.model);
+    AddNewComponentToJson(jsonObj, mainPath, component, nextCatalog.parent, nextCatalog.name, component.thumbName, component.ugo.model);
 }
