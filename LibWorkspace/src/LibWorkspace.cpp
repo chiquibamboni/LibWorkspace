@@ -483,9 +483,14 @@ void LibWorkspace::openMoveUpDialog()
 
 void LibWorkspace::openNewComponentDialog()
 {
-    dialogComp = new NewComponentDialog(libraries, catalogs, components,
+    dialogComp = new NewComponentDialog(libraries, catalogs, components, 
         componentEditor->currentParameterListWidget->parameters,
         *componentEditor->newThumbName, componentEditor->modelsComboBox->currentText(), this);
+
+    if (currentComponent != nullptr)
+    {
+        dialogComp->loadCurrentCompData(*currentComponent, *currentCatalog);
+    }
 
     if (dialogComp->exec() == QDialog::Accepted) {
         //QString name = dialogComp->getName();

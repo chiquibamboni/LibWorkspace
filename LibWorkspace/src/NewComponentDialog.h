@@ -29,6 +29,7 @@ public:
     QString getLibrary() const { return currentLib; }
     QString getDirectory() const { return currentDirectory; }
     QString getCategory() const { return currentCategory; }
+    void loadCurrentCompData(Component curComp, Catalog curCat);
 
 private slots:
     void onAccept();
@@ -42,6 +43,7 @@ private:
     void updateCategories(const QString& directoryName);
     void createNewComponent(QString name, QString library, QString directory, QString category, QString desc);
     void editComponent(QString currentName, QString currentDesc);
+
 
     QLineEdit* nameEdit;
     QTextEdit* descEdit;

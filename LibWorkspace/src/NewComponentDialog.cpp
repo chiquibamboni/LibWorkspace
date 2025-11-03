@@ -237,11 +237,25 @@ void NewComponentDialog::editComponent(QString currentName, QString currentDesc)
                                 return;
                             }
                         }
-
                     }
                 }
             }
         }
+    }
+}
+
+void NewComponentDialog::loadCurrentCompData(Component curComp, Catalog curCat)
+{
+    if (!curComp.model.isEmpty())
+    {
+        nameEdit->setText(curComp.model);
+        descEdit->setText(curComp.desc);
+        libraryCombo->setCurrentText(curComp.library);
+        if (!curCat.parent.isEmpty())
+            directoryCombo->setCurrentText(curCat.parent);
+        else
+            directoryCombo->setCurrentText("None");
+        categoryCombo->setCurrentText(curCat.name);
     }
 }
 
