@@ -439,9 +439,57 @@ void FillFromJsons::addComponentRest(QString& componentModel, Component& compone
     component.parameters = paramList;
 }
 
+void FillFromJsons::AddComponentToLibraryJson(nlohmann::json& jsonObj, QString mainPath, Component& component, QString parentCatName, QString catalogName)
+{
+    std::function<bool(nlohmann::json&, const std::string&)> findAndAddToCatalog;
+
+    findAndAddToCatalog = [&](nlohmann::json& catalogObj, const std::string& targetCatalogName) -> bool {
+
+        if (catalogObj.contains("name") && catalogObj["name"] == targetCatalogName)
+        {
+            nlohmann::json newComponent = {
+                {"model", component.model.toStdString()},
+                {"thumb", component.thumbName.toStdString()},
+                {"desc", component.desc.toStdString()}
+            };
+
+            if (!catalogObj.contains("components") || !catalogObj["components"].is_array())
+            {
+                catalogObj["components"] = nlohmann::json::array();
+            }
+            catalogObj["components"].push_back(newComponent);
+
+            saveJsonToFile(jsonObj, mainPath);
+            return true;
+        }
+
+        if (catalogObj.contains("catalogs") && catalogObj["catalogs"].is_array() && catalogObj["name"] == parentCatName.toStdString())
+        {
+            for (auto& subCatalog : catalogObj["catalogs"])
+            {
+                if (findAndAddToCatalog(subCatalog, targetCatalogName))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+        };
+
+    for (auto& catalog : jsonObj["catalogs"])
+    {
+        if (findAndAddToCatalog(catalog, catalogName.toStdString()))
+        {
+            return;
+        }
+    }
+}
+
 void FillFromJsons::AddNewComponentToJson(nlohmann::json& jsonObj, QString mainPath, Component& component, QString parentCatName, QString catalogName,
     QString thumbFileName, QString ugoFileName)
 {
+    QString mainJsonFilePath = mainPath + "/library.json";
     QString compPath = mainPath + "/components";
     QString ugoPath = mainPath + "/ugos/ansi";
 
@@ -508,7 +556,7 @@ void FillFromJsons::AddNewComponentToJson(nlohmann::json& jsonObj, QString mainP
             QString fileUgoPath = ugoPath + "/" + component.model + ".json";
             saveJsonToFile(fullUgoJson, fileUgoPath);
 
-            saveJsonToFile(jsonObj, mainPath);
+            saveJsonToFile(jsonObj, mainJsonFilePath);
             return true; 
         }
 
@@ -878,5 +926,5 @@ void FillFromJsons::saveJsonToFile(const nlohmann::json& j, const QString& fileP
 void FillFromJsons::moveComponent(nlohmann::json jsonObj, QString mainPath, Catalog& currentCatalog, Catalog& nextCatalog, Component& component)
 {
     deleteComponentFromJson(jsonObj, mainPath, currentCatalog, component.model);
-    AddNewComponentToJson(jsonObj, mainPath, component, nextCatalog.parent, nextCatalog.name, component.thumbName, component.ugo.model);
+    AddComponentToLibraryJson(jsonObj, mainPath, component, nextCatalog.parent, nextCatalog.name);
 }

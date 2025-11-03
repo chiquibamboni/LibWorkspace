@@ -173,13 +173,14 @@ void NewComponentDialog::createNewComponent(QString name, QString library, QStri
     for (auto& lib : *librariesList) {
         if (lib.name == newComponent->library) {
             libPath = "./Libraries/" + lib.dir + "/library.json";
+            mainPath = "./Libraries/" + lib.dir;
             break;
         }
     }
 
     nlohmann::json jsonObj = FillFromJsons::readJson(libPath, this);
 
-    FillFromJsons::AddNewComponentToJson(jsonObj, libPath, *newComponent, directory, category,
+    FillFromJsons::AddNewComponentToJson(jsonObj, mainPath, *newComponent, directory, category,
         newThumbName, newUgoName);
 }
 
