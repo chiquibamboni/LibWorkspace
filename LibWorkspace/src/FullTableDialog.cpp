@@ -16,7 +16,7 @@ FullTableDialog::FullTableDialog(QList<Component>& components, QWidget* parent)
 
     setupTable();
     fillTable();
-    resize(800, 600);
+    resize(1200, 600);
 }
 
 void FullTableDialog::setupTable()

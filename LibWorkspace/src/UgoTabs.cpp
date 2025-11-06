@@ -16,6 +16,7 @@ void UgoTabs::setTab(QString tabName)
     QWidget* tab = new QWidget;
     QVBoxLayout* layout = new QVBoxLayout(tab);
     QLabel* label = new QLabel;
+    label->setAlignment(Qt::AlignCenter);
     layout->addWidget(label);
     addTab(tab, tabName);
 

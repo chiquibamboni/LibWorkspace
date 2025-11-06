@@ -4,8 +4,8 @@
 #include <QHBoxLayout>
 #include <QMessageBox>
 
-NewCatalogDialog::NewCatalogDialog(QList<Library>* libraries, QList<Catalog>* catalogs, QWidget* parent)
-    : QDialog(parent), catalogsList(catalogs)
+NewCatalogDialog::NewCatalogDialog(QList<Library>* libraries, QList<Catalog>* catalogs, QList<QString> iconPaths, QWidget* parent)
+    : QDialog(parent), catalogsList(catalogs), iconPaths(iconPaths)
 {
     setupUI();
     setupConnections();
@@ -29,6 +29,16 @@ void NewCatalogDialog::setupUI()
     nameEdit->setPlaceholderText(QStringLiteral(u"Введите название каталога"));
     formLayout->addRow(QStringLiteral(u"Название каталога:"), nameEdit);
 
+    QHBoxLayout* iconLayout = new QHBoxLayout();
+
+    selectIconBtn = new QPushButton(QStringLiteral(u"Выбрать иконку"));
+    iconDisplay = new QLabel();
+    iconDisplay->setFixedSize(100, 100);
+    iconDisplay->setFrameShape(QFrame::Box);
+    iconDisplay->setAlignment(Qt::AlignCenter);
+    iconLayout->addWidget(iconDisplay);
+    iconLayout->addWidget(selectIconBtn);
+
     QGroupBox* locationGroup = new QGroupBox(QStringLiteral(u"Местоположение каталога"));
     QFormLayout* locationLayout = new QFormLayout();
 
@@ -48,6 +58,7 @@ void NewCatalogDialog::setupUI()
     cancelButton->setText(QStringLiteral(u"Отмена"));
 
     mainLayout->addLayout(formLayout);
+    mainLayout->addLayout(iconLayout);
     mainLayout->addWidget(locationGroup);
     mainLayout->addWidget(buttonBox);
 
@@ -61,6 +72,19 @@ void NewCatalogDialog::setupConnections()
     connect(nameEdit, &QLineEdit::textChanged, this, &NewCatalogDialog::validateForm);
     connect(libraryCombo, &QComboBox::currentTextChanged, this, &NewCatalogDialog::validateForm);
     connect(directoryCombo, &QComboBox::currentTextChanged, this, &NewCatalogDialog::validateForm);
+    connect(selectIconBtn, &QPushButton::clicked, this, &NewCatalogDialog::openThumbDialog);
+}
+
+void NewCatalogDialog::openThumbDialog()
+{
+    ThumbSelectDialog dlg(iconPaths);
+    if (dlg.exec() == QDialog::Accepted) {
+        QIcon icon = dlg.selectedIcon();
+        newThumbName = dlg.newThumbName;
+        // Обновляем основное отображение
+        QPixmap mainPixmap = icon.pixmap(iconDisplay->size());
+        iconDisplay->setPixmap(mainPixmap);
+    }
 }
 
 void NewCatalogDialog::loadComboBoxData(QList<Library>* lib, QList<Catalog>* catalogs)

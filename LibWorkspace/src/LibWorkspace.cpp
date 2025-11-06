@@ -93,15 +93,19 @@ void LibWorkspace::setupFields()
                 for (auto& component : subCat.components)
                 {
                     if (!component.ugo.ansiUgoSymbol.isNull() || !component.ugo.gostUgoSymbol.isNull())
-                        componentEditor->modelsComboBox->addItem(component.ugo.model);
-                    components->push_back(component);
+                        if (componentEditor->modelsComboBox->findText(component.ugo.model) == -1) {
+                            componentEditor->modelsComboBox->addItem(component.ugo.model);
+                        }
+                     components->push_back(component);
                 }
             }
         }
         for (auto& component : catalog.components)
         {
             if (!component.ugo.ansiUgoSymbol.isNull() || !component.ugo.gostUgoSymbol.isNull())
-                componentEditor->modelsComboBox->addItem(component.ugo.model);
+                if (componentEditor->modelsComboBox->findText(component.ugo.model) == -1) {
+                    componentEditor->modelsComboBox->addItem(component.ugo.model);
+                }
             components->push_back(component);
         }
     }
@@ -472,21 +476,23 @@ void LibWorkspace::openNewComponentDialog()
 
 void LibWorkspace::openNewCatalogDialog()
 {
-    dialogCat = new NewCatalogDialog(libraries, catalogs, this);
+    dialogCat = new NewCatalogDialog(libraries, catalogs, componentEditor->iconPaths, this);
 
     if (dialogCat->exec() == QDialog::Accepted) {
         QString name = dialogCat->getName();
         QString library = dialogCat->getLibrary();
         QString directory = dialogCat->getDirectory();
-
-        createNewCatalog(name, library, directory);
+        QString thumb = "";
+        if (dialogCat->newThumbName != NULL)
+            thumb = *dialogCat->newThumbName;
+        createNewCatalog(name, library, directory, thumb);
         refresh();
     }
 
     delete dialogCat;
 }
 
-void LibWorkspace::createNewCatalog(QString name, QString library, QString directory)
+void LibWorkspace::createNewCatalog(QString name, QString library, QString directory, QString thumb)
 {
     QString libPath;
     QString mainPath;
@@ -501,7 +507,7 @@ void LibWorkspace::createNewCatalog(QString name, QString library, QString direc
 
     nlohmann::json jsonObj = FillFromJsons::readJson(libPath, this);
 
-    FillFromJsons::AddNewCatalogToJson(jsonObj, library, directory, name, mainPath, "");
+    FillFromJsons::AddNewCatalogToJson(jsonObj, library, directory, name, mainPath, thumb);
 
 }
 

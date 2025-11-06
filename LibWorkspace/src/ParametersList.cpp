@@ -15,7 +15,6 @@ ParametersList::~ParametersList()
 }
 void ParametersList::setItems()
 {
-    // Проверяем, что путь задан
     if (location.isEmpty()) {
         QString message = QStringLiteral(u"Не задан путь к файлам параметров");
         FillFromJsons::showError(this, message);
@@ -35,9 +34,8 @@ void ParametersList::setItems()
         QString filePath = dir.filePath(fileName);
         nlohmann::json parametersJson = FillFromJsons::readJson(filePath, this);
         
-        // Проверяем, что JSON успешно прочитан и содержит поле "parameters"
         if (parametersJson.is_null()) {
-            continue; // Файл не удалось прочитать, переходим к следующему
+            continue;
         }
         
         if (!parametersJson.contains("parameters")) {

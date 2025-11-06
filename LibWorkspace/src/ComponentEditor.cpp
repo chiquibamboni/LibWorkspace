@@ -123,6 +123,9 @@ void ComponentEditor::setupUi()
     listLayout->addWidget(delButton);
 
     mainLayout->addLayout(listLayout);
+
+    mainLayout->setStretchFactor(VLayout, 2);
+    mainLayout->setStretchFactor(listLayout, 1);
 }
 
 void ComponentEditor::setupConnections()

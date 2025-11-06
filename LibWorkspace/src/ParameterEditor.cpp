@@ -102,9 +102,9 @@ void ParameterEditor::loadComboBoxData(QList<Parameters>* parameters)
     for (auto& param : *parameters)
     {
         if (!param.type.isEmpty())
-        typeItems.insert(param.type);
+            typeItems.insert(param.type);
         if (!param.unit.isEmpty())
-        unitItems.insert(param.unit);
+            unitItems.insert(param.unit);
     }
 
     unitComboBox->clear();
