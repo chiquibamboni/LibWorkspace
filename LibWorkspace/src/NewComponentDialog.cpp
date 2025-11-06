@@ -259,6 +259,28 @@ void NewComponentDialog::loadCurrentCompData(Component curComp, Catalog curCat)
     }
 }
 
+void NewComponentDialog::loadCurrentCatData(Catalog curCat)
+{
+    if (!curCat.name.isEmpty())
+    {
+        if (!curCat.parent.isEmpty())
+        {
+            directoryCombo->setCurrentText(curCat.parent);
+            categoryCombo->setCurrentText(curCat.name);
+        }
+        else
+        {
+            if (directoryCombo->findText(curCat.name))
+                directoryCombo->setCurrentText(curCat.name);
+            else
+            {
+                directoryCombo->setCurrentText("None");
+                categoryCombo->setCurrentText(curCat.name);
+            }
+        }
+    }
+}
+
 void NewComponentDialog::onAccept()
 {
     currentName = nameEdit->text();

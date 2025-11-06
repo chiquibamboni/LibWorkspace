@@ -30,6 +30,7 @@ public:
     QString getDirectory() const { return currentDirectory; }
     QString getCategory() const { return currentCategory; }
     void loadCurrentCompData(Component curComp, Catalog curCat);
+    void loadCurrentCatData(Catalog curCat);
 
 private slots:
     void onAccept();
