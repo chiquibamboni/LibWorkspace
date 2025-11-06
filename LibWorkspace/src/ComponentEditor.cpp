@@ -56,6 +56,7 @@ void ComponentEditor::setupUi()
 
     imageLayout->addWidget(ugoTabs);
     imageLayout->addWidget(modelsComboBox);
+    modelsComboBox->addItem("");
 
     imageLayout->addStretch();
 
@@ -311,24 +312,33 @@ void ComponentEditor::clearWidget()
 
 void ComponentEditor::selectModel(const QString& text)
 {
+    bool modelFound = false;
+
     for (auto& component : *componentsList)
     {
-        if (component.model == text)
+        if (component.ugo.model == text)
         {
+
+
             if (!component.ugo.ansiUgoSymbol.isNull())
             {
                 ugoTabs->setTabImage("ANSI", component.ugo.ansiUgoSymbol);
+                modelFound = true;
             }
             if (!component.ugo.gostUgoSymbol.isNull())
             {
                 ugoTabs->setTabImage(QStringLiteral(u"ГОСТ"), component.ugo.gostUgoSymbol);
+                modelFound = true;
             }
-            return;
+
+            modelsComboBox->setCurrentText(text);
+            break;
         }
-        else
-        {
-            ugoTabs->clearTabImage("ANSI");
-            ugoTabs->clearTabImage(QStringLiteral(u"ГОСТ"));
-        }
+    }
+
+    if (!modelFound)
+    {
+        clearUgo();
+        modelsComboBox->setCurrentText("");
     }
 }

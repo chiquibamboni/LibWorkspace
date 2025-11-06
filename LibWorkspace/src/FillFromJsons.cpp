@@ -486,8 +486,7 @@ void FillFromJsons::AddComponentToLibraryJson(nlohmann::json& jsonObj, QString m
     }
 }
 
-void FillFromJsons::AddNewComponentToJson(nlohmann::json& jsonObj, QString mainPath, Component& component, QString parentCatName, QString catalogName,
-    QString thumbFileName, QString ugoFileName)
+void FillFromJsons::AddNewComponentToJson(nlohmann::json& jsonObj, QString mainPath, Component& component, QString parentCatName, QString catalogName)
 {
     QString mainJsonFilePath = mainPath + "/library.json";
     QString compPath = mainPath + "/components";
@@ -510,43 +509,6 @@ void FillFromJsons::AddNewComponentToJson(nlohmann::json& jsonObj, QString mainP
                 catalogObj["components"] = nlohmann::json::array();
             }
             catalogObj["components"].push_back(newComponent);
-
-            ///добавление иконки для thumb 
-            QDir componentsDir(mainPath);
-            QString thumbnailsPath = componentsDir.filePath("thumbnails");
-            QString sourceFilePath = thumbnailsPath + "/" + thumbFileName;
-            if (!sourceFilePath.endsWith(".svg", Qt::CaseInsensitive)) {
-                sourceFilePath += ".svg";
-            }
-            QString targetFilePath = thumbnailsPath + "/" + component.model + ".svg";
-
-            QFile sourceFile(sourceFilePath);
-            QFile targetFile(targetFilePath);
-
-            if (sourceFile.exists() && targetFilePath != sourceFilePath) {
-                if (targetFile.exists()) {
-                    targetFile.remove();
-                }
-                sourceFile.copy(targetFilePath);
-            }
-
-            QString symbolsPath = componentsDir.filePath("symbols/ansi");
-            QString sourceUgoFilePath = symbolsPath + "/" + ugoFileName;
-            if (!sourceUgoFilePath.endsWith(".svg", Qt::CaseInsensitive)) {
-                sourceUgoFilePath += ".svg";
-            }
-
-            QString targetUgoFilePath = symbolsPath + "/" + component.model + ".svg";
-
-            QFile sourceUgoFile(sourceUgoFilePath);
-            QFile targetUgoFile(targetUgoFilePath);
-
-            if (sourceUgoFile.exists() && targetUgoFilePath != sourceUgoFilePath) {
-                if (targetUgoFile.exists()) {
-                    targetUgoFile.remove();
-                }
-                sourceUgoFile.copy(targetUgoFilePath);
-            }
 
             nlohmann::json fullComponentJson = CreateComponentJson(component);
             QString filePath = compPath + "/" + component.model + ".json";

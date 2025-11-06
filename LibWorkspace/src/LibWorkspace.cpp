@@ -93,14 +93,15 @@ void LibWorkspace::setupFields()
                 for (auto& component : subCat.components)
                 {
                     if (!component.ugo.ansiUgoSymbol.isNull() || !component.ugo.gostUgoSymbol.isNull())
-                    componentEditor->modelsComboBox->addItem(component.model);
+                        componentEditor->modelsComboBox->addItem(component.ugo.model);
                     components->push_back(component);
                 }
             }
         }
         for (auto& component : catalog.components)
         {
-            componentEditor->modelsComboBox->addItem(component.model);
+            if (!component.ugo.ansiUgoSymbol.isNull() || !component.ugo.gostUgoSymbol.isNull())
+                componentEditor->modelsComboBox->addItem(component.ugo.model);
             components->push_back(component);
         }
     }
@@ -155,18 +156,6 @@ void LibWorkspace::setupMenuBar()
     menuBar = new QMenuBar(this);
     setMenuBar(menuBar);
 
-    /*QMenu* fileMenu = menuBar->addMenu(QStringLiteral(u"Файл"));
-
-    QAction* newAction = new QAction(QStringLiteral(u"Создать"), this);
-    newAction->setShortcut(QKeySequence::New);
-    fileMenu->addAction(newAction);
-
-    QAction* openAction = new QAction(QStringLiteral(u"Открыть"), this);
-    openAction->setShortcut(QKeySequence::Open);
-    fileMenu->addAction(openAction);
-
-    fileMenu->addSeparator();*/
-
     QMenu* editMenu = menuBar->addMenu(QStringLiteral(u"Добавить"));
 
     //QAction* libAction = new QAction(QStringLiteral(u"Библиотеку"), this);
@@ -178,14 +167,8 @@ void LibWorkspace::setupMenuBar()
     compAction = new QAction(QStringLiteral(u"Компонент"), this);
     editMenu->addAction(compAction);
 
-    //fileMenu->addSeparator();
-
     QMenu* viewMenu = menuBar->addMenu(QStringLiteral(u"Вид"));
     showFullTableAction = viewMenu->addAction(QStringLiteral(u"Показать полную таблицу компонентов"));
-
-    //fileMenu->addSeparator();
-
-    //QMenu* helpMenu = menuBar->addMenu(QStringLiteral(u"Помощь"));
 }
 
 void LibWorkspace::setupToolBar()
@@ -289,13 +272,6 @@ void LibWorkspace::SelectComponent(const QModelIndex& index)
     }
     QString searchName = componentsTable->item(row, 1)->text();
 
-    *componentEditor->newThumbName = searchName;
-
-    int modelIndex = componentEditor->modelsComboBox->findText(searchName);
-    if (modelIndex != -1) {
-        componentEditor->modelsComboBox->setCurrentIndex(modelIndex);
-    }
-    componentEditor->selectModel(searchName);
     QString fullPath;
     for (auto& component : currentCatalog->components)
     {
@@ -305,6 +281,8 @@ void LibWorkspace::SelectComponent(const QModelIndex& index)
             QPixmap pixmap = icon.pixmap(componentEditor->iconDisplay->size());
             componentEditor->iconDisplay->setPixmap(pixmap);
             componentEditor->currentParameterListWidget->clearItems();;
+            componentEditor->newThumbName = &component.thumbName;
+            componentEditor->selectModel(component.ugo.model);
             for (Parameters par : component.parameters)
             {
                 componentEditor->currentParameterListWidget->ParametersList::insertItem(par);
@@ -486,13 +464,6 @@ void LibWorkspace::openNewComponentDialog()
     }
 
     if (dialogComp->exec() == QDialog::Accepted) {
-        //QString name = dialogComp->getName();
-        //QString library = dialogComp->getLibrary();
-        //QString directory = dialogComp->getDirectory();
-        //QString category = dialogComp->getCategory();
-        //QString desc = dialogComp->getDesc();
-
-        //createNewComponent(name, library, directory, category, desc);
         refresh();
     }
 
@@ -513,32 +484,6 @@ void LibWorkspace::openNewCatalogDialog()
     }
 
     delete dialogCat;
-}
-
-void LibWorkspace::createNewComponent(QString name, QString library, QString directory, QString category, QString desc)
-{
-    Component* newComponent = new Component();
-    QString libPath;
-    QString mainPath;
-
-    newComponent->name = name;
-    newComponent->desc = desc;
-    newComponent->library = library;
-    newComponent->model = name;
-    newComponent->parameters = *componentEditor->currentParameterListWidget->parameters;
-    newComponent->thumbName = name;
-
-    for (auto& lib : *libraries) {
-        if (lib.name == newComponent->library) {
-            libPath = "./Libraries/" + lib.dir + "/library.json";
-            break;
-        }
-    }
-    
-    nlohmann::json jsonObj = FillFromJsons::readJson(libPath, this);
-
-    FillFromJsons::AddNewComponentToJson(jsonObj, libPath, *newComponent, directory, category,
-        *componentEditor->newThumbName, componentEditor->modelsComboBox->currentText());
 }
 
 void LibWorkspace::createNewCatalog(QString name, QString library, QString directory)

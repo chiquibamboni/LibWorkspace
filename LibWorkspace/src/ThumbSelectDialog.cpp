@@ -35,7 +35,7 @@ ThumbSelectDialog::~ThumbSelectDialog()
 QIcon ThumbSelectDialog::selectedIcon() const{
     auto item = listWidget->currentItem();
     QString image = listWidget->currentItem()->text();
-   *newThumbName = image;
+   *newThumbName = image.remove(".svg");
     if (item)
         return item->icon();
     return QIcon();

@@ -23,7 +23,7 @@ public:
 	static void addComponentRest(QString& componentModel, Component& component, Library* currentLibrary);
 	static void AddComponentToLibraryJson(nlohmann::json& jsonObj, QString mainPath, Component& component, QString parentCatName, QString catalogName);
 	static void AddNewComponentToJson(nlohmann::json& jsonObj, QString mainPath, Component& component, QString parentCatName,
-		QString catalogName, QString thumbFileName, QString ugoFileName);
+		QString catalogName);
 	static void AddNewCatalogToJson(nlohmann::json& jsonObj, QString libName, QString catalogName, QString NewCatalogName,
 		QString mainPath, QString thumbFileName);
 	static nlohmann::json QVariantToJson(const QVariant& var);

@@ -168,7 +168,8 @@ void NewComponentDialog::createNewComponent(QString name, QString library, QStri
     newComponent->library = library;
     newComponent->model = name;
     newComponent->parameters = *curParametersList;
-    newComponent->thumbName = name;
+    newComponent->thumbName = newThumbName;
+    newComponent->ugo.model = newUgoName;
 
     for (auto& lib : *librariesList) {
         if (lib.name == newComponent->library) {
@@ -180,8 +181,7 @@ void NewComponentDialog::createNewComponent(QString name, QString library, QStri
 
     nlohmann::json jsonObj = FillFromJsons::readJson(libPath, this);
 
-    FillFromJsons::AddNewComponentToJson(jsonObj, mainPath, *newComponent, directory, category,
-        newThumbName, newUgoName);
+    FillFromJsons::AddNewComponentToJson(jsonObj, mainPath, *newComponent, directory, category);
 }
 
 void NewComponentDialog::editComponent(QString currentName, QString currentDesc)
@@ -278,18 +278,19 @@ void NewComponentDialog::onAccept()
     }
 
     for (auto& newComp : *componentsList) {
-    if (newComp.model == currentName) {
-        QMessageBox::StandardButton reply;
-        reply = QMessageBox::question(this,
-            QStringLiteral(u"Подтверждение"),
-            QStringLiteral(u"Компонент с таким именем уже существует. Хотите его отредактировать?"),
-            QMessageBox::Yes | QMessageBox::No);
-        if (reply == QMessageBox::Yes) {
-            editComponent(currentName, currentDesc);
-            reject();
+        if (newComp.model == currentName) {
+            QMessageBox reply;
+            reply.setWindowTitle(QStringLiteral(u"Подтверждение"));
+            reply.setText(QStringLiteral(u"Компонент с таким именем уже существует. Хотите его отредактировать?"));
+            reply.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+            reply.setButtonText(QMessageBox::Yes, QStringLiteral(u"Да"));
+            reply.setButtonText(QMessageBox::No, QStringLiteral(u"Нет"));
+            if (reply.exec() == QMessageBox::Yes) {
+                editComponent(currentName, currentDesc);
+                accept();
+            }
+            return;
         }
-        return;
-    }
     }
     
     createNewComponent(currentName, currentLib, currentDirectory, currentCategory, currentDesc);
