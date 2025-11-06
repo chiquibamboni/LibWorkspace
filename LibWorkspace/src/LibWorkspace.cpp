@@ -334,14 +334,7 @@ void LibWorkspace::resetButtonClicked()
         
         clearDirectory("./Libraries");
         copyDirectoryContents("./DefaultLibraries", "./Libraries");
-        componentEditor->clearWidget();
-        libraryManager->clearLibraries();
-        parameters->clear();
-        libraries->clear();
-        catalogs->clear();
-        libraryManager->request();
-        setupFields();
-        componentsTable->setRowCount(0);
+        refresh();
     }
     return;
 }
