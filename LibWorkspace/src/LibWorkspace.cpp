@@ -373,7 +373,7 @@ bool LibWorkspace::compareParametersLists(const QList<Parameters>& list1, const 
 void LibWorkspace::SelectComponent(const QModelIndex& index)
 {
     bool f1 = !componentEditor->currentParameterListWidget->parameters->isEmpty();
-    bool f2 = !(componentEditor->modelsComboBox->currentIndex() <= 0);
+    bool f2 = componentEditor->modelsComboBox->currentText() != "";
     bool f3 = !componentEditor->newThumbName->isEmpty();
     bool f4 = true;
     if (currentComponent)
