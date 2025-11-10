@@ -107,9 +107,23 @@ void ParametersList::delCurParamm(QListWidgetItem* selectedItem)
     }
 }
 
-void ParametersList::editParamList()
+bool ParametersList::editParamList(Parameters parametr)
 {
+    if (containsParam(parametr))
+    {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle(QStringLiteral(u"Предупреждение"));
+        msgBox.setText(QStringLiteral(u"Параметер с таким именем уже сужествует,отредактировать его?"));
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setButtonText(QMessageBox::Yes, QStringLiteral(u"Да"));
+        msgBox.setButtonText(QMessageBox::No, QStringLiteral(u"Нет"));
 
+        if (msgBox.exec() == QMessageBox::Yes) {
+            return true;
+        }
+        else return false;
+    }
+    return false;
 }
 
 //Проверка на дубликаты по всем полям

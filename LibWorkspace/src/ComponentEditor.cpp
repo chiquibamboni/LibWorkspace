@@ -235,6 +235,26 @@ void ComponentEditor::addNewParameter()
         return;
     }
 
+    if (currentParameterListWidget->containsParam(*currentParameter))
+    {
+        bool edit = currentParameterListWidget->ParametersList::editParamList(*currentParameter);
+        if (edit)
+        {
+            for (int i = 0; i < currentParameterListWidget->count(); ++i) {
+                QListWidgetItem* item = currentParameterListWidget->item(i);
+                if (item->text() == currentParameter->name) {
+                    currentParameterListWidget->setCurrentItem(item);
+                    break;
+                }
+            }
+            currentParameterListWidget->delCurParamm(currentParameterListWidget->currentItem());
+            currentParameterListWidget->ParametersList::insertItem(*currentParameter);
+            parameterEditor->clearEditor();
+            return;
+        }
+        return;
+    }
+
     currentParameterListWidget->ParametersList::insertItem(*currentParameter);
     parameterEditor->clearEditor();
 }

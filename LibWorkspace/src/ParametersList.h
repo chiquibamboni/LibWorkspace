@@ -25,7 +25,7 @@ public:
 	void insertItem(Parameters parametr);
 	bool containsParam(const Parameters& param) const;
 	void delCurParamm(QListWidgetItem* selectedItem);
-	void editParamList();
+	bool editParamList(Parameters parametr);
 
 private:
 
