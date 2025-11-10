@@ -263,6 +263,7 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
                         currentComponent = nullptr;
                         return;
                     }
+                    currentComponent = nullptr;
                     return;
                 }
             }
@@ -431,6 +432,7 @@ void LibWorkspace::resetButtonClicked()
         
         clearDirectory("./Libraries");
         copyDirectoryContents("./DefaultLibraries", "./Libraries");
+        reset = true;
         refresh();
     }
     return;
@@ -641,8 +643,21 @@ void LibWorkspace::createNewCatalog(QString name, QString library, QString direc
 
 }
 
+
 void LibWorkspace::refresh()
 {
+    TreeState treeState;
+    if (currentLibrary) {
+        treeState.library = currentLibrary->name;
+        if (currentCatalog)
+        {
+            treeState.catalog = currentCatalog->name;
+            if (!currentCatalog->parent.isEmpty())
+            {
+                treeState.parentCatalog = currentCatalog->parent;
+            }
+        }
+    }
     currentLibrary = nullptr;
     currentCatalog = nullptr;
     currentComponent = nullptr;
@@ -655,4 +670,9 @@ void LibWorkspace::refresh()
     libraryManager->request();
     setupFields();
     componentsTable->setRowCount(0);
+    if (!reset)
+    {
+        libraryManager->reExpand(treeState.library, treeState.parentCatalog, treeState.catalog);
+    }
+    reset = false;
 }

@@ -31,6 +31,7 @@ public:
 
     void request();
     void clearLibraries();
+    void reExpand(QString node1, QString node2, QString node3);
 private:
     QStandardItem* root;
     QIcon defaultFolder = QIcon("./icons/folder.svg");
@@ -42,4 +43,5 @@ private:
     void setupTree();
     void updateTree(const nlohmann::json& jsonData);
     void addLibraryToModel(const nlohmann::json& jsonObj, QStandardItem* parentItem);
+    QStandardItem* findItemByText(QStandardItem* parent, const QString& text);
 };

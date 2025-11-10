@@ -18,6 +18,7 @@ public:
 
     void loadSvg(const QString& svgPath);
     void setContainerSize(const QSize& newSize);
+    void clear();
 
 private:
     void fitSvgToContainer();

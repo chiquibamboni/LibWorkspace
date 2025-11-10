@@ -59,6 +59,12 @@ private:
     Library* currentLibrary;
     Catalog* currentCatalog;
     Component* currentComponent;
+    bool reset = false;
+    struct TreeState {
+        QString library;
+        QString parentCatalog;
+        QString catalog;
+    } treeState;
 
     QList<Library>* libraries;
     QList<Catalog>* catalogs;

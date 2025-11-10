@@ -40,9 +40,6 @@ void UgoTabs::setTabImage(QString tabName, QString svgFilePath)
 
 void UgoTabs::clearTabImage(const QString& tabName)
 {
-    if (!tabWidgets.contains(tabName))
-        return;
-
     SvgViewer* viewer = tabWidgets[tabName];
-    //viewer->clear();
+    viewer->clear();
 }

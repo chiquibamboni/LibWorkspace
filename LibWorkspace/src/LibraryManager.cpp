@@ -112,3 +112,52 @@ void LibraryManager::clearLibraries()
     librariesList->clear();
     catalogsList->clear();
 }
+
+void LibraryManager::reExpand(QString node1, QString node2, QString node3)
+{
+    if (!model) return;
+
+    collapseAll();
+
+    QStandardItem* level1Item = findItemByText(root, node1);
+    if (!level1Item) return;
+
+    setExpanded(level1Item->index(), true);
+
+    if (!node2.isEmpty()) {
+        QStandardItem* level2Item = findItemByText(level1Item, node2);
+        if (level2Item) {
+            setExpanded(level2Item->index(), true);
+
+            if (!node3.isEmpty()) {
+                QStandardItem* level3Item = findItemByText(level2Item, node3);
+                if (level3Item) {
+                    setExpanded(level3Item->index(), true);
+                    scrollTo(level3Item->index(), QAbstractItemView::PositionAtCenter);
+                    setCurrentIndex(level3Item->index());
+                }
+            }
+            else {
+                scrollTo(level2Item->index(), QAbstractItemView::PositionAtCenter);
+                setCurrentIndex(level2Item->index());
+            }
+        }
+    }
+    else {
+        scrollTo(level1Item->index(), QAbstractItemView::PositionAtCenter);
+        setCurrentIndex(level1Item->index());
+    }
+}
+
+QStandardItem* LibraryManager::findItemByText(QStandardItem* parent, const QString& text)
+{
+    if (!parent) return nullptr;
+
+    for (int row = 0; row < parent->rowCount(); ++row) {
+        QStandardItem* child = parent->child(row);
+        if (child && child->text() == text) {
+            return child;
+        }
+    }
+    return nullptr;
+}

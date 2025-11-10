@@ -66,3 +66,15 @@ void SvgViewer::setContainerSize(const QSize& newSize)
     setFixedSize(containerSize);
     fitSvgToContainer();
 }
+
+void SvgViewer::clear()
+{
+    // Очищаем SVG виджет
+    svgWidget->load(QString()); // Загружаем пустую строку для очистки
+
+    // Сбрасываем размер к минимальному
+    svgWidget->setFixedSize(containerSize);
+
+    // Обновляем отображение
+    update();
+}
