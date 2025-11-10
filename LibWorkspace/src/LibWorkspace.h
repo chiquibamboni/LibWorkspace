@@ -77,7 +77,7 @@ private slots:
     void SelectComponent(const QModelIndex& index);
     void resetButtonClicked();
     void onShowFullTable();
-    void openNewComponentDialog();
+    bool openNewComponentDialog();
     void openNewCatalogDialog();
     void openDeleteDialog();
     void openMoveDownDialog();

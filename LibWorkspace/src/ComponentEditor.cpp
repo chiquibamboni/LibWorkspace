@@ -247,7 +247,6 @@ void ComponentEditor::delParameter()
         QMessageBox::information(this, QStringLiteral(u"Удаление"),
             QStringLiteral(u"Пожалуйста, выберите элемент для удаления"));
     }
-
 }
 
 void ComponentEditor::updateParameterEditor(QString searchName) {

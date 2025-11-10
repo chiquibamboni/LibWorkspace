@@ -221,8 +221,6 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
         return;
     }
     componentsTable->setRowCount(0);
-    componentEditor->clearUgo();
-    componentEditor->clearIcons();
     for (auto& lib : *libraries) {
         if (lib.name == selectedItem) {
             QString fullPath = "./Libraries/" + lib.dir;
@@ -240,7 +238,7 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
             if (!libraryManager->currentCatalog->components.isEmpty())
             {
                 componentsTable->updateComponents(libraryManager->currentCatalog->components);
-                SelectComponent(componentsTable->model()->index(0, 0));
+                //SelectComponent(componentsTable->model()->index(0, 0));
                 currentComponent = nullptr;
                 return;
             }
@@ -256,7 +254,7 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
                     if (!libraryManager->currentCatalog->components.isEmpty())
                     {
                         componentsTable->updateComponents(libraryManager->currentCatalog->components);
-                        SelectComponent(componentsTable->model()->index(0, 0));
+                        //SelectComponent(componentsTable->model()->index(0, 0));
                         currentComponent = nullptr;
                         return;
                     }
@@ -270,6 +268,29 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
 
 void LibWorkspace::SelectComponent(const QModelIndex& index)
 {
+    bool f1 = !componentEditor->currentParameterListWidget->parameters->isEmpty();
+    bool f2 = !(componentEditor->modelsComboBox->currentIndex() <= 0);
+    bool f3 = !componentEditor->newThumbName->isEmpty();
+    bool f4 = currentComponent == nullptr;
+
+    if ((f1||f2||f3) && f4)
+    {
+        QMessageBox reply;
+        reply.setWindowTitle(QStringLiteral(u"Подтверждение"));
+        reply.setText(QStringLiteral(u"Есть несохраненные изменения в области редактора компонента. При выборе другого компонента они будут утряны. Хотите сохранить их и добавить новый компонент?"));
+        reply.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        reply.setButtonText(QMessageBox::Yes, QStringLiteral(u"Да"));
+        reply.setButtonText(QMessageBox::No, QStringLiteral(u"Нет"));
+        if (reply.exec() == QMessageBox::Yes) {
+            bool acceptFlag = openNewComponentDialog();
+            if (!acceptFlag)
+                return;
+        }
+    }
+    else if (!f4)
+    {
+        //предупреждение о редактировании компонента
+    }
     int row = index.row();
     if (row < 0) {
         return;
@@ -456,7 +477,7 @@ void LibWorkspace::openMoveUpDialog()
     delete moveDialog;
 }
 
-void LibWorkspace::openNewComponentDialog()
+bool LibWorkspace::openNewComponentDialog()
 {
     dialogComp = new NewComponentDialog(libraries, catalogs, components, 
         componentEditor->currentParameterListWidget->parameters,
@@ -466,12 +487,23 @@ void LibWorkspace::openNewComponentDialog()
     {
         dialogComp->loadCurrentCompData(*currentComponent, *currentCatalog);
     }
+    else if (currentCatalog != nullptr)
+    {
+        dialogComp->loadCurrentCatData(*currentCatalog);
+    }
 
     if (dialogComp->exec() == QDialog::Accepted) {
         refresh();
     }
+    else
+    {
+
+        delete dialogComp;
+        return false;
+    }
 
     delete dialogComp;
+    return true;
 }
 
 void LibWorkspace::openNewCatalogDialog()
