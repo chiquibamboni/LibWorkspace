@@ -31,6 +31,7 @@ public:
     QString getCategory() const { return currentCategory; }
     void loadCurrentCompData(Component curComp, Catalog curCat);
     void loadCurrentCatData(Catalog curCat);
+    void editMakeDialog();
 
 private slots:
     void onAccept();

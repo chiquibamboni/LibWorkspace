@@ -70,14 +70,15 @@ private:
 
     bool clearDirectory(const QString& dirPath);
     bool copyDirectoryContents(const QString& sourceDirPath, const QString& targetDirPath);
+    bool openNewComponentDialog(bool editing);
 
 
 private slots:
     void RequestWithSelectedItem(const QModelIndex& index);
+    bool compareParametersLists(const QList<Parameters>& list1, const QList<Parameters>& list2);
     void SelectComponent(const QModelIndex& index);
     void resetButtonClicked();
     void onShowFullTable();
-    bool openNewComponentDialog();
     void openNewCatalogDialog();
     void openDeleteDialog();
     void openMoveDownDialog();

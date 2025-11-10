@@ -92,7 +92,7 @@ void LibWorkspace::setupFields()
             {
                 for (auto& component : subCat.components)
                 {
-                    if (!component.ugo.ansiUgoSymbol.isNull() || !component.ugo.gostUgoSymbol.isNull())
+                    //if (!component.ugo.ansiUgoSymbol.isNull() || !component.ugo.gostUgoSymbol.isNull())
                         if (componentEditor->modelsComboBox->findText(component.ugo.model) == -1) {
                             componentEditor->modelsComboBox->addItem(component.ugo.model);
                         }
@@ -102,7 +102,7 @@ void LibWorkspace::setupFields()
         }
         for (auto& component : catalog.components)
         {
-            if (!component.ugo.ansiUgoSymbol.isNull() || !component.ugo.gostUgoSymbol.isNull())
+            //if (!component.ugo.ansiUgoSymbol.isNull() || !component.ugo.gostUgoSymbol.isNull())
                 if (componentEditor->modelsComboBox->findText(component.ugo.model) == -1) {
                     componentEditor->modelsComboBox->addItem(component.ugo.model);
                 }
@@ -202,8 +202,13 @@ void LibWorkspace::setupConnections()
     connect(libraryManager, &QTreeView::collapsed, this, &LibWorkspace::RequestWithSelectedItem);
     connect(resetButton, &QPushButton::clicked, this, &LibWorkspace::resetButtonClicked);
     connect(showFullTableAction, &QAction::triggered, this, &LibWorkspace::onShowFullTable);
-    connect(newAction, &QAction::triggered, this, &LibWorkspace::openNewComponentDialog);
-    connect(compAction, &QAction::triggered, this, &LibWorkspace::openNewComponentDialog);
+    connect(newAction, &QAction::triggered, this, [this]() {
+        openNewComponentDialog(false);
+        });
+
+    connect(compAction, &QAction::triggered, this, [this]() {
+        openNewComponentDialog(false);
+        });
     connect(catAction, &QAction::triggered, this, &LibWorkspace::openNewCatalogDialog);
     connect(deleteAction, &QAction::triggered, this, &LibWorkspace::openDeleteDialog);
     connect(refreshAction, &QAction::triggered, this, &LibWorkspace::refresh);
@@ -266,30 +271,119 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
     }
 }
 
+
+bool LibWorkspace::compareParametersLists(const QList<Parameters>& list1, const QList<Parameters>& list2)
+{
+    if (list1.size() != list2.size()) {
+        return false;
+    }
+
+    for (int i = 0; i < list1.size(); ++i) {
+        const Parameters& param1 = list1.at(i);
+        const Parameters& param2 = list2.at(i);
+
+        if (param1.ref != param2.ref ||
+            param1.name != param2.name ||
+            param1.type != param2.type ||
+            param1.factor != param2.factor ||
+            param1.feature != param2.feature ||
+            param1.unit != param2.unit ||
+            param1.desc != param2.desc ||
+            param1.display != param2.display) {
+            return false;
+        }
+
+        if (param1.pdefault.has_value() != param2.pdefault.has_value()) {
+            return false;
+        }
+        if (param1.pdefault.has_value() && param2.pdefault.has_value()) {
+            if (param1.pdefault.value() != param2.pdefault.value()) {
+                return false;
+            }
+        }
+
+        if (param1.optimizable.has_value() != param2.optimizable.has_value()) {
+            return false;
+        }
+        if (param1.optimizable.has_value() && param2.optimizable.has_value()) {
+            if (param1.optimizable.value() != param2.optimizable.value()) {
+                return false;
+            }
+        }
+
+        if (param1.edited.has_value() != param2.edited.has_value()) {
+            return false;
+        }
+        if (param1.edited.has_value() && param2.edited.has_value()) {
+            if (param1.edited.value() != param2.edited.value()) {
+                return false;
+            }
+        }
+
+        if (param1.netlisted.has_value() != param2.netlisted.has_value()) {
+            return false;
+        }
+        if (param1.netlisted.has_value() && param2.netlisted.has_value()) {
+            if (param1.netlisted.value() != param2.netlisted.value()) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
 void LibWorkspace::SelectComponent(const QModelIndex& index)
 {
     bool f1 = !componentEditor->currentParameterListWidget->parameters->isEmpty();
     bool f2 = !(componentEditor->modelsComboBox->currentIndex() <= 0);
     bool f3 = !componentEditor->newThumbName->isEmpty();
-    bool f4 = currentComponent == nullptr;
+    bool f4 = true;
+    if (currentComponent)
+    {
+        try
+        {
+            f4 = (currentComponent->model == nullptr);
+        }
+        catch (...)
+        {
+            f4 = true;
+        }
+    }
 
     if ((f1||f2||f3) && f4)
     {
         QMessageBox reply;
         reply.setWindowTitle(QStringLiteral(u"Подтверждение"));
-        reply.setText(QStringLiteral(u"Есть несохраненные изменения в области редактора компонента. При выборе другого компонента они будут утряны. Хотите сохранить их и добавить новый компонент?"));
+        reply.setText(QStringLiteral(u"Несохраненные изменения. При выборе другого компонента изменения будут потеряны. Хотите сохранить их и добавить новый компонент?"));
         reply.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        reply.setIcon(QMessageBox::Warning);
         reply.setButtonText(QMessageBox::Yes, QStringLiteral(u"Да"));
         reply.setButtonText(QMessageBox::No, QStringLiteral(u"Нет"));
         if (reply.exec() == QMessageBox::Yes) {
-            bool acceptFlag = openNewComponentDialog();
+            bool acceptFlag = openNewComponentDialog(false);
             if (!acceptFlag)
                 return;
         }
     }
     else if (!f4)
     {
-        //предупреждение о редактировании компонента
+        bool f5 = !compareParametersLists(currentComponent->parameters, *componentEditor->currentParameterListWidget->parameters);
+        if (currentComponent->thumbName != componentEditor->newThumbName || componentEditor->modelsComboBox->currentText() != currentComponent->ugo.model|| f5)
+        {
+            QMessageBox reply;
+            reply.setWindowTitle(QStringLiteral(u"Подтверждение"));
+            reply.setText(QStringLiteral(u"Данные выбранного компонента были изменены. При выборе другого компонента несохраненные изменения будут потеряны. Хотите сохранить изменения?"));
+            reply.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+            reply.setIcon(QMessageBox::Warning);
+            reply.setButtonText(QMessageBox::Yes, QStringLiteral(u"Да"));
+            reply.setButtonText(QMessageBox::No, QStringLiteral(u"Нет"));
+            if (reply.exec() == QMessageBox::Yes) {
+                bool acceptFlag = openNewComponentDialog(true);
+                if (!acceptFlag)
+                    return;
+            }
+        }
     }
     int row = index.row();
     if (row < 0) {
@@ -477,7 +571,7 @@ void LibWorkspace::openMoveUpDialog()
     delete moveDialog;
 }
 
-bool LibWorkspace::openNewComponentDialog()
+bool LibWorkspace::openNewComponentDialog(bool edting)
 {
     dialogComp = new NewComponentDialog(libraries, catalogs, components, 
         componentEditor->currentParameterListWidget->parameters,
@@ -490,6 +584,10 @@ bool LibWorkspace::openNewComponentDialog()
     else if (currentCatalog != nullptr)
     {
         dialogComp->loadCurrentCatData(*currentCatalog);
+    }
+
+    if (edting == true) {
+        dialogComp->editMakeDialog();
     }
 
     if (dialogComp->exec() == QDialog::Accepted) {
@@ -545,6 +643,9 @@ void LibWorkspace::createNewCatalog(QString name, QString library, QString direc
 
 void LibWorkspace::refresh()
 {
+    currentLibrary = nullptr;
+    currentCatalog = nullptr;
+    currentComponent = nullptr;
     componentEditor->clearWidget();
     libraryManager->clearLibraries();
     parameters->clear();
@@ -554,7 +655,4 @@ void LibWorkspace::refresh()
     libraryManager->request();
     setupFields();
     componentsTable->setRowCount(0);
-    currentLibrary = nullptr;
-    currentCatalog = nullptr;
-    currentComponent = nullptr;
 }

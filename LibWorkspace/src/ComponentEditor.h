@@ -28,7 +28,8 @@ public:
 
     ParametersList* currentParameterListWidget;
     QList<QString> iconsPaths;
-    void updateParameterEditor(QString searchName);
+    void updateParameterEditor(Parameters currentParam);
+    Parameters serchParam(QString searchName, QList<Parameters> curParametersList);
     void clearUgo();
     void clearIcons();
     void clearWidget();
@@ -45,6 +46,8 @@ public:
 private:
     void setupUi();
     void setupConnections();
+
+    void onItemDoubleClickedCurList(QListWidgetItem* item);
 
     QPushButton* selectIconBtn;
 

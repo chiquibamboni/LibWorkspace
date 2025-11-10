@@ -88,6 +88,30 @@ bool ParametersList::containsParam(const Parameters& param) const
     return false;
 }
 
+void ParametersList::delCurParamm(QListWidgetItem* selectedItem)
+{
+    if (selectedItem) {
+
+        for (int i = 0; i < parameters->size(); ++i) {
+            Parameters par = parameters->at(i);
+            if (par.name == selectedItem->text()) {
+                parameters->removeAt(i);
+                break;
+            }
+        }
+        delete takeItem(row(selectedItem));
+    }
+    else {
+        QMessageBox::information(this, QStringLiteral(u"Удаление"),
+            QStringLiteral(u"Пожалуйста, выберите элемент для удаления"));
+    }
+}
+
+void ParametersList::editParamList()
+{
+
+}
+
 //Проверка на дубликаты по всем полям
 //bool ParametersList::containsParam(const Parameters& param) const
 //{
@@ -117,6 +141,8 @@ void ParametersList::clearItems()
     this->clear();
     parameters->clear();
 }
+
+
 
 void ParametersList::insertItem(Parameters parametr)
 {
@@ -154,4 +180,17 @@ void ParametersList::insertItem(Parameters parametr)
         item->setToolTip(tooltip);
         addItem(item);
     }
+    //else
+    //{
+    //    QMessageBox msgBox;
+    //    msgBox.setWindowTitle(QStringLiteral(u"Предупреждение"));
+    //    msgBox.setText(QStringLiteral(u"Параметер с таким именем уже сужествует,отредактировать его?"));
+    //    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    //    msgBox.setButtonText(QMessageBox::Yes, QStringLiteral(u"Да"));
+    //    msgBox.setButtonText(QMessageBox::No, QStringLiteral(u"Нет"));
+
+    //    if (msgBox.exec() == QMessageBox::Yes) {
+
+    //    }
+    //}
 }

@@ -281,6 +281,16 @@ void NewComponentDialog::loadCurrentCatData(Catalog curCat)
     }
 }
 
+void NewComponentDialog::editMakeDialog()
+{
+    setWindowTitle(QStringLiteral(u"Редактирование компонента"));
+    nameEdit->setEnabled(false);
+    libraryCombo->setEnabled(false);
+    directoryCombo->setEnabled(false);
+    categoryCombo->setEnabled(false);
+    okButton->setText(QStringLiteral(u"Редактировать"));
+}
+
 void NewComponentDialog::onAccept()
 {
     currentName = nameEdit->text();
@@ -301,15 +311,23 @@ void NewComponentDialog::onAccept()
 
     for (auto& newComp : *componentsList) {
         if (newComp.model == currentName) {
-            QMessageBox reply;
-            reply.setWindowTitle(QStringLiteral(u"Подтверждение"));
-            reply.setText(QStringLiteral(u"Компонент с таким именем уже существует. Хотите его отредактировать?"));
-            reply.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-            reply.setButtonText(QMessageBox::Yes, QStringLiteral(u"Да"));
-            reply.setButtonText(QMessageBox::No, QStringLiteral(u"Нет"));
-            if (reply.exec() == QMessageBox::Yes) {
+            if (okButton->text() == QStringLiteral(u"Редактировать"))
+            {
                 editComponent(currentName, currentDesc);
                 accept();
+            }
+            else
+            {
+                QMessageBox reply;
+                reply.setWindowTitle(QStringLiteral(u"Подтверждение"));
+                reply.setText(QStringLiteral(u"Компонент с таким именем уже существует. Хотите его отредактировать?"));
+                reply.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+                reply.setButtonText(QMessageBox::Yes, QStringLiteral(u"Да"));
+                reply.setButtonText(QMessageBox::No, QStringLiteral(u"Нет"));
+                if (reply.exec() == QMessageBox::Yes) {
+                    editComponent(currentName, currentDesc);
+                    accept();
+                }
             }
             return;
         }

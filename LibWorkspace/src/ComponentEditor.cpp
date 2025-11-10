@@ -15,6 +15,7 @@ ComponentEditor::ComponentEditor(QList<Library>* libraries, QList<Catalog>* cata
     parametersList = parameters;
     tabs = new QList<QString>();
     newThumbName = new QString();
+    //newThumbName = NULL;
     setupUi();
     setupConnections();
 }
@@ -153,14 +154,22 @@ void ComponentEditor::setupConnections()
         }
         });
     connect(parameterEditor->addButton, &QPushButton::clicked, this, &ComponentEditor::addNewParameter);
-    connect(currentParameterListWidget, &QListWidget::itemDoubleClicked, this, &ComponentEditor::onItemDoubleClicked);
+    connect(currentParameterListWidget, &QListWidget::itemDoubleClicked, this, &ComponentEditor::onItemDoubleClickedCurList);
     connect(delButton, &QPushButton::clicked, this, &ComponentEditor::delParameter);
+}
+
+void ComponentEditor::onItemDoubleClickedCurList(QListWidgetItem* item)
+{
+    QString searchName = item->text();
+    Parameters param = serchParam(searchName, *currentParameterListWidget->parameters);
+    updateParameterEditor(param);
 }
 
 void ComponentEditor::onItemDoubleClicked(QListWidgetItem* item)
 {
     QString searchName = item->text();
-    updateParameterEditor(searchName);
+    Parameters param = serchParam(searchName, *parametersList);
+    updateParameterEditor(param);
 }
 
 void ComponentEditor::onParameterChanged()
@@ -225,6 +234,7 @@ void ComponentEditor::addNewParameter()
             QStringLiteral(u"Допустимы только латинские буквы"));
         return;
     }
+
     currentParameterListWidget->ParametersList::insertItem(*currentParameter);
     parameterEditor->clearEditor();
 }
@@ -233,31 +243,47 @@ void ComponentEditor::delParameter()
 {
     QListWidgetItem* selectedItem = currentParameterListWidget->currentItem();
 
-    if (selectedItem) {
-        for (int i = 0; i < currentParameterListWidget->parameters->size(); ++i) {
-            Parameters par = currentParameterListWidget->parameters->at(i);
-            if (par.name == selectedItem->text()) {
-                currentParameterListWidget->parameters->removeAt(i);
-                break;
-            }
-        }
-        delete currentParameterListWidget->takeItem(currentParameterListWidget->row(selectedItem));
-    }
-    else {
-        QMessageBox::information(this, QStringLiteral(u"Удаление"),
-            QStringLiteral(u"Пожалуйста, выберите элемент для удаления"));
-    }
+    //if (selectedItem) {
+    //    for (int i = 0; i < currentParameterListWidget->parameters->size(); ++i) {
+    //        Parameters par = currentParameterListWidget->parameters->at(i);
+    //        if (par.name == selectedItem->text()) {
+    //            currentParameterListWidget->parameters->removeAt(i);
+    //            break;
+    //        }
+    //    }
+    //    delete currentParameterListWidget->takeItem(currentParameterListWidget->row(selectedItem));
+    //}
+    //else {
+    //    QMessageBox::information(this, QStringLiteral(u"Удаление"),
+    //        QStringLiteral(u"Пожалуйста, выберите элемент для удаления"));
+    //}
+
+    currentParameterListWidget->delCurParamm(selectedItem);
 }
 
-void ComponentEditor::updateParameterEditor(QString searchName) {
+Parameters ComponentEditor::serchParam(QString searchName, QList<Parameters> curParametersList)
+{
     Parameters сurrentParam;
+
+    for (const Parameters& param : curParametersList) {
+        if (param.name == searchName) {
+            сurrentParam = param;
+            break;
+        }
+    }
+
+    return сurrentParam;
+}
+
+void ComponentEditor::updateParameterEditor(Parameters сurrentParam) {
+   /* Parameters сurrentParam;
 
     for (const Parameters& param : *parametersList) {
         if (param.name == searchName) {
             сurrentParam = param;
             break;
         }
-    }
+    }*/
     parameterEditor->nameEdit->setText(сurrentParam.name);
     parameterEditor->typeComboBox->setCurrentText(сurrentParam.type);
 
@@ -310,6 +336,8 @@ void ComponentEditor::clearWidget()
     parametersList->clear();
     parametersListWidget->clearItems();
     currentParameterListWidget->clearItems();
+    //delete newThumbName;
+    newThumbName = new QString();
 }
 
 void ComponentEditor::selectModel(const QString& text)
@@ -321,7 +349,7 @@ void ComponentEditor::selectModel(const QString& text)
         if (component.ugo.model == text)
         {
 
-
+            modelsComboBox->setCurrentText(component.ugo.model);
             if (!component.ugo.ansiUgoSymbol.isNull())
             {
                 ugoTabs->setTabImage("ANSI", component.ugo.ansiSymbolPath);
@@ -341,6 +369,6 @@ void ComponentEditor::selectModel(const QString& text)
     if (!modelFound)
     {
         clearUgo();
-        modelsComboBox->setCurrentText("");
+        //modelsComboBox->setCurrentText("");
     }
 }
