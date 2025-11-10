@@ -1,5 +1,4 @@
 ﻿#include "UgoTabs.h"
-#include <QDebug>
 
 UgoTabs::UgoTabs(QWidget* parent) :QTabWidget(parent)
 {
@@ -13,29 +12,37 @@ UgoTabs::~UgoTabs()
 
 void UgoTabs::setTab(QString tabName)
 {
+    if (tabWidgets.contains(tabName))
+        return;
+
     QWidget* tab = new QWidget;
+    tab->setFixedSize(initialSize);
     QVBoxLayout* layout = new QVBoxLayout(tab);
-    QLabel* label = new QLabel;
-    label->setAlignment(Qt::AlignCenter);
-    layout->addWidget(label);
+
+    SvgViewer* svgViewer = new SvgViewer(initialSize, tab);
+    layout->addWidget(svgViewer, 0, Qt::AlignCenter);
+    layout->setContentsMargins(0, 0, 0, 0);
+    tab->setLayout(layout);
+
     addTab(tab, tabName);
-
-    tabLabels[tabName] = label;
+    tabWidgets[tabName] = svgViewer;
 }
 
-void UgoTabs::setTabImage(const QString& tabName, const QIcon& icon)
+void UgoTabs::setTabImage(QString tabName, QString svgFilePath)
 {
-	if (tabLabels.contains(tabName)) {
-		QLabel* iconDisplay = tabLabels[tabName];
-        QPixmap mainPixmap = icon.pixmap(iconDisplay->size());
-        iconDisplay->setPixmap(mainPixmap);
-	}
+    if (!tabWidgets.contains(tabName))
+        return;
+
+    SvgViewer* viewer = tabWidgets[tabName];
+    viewer->loadSvg(svgFilePath);
 }
+
 
 void UgoTabs::clearTabImage(const QString& tabName)
 {
-    if (tabLabels.contains(tabName)) {
-        QLabel* label = tabLabels[tabName];
-        label->clear();
-    }
+    if (!tabWidgets.contains(tabName))
+        return;
+
+    SvgViewer* viewer = tabWidgets[tabName];
+    //viewer->clear();
 }

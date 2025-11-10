@@ -32,6 +32,8 @@ struct Component
 
     struct Ugo {
         QString model;
+        QString ansiSymbolPath;
+        QString gostSymbolPath;
         QIcon ansiUgoSymbol;
         QIcon gostUgoSymbol;
     } ugo;

@@ -1,4 +1,5 @@
 ﻿#include "FullTableDialog.h"
+#include "SvgViewer.h"
 
 FullTableDialog::FullTableDialog(QList<Component>& components, QWidget* parent)
     : QDialog(parent),
@@ -43,12 +44,15 @@ void FullTableDialog::setupTable()
     fullComponentsTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     fullComponentsTable->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
     fullComponentsTable->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
+    fullComponentsTable->horizontalHeader()->setSectionResizeMode(4, QHeaderView::ResizeToContents);
+    fullComponentsTable->horizontalHeader()->setSectionResizeMode(5, QHeaderView::ResizeToContents);
 }
 
 void FullTableDialog::fillTable()
 {
     model->removeRows(0, model->rowCount());
 
+    int rowIndex = 0;
     for (const auto& component : componentsList)
     {
         QList<QStandardItem*> rowItems;
@@ -74,20 +78,25 @@ void FullTableDialog::fillTable()
         itemLibrary->setTextAlignment(Qt::AlignCenter);
         rowItems.append(itemLibrary);
 
+        QSize symbolSize = QSize(100, 100);
+
         // UGO ANSI
         auto* itemUgoAnsi = new QStandardItem();
+        auto* svgViewerAnsi = new SvgViewer(symbolSize);
         if (!component.ugo.ansiUgoSymbol.isNull())
         {
-            itemUgoAnsi->setIcon(component.ugo.ansiUgoSymbol);
+            svgViewerAnsi->loadSvg(component.ugo.ansiSymbolPath);
+            //itemUgoAnsi->setIcon(component.ugo.ansiUgoSymbol);
         }
         itemUgoAnsi->setTextAlignment(Qt::AlignCenter);
         rowItems.append(itemUgoAnsi);
 
         // UGO GOST
         auto* itemUgoGost = new QStandardItem();
+        auto* svgViewerGost = new SvgViewer(symbolSize);
         if (!component.ugo.gostUgoSymbol.isNull())
         {
-            itemUgoGost->setIcon(component.ugo.gostUgoSymbol);
+            svgViewerGost->loadSvg(component.ugo.gostSymbolPath);
         }
         itemUgoGost->setTextAlignment(Qt::AlignCenter);
         rowItems.append(itemUgoGost);
@@ -115,6 +124,14 @@ void FullTableDialog::fillTable()
         rowItems.append(itemDesc);
 
         model->appendRow(rowItems);
+
+        QModelIndex index1 = model->index(rowIndex, 4); 
+        fullComponentsTable->setIndexWidget(index1, svgViewerAnsi);
+
+        QModelIndex index2 = model->index(rowIndex, 5);
+        fullComponentsTable->setIndexWidget(index2, svgViewerGost);
+
+        rowIndex++;
     }
 
     fullComponentsTable->resizeRowsToContents();

@@ -82,6 +82,9 @@
     <ClCompile Include="src\MoveDialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\SvgViewer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Catalog.h">
@@ -141,6 +144,9 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="src\MoveDialog.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="src\SvgViewer.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

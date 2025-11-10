@@ -6,6 +6,7 @@
 #include <QMap>
 #include <QVBoxLayout>
 #include <QPixmap>
+#include "SvgViewer.h"
 
 class UgoTabs : public QTabWidget
 {
@@ -16,11 +17,11 @@ public:
     ~UgoTabs();
 
     void setTab(QString tabName);
-    void setTabImage(const QString& tabName, const QIcon& icon);
+    void setTabImage(QString tabName, QString svgFilePath);
     void clearTabImage(const QString& tabName);
 
 private:
-    QHash<QString, int> tabIndices;
-    QMap<QString, QLabel*> tabLabels;
+    QSize initialSize = QSize(200,200);
+    QMap<QString, SvgViewer*> tabWidgets;
 };
 

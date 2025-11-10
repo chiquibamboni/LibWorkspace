@@ -37,7 +37,7 @@
   </ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'" Label="QtSettings">
     <QtInstall>_qt-windows-msvc2019-x64-5.15.16</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtModules>core;gui;svg;widgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'" Label="QtSettings">
@@ -113,6 +113,7 @@
     <ClCompile Include="src\ThumbSelectDialog.cpp" />
     <ClCompile Include="src\UgoTabs.cpp" />
     <ClCompile Include="src\ValueValidator.cpp" />
+    <ClCompile Include="src\SvgViewer.cpp" />
     <QtRcc Include="LibWorkspace.qrc" />
     <QtMoc Include="src\LibWorkspace.h" />
     <ClCompile Include="src\ParametersList.cpp" />
@@ -123,6 +124,7 @@
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="src\SvgViewer.h" />
     <QtMoc Include="src\NewCatalogDialog.h" />
     <QtMoc Include="src\MoveDialog.h" />
     <ClInclude Include="src\ValueValidator.h" />

@@ -325,12 +325,12 @@ void ComponentEditor::selectModel(const QString& text)
 
             if (!component.ugo.ansiUgoSymbol.isNull())
             {
-                ugoTabs->setTabImage("ANSI", component.ugo.ansiUgoSymbol);
+                ugoTabs->setTabImage("ANSI", component.ugo.ansiSymbolPath);
                 modelFound = true;
             }
             if (!component.ugo.gostUgoSymbol.isNull())
             {
-                ugoTabs->setTabImage(QStringLiteral(u"ГОСТ"), component.ugo.gostUgoSymbol);
+                ugoTabs->setTabImage(QStringLiteral(u"ГОСТ"), component.ugo.gostSymbolPath);
                 modelFound = true;
             }
 

@@ -409,6 +409,7 @@ void FillFromJsons::addComponentRest(QString& componentModel, Component& compone
                 {
                     icon = QIcon(ansiIconPath);
                     component.ugo.ansiUgoSymbol = icon;
+                    component.ugo.ansiSymbolPath = ansiIconPath;
                 }
                 QString gostIconPath = QString("./Libraries/") +
                     currentLibrary->dir + "/" +
@@ -418,6 +419,7 @@ void FillFromJsons::addComponentRest(QString& componentModel, Component& compone
                 {
                     icon = QIcon(gostIconPath);
                     component.ugo.gostUgoSymbol = icon;
+                    component.ugo.gostSymbolPath = gostIconPath;
                 }
             }
 
