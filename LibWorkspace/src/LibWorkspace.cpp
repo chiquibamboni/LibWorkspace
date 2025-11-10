@@ -236,6 +236,14 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
     componentsTable->setRowCount(0);
     for (auto& lib : *libraries) {
         if (lib.name == selectedItem) {
+            if (currentComponent != nullptr) {
+                currentComponent = nullptr;
+                componentEditor->clearUgo();
+                componentEditor->clearIcons();
+                componentEditor->modelsComboBox->setCurrentText("");
+                componentEditor->currentParameterListWidget->clearItems();
+                componentEditor->newThumbName = new QString();
+            }
             QString fullPath = "./Libraries/" + lib.dir;
             libraryManager->currentPath = fullPath;
             currentLibrary = libraryManager->currentLibrary = &lib;
@@ -246,6 +254,14 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
     for (auto& catalog : *catalogs)
     {
         if (catalog.name == selectedItem) {
+            if (currentComponent != nullptr) {
+                currentComponent = nullptr;
+                componentEditor->clearUgo();
+                componentEditor->clearIcons();
+                componentEditor->modelsComboBox->setCurrentText("");
+                componentEditor->currentParameterListWidget->clearItems();
+                componentEditor->newThumbName = new QString();
+            }
             currentCatalog = libraryManager->currentCatalog = &catalog;
             //Обновление данных компонентов таблицы
             if (!libraryManager->currentCatalog->components.isEmpty())
@@ -263,7 +279,14 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
             return;
         }
         else if (catalog.name == parentItem){
-
+            if (currentComponent != nullptr) {
+                currentComponent = nullptr;
+                componentEditor->clearUgo();
+                componentEditor->clearIcons();
+                componentEditor->modelsComboBox->setCurrentText("");
+                componentEditor->currentParameterListWidget->clearItems();
+                componentEditor->newThumbName = new QString();
+            }
             for (auto& subCat : catalog.catalogs)
             {
                 if (subCat.name == selectedItem) {
@@ -274,11 +297,6 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
                         componentsTable->updateComponents(libraryManager->currentCatalog->components);
                         //SelectComponent(componentsTable->model()->index(0, 0));
                         currentComponent = nullptr;
-                        componentEditor->clearUgo();
-                        componentEditor->clearIcons();
-                        componentEditor->modelsComboBox->setCurrentText("");
-                        componentEditor->currentParameterListWidget->clearItems();
-                        componentEditor->newThumbName = new QString();
                         return;
                     }
                     currentComponent = nullptr;
@@ -384,6 +402,14 @@ void LibWorkspace::SelectComponent(const QModelIndex& index)
             if (!acceptFlag)
                 return;
         }
+        else
+        {
+            componentEditor->clearUgo();
+            componentEditor->clearIcons();
+            componentEditor->modelsComboBox->setCurrentText("");
+            componentEditor->currentParameterListWidget->clearItems();
+            componentEditor->newThumbName = new QString();
+        }
     }
     else if (!f4)
     {
@@ -401,6 +427,14 @@ void LibWorkspace::SelectComponent(const QModelIndex& index)
                 bool acceptFlag = openNewComponentDialog(true);
                 if (!acceptFlag)
                     return;
+            }
+            else
+            {
+                componentEditor->clearUgo();
+                componentEditor->clearIcons();
+                componentEditor->modelsComboBox->setCurrentText("");
+                componentEditor->currentParameterListWidget->clearItems();
+                componentEditor->newThumbName = new QString();
             }
         }
     }
