@@ -200,6 +200,14 @@ void LibWorkspace::setupConnections()
     connect(libraryManager, &QTreeView::clicked, this, &LibWorkspace::RequestWithSelectedItem);
     connect(libraryManager, &QTreeView::expanded, this, &LibWorkspace::RequestWithSelectedItem);
     connect(libraryManager, &QTreeView::collapsed, this, &LibWorkspace::RequestWithSelectedItem);
+    //connect(libraryManager->selectionModel(), &QItemSelectionModel::selectionChanged, [this]() {
+    //    componentEditor->clearUgo();
+    //    componentEditor->clearIcons();
+    //    componentEditor->modelsComboBox->clear();
+    //    componentEditor->currentParameterListWidget->clearItems();
+    //    delete newThumbName;
+    //    componentEditor->newThumbName = new QString();
+    //    });
     connect(resetButton, &QPushButton::clicked, this, &LibWorkspace::resetButtonClicked);
     connect(showFullTableAction, &QAction::triggered, this, &LibWorkspace::onShowFullTable);
     connect(newAction, &QAction::triggered, this, [this]() {
@@ -245,6 +253,11 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
                 componentsTable->updateComponents(libraryManager->currentCatalog->components);
                 //SelectComponent(componentsTable->model()->index(0, 0));
                 currentComponent = nullptr;
+                componentEditor->clearUgo();
+                componentEditor->clearIcons();
+                componentEditor->modelsComboBox->setCurrentText("");
+                componentEditor->currentParameterListWidget->clearItems();
+                componentEditor->newThumbName = new QString();
                 return;
             }
             return;
@@ -261,6 +274,11 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
                         componentsTable->updateComponents(libraryManager->currentCatalog->components);
                         //SelectComponent(componentsTable->model()->index(0, 0));
                         currentComponent = nullptr;
+                        componentEditor->clearUgo();
+                        componentEditor->clearIcons();
+                        componentEditor->modelsComboBox->setCurrentText("");
+                        componentEditor->currentParameterListWidget->clearItems();
+                        componentEditor->newThumbName = new QString();
                         return;
                     }
                     currentComponent = nullptr;
