@@ -22,18 +22,10 @@ class ComponentEditor : public QMainWindow
 public:
     ComponentEditor(QList<Library>* libraries, QList<Catalog>* catalogs, QList<Component>* components, QList<Parameters>*  parameters, QWidget* parent = nullptr);
     ~ComponentEditor();
+
     ParametersList* parametersListWidget;
-    QList<QString> iconPaths;
-    QList<QString> symbolPaths;
-
     ParametersList* currentParameterListWidget;
-    QList<QString> iconsPaths;
-    void updateParameterEditor(Parameters currentParam);
-    Parameters serchParam(QString searchName, QList<Parameters> curParametersList);
-    void clearUgo();
-    void clearIcons();
-    void clearWidget();
-
+    QList<QString> iconPaths;
     QLabel* iconDisplay;
     QList<QString> ugoDirsSymbolsPaths;
     QComboBox* modelsComboBox;
@@ -43,12 +35,13 @@ public:
 
     ParameterEditor* parameterEditor;
 
+    void updateParameterEditor(Parameters currentParam);
+    Parameters serchParam(QString searchName, QList<Parameters> curParametersList);
+    void clearUgo();
+    void clearIcons();
+    void clearWidget();
+
 private:
-    void setupUi();
-    void setupConnections();
-
-    void onItemDoubleClickedCurList(QListWidgetItem* item);
-
     QPushButton* selectIconBtn;
 
     UgoTabs* ugoTabs;
@@ -60,6 +53,10 @@ private:
 
     Parameters* currentParameter;
     QList<QString>* tabs;
+
+    void setupUi();
+    void setupConnections();
+    void onItemDoubleClickedCurList(QListWidgetItem* item);
 public slots:
     void selectModel(const QString& text);
 

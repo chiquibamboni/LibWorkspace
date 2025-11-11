@@ -68,20 +68,6 @@ void LibWorkspace::setupFields()
             QString message = QString(QStringLiteral(u"Каталог иконок библиотеки не найден: %1")).arg(iconsPath);
             FillFromJsons::showError(this, message);
         }
-        
-        //добавление пути для УГО в ugoTabs
-        QString symbolsPath = "./Libraries/" + libraryManager->currentLibrary->dir + "/" + libraryManager->currentLibrary->symbols_location;
-        QDir dirs(symbolsPath);
-        if (dirs.exists()) {
-            QStringList folderNames = dirs.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-            for (const QString& folderName : folderNames)
-            {
-                componentEditor->symbolPaths.append(symbolsPath + "/" + folderName);
-            }
-        } else {
-            QString message = QString(QStringLiteral(u"Каталог символов библиотеки не найден: %1")).arg(symbolsPath);
-            FillFromJsons::showError(this, message);
-        }
     }
     //Заполнение компонентами
     for (auto& catalog : *catalogs)
@@ -714,6 +700,7 @@ void LibWorkspace::refresh()
     currentCatalog = nullptr;
     currentComponent = nullptr;
     componentEditor->clearWidget();
+    componentEditor->iconPaths.clear();
     libraryManager->clearLibraries();
     parameters->clear();
     libraries->clear();
