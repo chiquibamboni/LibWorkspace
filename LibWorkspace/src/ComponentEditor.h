@@ -35,6 +35,7 @@ public:
 
     ParameterEditor* parameterEditor;
 
+    QPushButton* saveButton;
     void updateParameterEditor(Parameters currentParam);
     Parameters serchParam(QString searchName, QList<Parameters> curParametersList);
     void clearUgo();

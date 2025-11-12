@@ -106,6 +106,10 @@ void ComponentEditor::setupUi()
 
     VLayout->addWidget(buttonsContainer);
 
+    saveButton = new QPushButton(QStringLiteral(u"Сохранить"));
+    VLayout->addWidget(saveButton);
+    saveButton->setVisible(false);
+
     mainLayout->addLayout(VLayout);
 
     QVBoxLayout* listLayout = new QVBoxLayout();

@@ -28,6 +28,34 @@ LibWorkspace::~LibWorkspace()
 {
 }
 
+void LibWorkspace::closeEvent(QCloseEvent* event)
+{
+    if (checkChanges())
+    {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle(QStringLiteral("Несохранённые изменения"));
+        msgBox.setText(QStringLiteral("У вас есть несохранённые изменения. Вы действительно хотите закрыть?"));
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setButtonText(QMessageBox::Yes, QStringLiteral(u"Да"));
+        msgBox.setButtonText(QMessageBox::No, QStringLiteral(u"Нет"));
+        msgBox.setDefaultButton(QMessageBox::No);
+        msgBox.setIcon(QMessageBox::Warning);
+
+        if (msgBox.exec() == QMessageBox::Yes)
+        {
+            event->accept();
+        }
+        else
+        {
+            event->ignore();
+        }
+    }
+    else
+    {
+        event->accept();
+    }
+}
+
 void LibWorkspace::setupFields()
 {
     //Заполнение библиотек
@@ -186,14 +214,6 @@ void LibWorkspace::setupConnections()
     connect(libraryManager, &QTreeView::clicked, this, &LibWorkspace::RequestWithSelectedItem);
     connect(libraryManager, &QTreeView::expanded, this, &LibWorkspace::RequestWithSelectedItem);
     connect(libraryManager, &QTreeView::collapsed, this, &LibWorkspace::RequestWithSelectedItem);
-    //connect(libraryManager->selectionModel(), &QItemSelectionModel::selectionChanged, [this]() {
-    //    componentEditor->clearUgo();
-    //    componentEditor->clearIcons();
-    //    componentEditor->modelsComboBox->clear();
-    //    componentEditor->currentParameterListWidget->clearItems();
-    //    delete newThumbName;
-    //    componentEditor->newThumbName = new QString();
-    //    });
     connect(resetButton, &QPushButton::clicked, this, &LibWorkspace::resetButtonClicked);
     connect(showFullTableAction, &QAction::triggered, this, &LibWorkspace::onShowFullTable);
     connect(newAction, &QAction::triggered, this, [this]() {
@@ -209,6 +229,7 @@ void LibWorkspace::setupConnections()
     connect(downAction, &QAction::triggered, this, &LibWorkspace::openMoveDownDialog);
     connect(upAction, &QAction::triggered, this, &LibWorkspace::openMoveUpDialog);
     connect(componentsTable->selectionModel(), &QItemSelectionModel::currentChanged, this, &LibWorkspace::SelectComponent);
+    connect(componentEditor->saveButton, &QPushButton::clicked, this, &LibWorkspace::saveChanges);
 }
 
 void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
@@ -247,6 +268,7 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
                 componentEditor->modelsComboBox->setCurrentText("");
                 componentEditor->currentParameterListWidget->clearItems();
                 componentEditor->newThumbName = new QString();
+                componentEditor->saveButton->setVisible(false);
             }
             currentCatalog = libraryManager->currentCatalog = &catalog;
             //Обновление данных компонентов таблицы
@@ -260,6 +282,7 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
                 componentEditor->modelsComboBox->setCurrentText("");
                 componentEditor->currentParameterListWidget->clearItems();
                 componentEditor->newThumbName = new QString();
+                componentEditor->saveButton->setVisible(false);
                 return;
             }
             return;
@@ -272,6 +295,7 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
                 componentEditor->modelsComboBox->setCurrentText("");
                 componentEditor->currentParameterListWidget->clearItems();
                 componentEditor->newThumbName = new QString();
+                componentEditor->saveButton->setVisible(false);
             }
             for (auto& subCat : catalog.catalogs)
             {
@@ -358,72 +382,12 @@ bool LibWorkspace::compareParametersLists(const QList<Parameters>& list1, const 
 
 void LibWorkspace::SelectComponent(const QModelIndex& index)
 {
-    bool f1 = !componentEditor->currentParameterListWidget->parameters->isEmpty();
-    bool f2 = componentEditor->modelsComboBox->currentText() != "";
-    bool f3 = !componentEditor->newThumbName->isEmpty();
-    bool f4 = true;
-    if (currentComponent)
-    {
-        try
-        {
-            f4 = (currentComponent->model == nullptr);
-        }
-        catch (...)
-        {
-            f4 = true;
-        }
-    }
+    bool changesMark = checkChanges();
+    if (changesMark)
+        return;
 
-    if ((f1||f2||f3) && f4)
-    {
-        QMessageBox reply;
-        reply.setWindowTitle(QStringLiteral(u"Подтверждение"));
-        reply.setText(QStringLiteral(u"Несохраненные изменения. При выборе другого компонента изменения будут потеряны. Хотите сохранить их и добавить новый компонент?"));
-        reply.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-        reply.setIcon(QMessageBox::Warning);
-        reply.setButtonText(QMessageBox::Yes, QStringLiteral(u"Да"));
-        reply.setButtonText(QMessageBox::No, QStringLiteral(u"Нет"));
-        if (reply.exec() == QMessageBox::Yes) {
-            bool acceptFlag = openNewComponentDialog(false);
-            if (!acceptFlag)
-                return;
-        }
-        else
-        {
-            componentEditor->clearUgo();
-            componentEditor->clearIcons();
-            componentEditor->modelsComboBox->setCurrentText("");
-            componentEditor->currentParameterListWidget->clearItems();
-            componentEditor->newThumbName = new QString();
-        }
-    }
-    else if (!f4)
-    {
-        bool f5 = !compareParametersLists(currentComponent->parameters, *componentEditor->currentParameterListWidget->parameters);
-        if (currentComponent->thumbName != componentEditor->newThumbName || componentEditor->modelsComboBox->currentText() != currentComponent->ugo.model|| f5)
-        {
-            QMessageBox reply;
-            reply.setWindowTitle(QStringLiteral(u"Подтверждение"));
-            reply.setText(QStringLiteral(u"Данные выбранного компонента были изменены. При выборе другого компонента несохраненные изменения будут потеряны. Хотите сохранить изменения?"));
-            reply.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-            reply.setIcon(QMessageBox::Warning);
-            reply.setButtonText(QMessageBox::Yes, QStringLiteral(u"Да"));
-            reply.setButtonText(QMessageBox::No, QStringLiteral(u"Нет"));
-            if (reply.exec() == QMessageBox::Yes) {
-                bool acceptFlag = openNewComponentDialog(true);
-                if (!acceptFlag)
-                    return;
-            }
-            else
-            {
-                componentEditor->clearUgo();
-                componentEditor->clearIcons();
-                componentEditor->modelsComboBox->setCurrentText("");
-                componentEditor->currentParameterListWidget->clearItems();
-                componentEditor->newThumbName = new QString();
-            }
-        }
-    }
+    componentEditor->saveButton->setVisible(true);
+
     int row = index.row();
     if (row < 0) {
         return;
@@ -644,6 +608,78 @@ bool LibWorkspace::openNewComponentDialog(bool edting)
     return true;
 }
 
+bool LibWorkspace::checkChanges()
+{
+    bool f1 = !componentEditor->currentParameterListWidget->parameters->isEmpty();
+    bool f2 = componentEditor->modelsComboBox->currentText() != "";
+    bool f3 = !componentEditor->newThumbName->isEmpty();
+    bool f4 = true;
+    if (currentComponent)
+    {
+        try
+        {
+            f4 = (currentComponent->model == nullptr);
+        }
+        catch (...)
+        {
+            f4 = true;
+        }
+    }
+
+    if ((f1 || f2 || f3) && f4)
+    {
+        QMessageBox reply;
+        reply.setWindowTitle(QStringLiteral(u"Подтверждение"));
+        reply.setText(QStringLiteral(u"Несохраненные изменения будут потеряны. Хотите сохранить их и добавить новый компонент?"));
+        reply.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        reply.setIcon(QMessageBox::Warning);
+        reply.setButtonText(QMessageBox::Yes, QStringLiteral(u"Да"));
+        reply.setButtonText(QMessageBox::No, QStringLiteral(u"Нет"));
+        if (reply.exec() == QMessageBox::Yes) {
+            bool acceptFlag = openNewComponentDialog(false);
+            if (!acceptFlag)
+                return true;
+        }
+        else
+        {
+            componentEditor->clearUgo();
+            componentEditor->clearIcons();
+            componentEditor->modelsComboBox->setCurrentText("");
+            componentEditor->currentParameterListWidget->clearItems();
+            componentEditor->newThumbName = new QString();
+        }
+    }
+    else if (!f4)
+    {
+        bool f5 = !compareParametersLists(currentComponent->parameters, *componentEditor->currentParameterListWidget->parameters);
+        if (currentComponent->thumbName != componentEditor->newThumbName || componentEditor->modelsComboBox->currentText() != currentComponent->ugo.model || f5)
+        {
+            QMessageBox reply;
+            reply.setWindowTitle(QStringLiteral(u"Подтверждение"));
+            reply.setText(QStringLiteral(u"Данные выбранного компонента были изменены. Несохраненные изменения будут потеряны. Хотите сохранить изменения?"));
+            reply.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+            reply.setIcon(QMessageBox::Warning);
+            reply.setButtonText(QMessageBox::Yes, QStringLiteral(u"Да"));
+            reply.setButtonText(QMessageBox::No, QStringLiteral(u"Нет"));
+            if (reply.exec() == QMessageBox::Yes) {
+                bool acceptFlag = openNewComponentDialog(true);
+                if (!acceptFlag)
+                    return true;
+            }
+            else
+            {
+                componentEditor->clearUgo();
+                componentEditor->clearIcons();
+                componentEditor->modelsComboBox->setCurrentText("");
+                componentEditor->currentParameterListWidget->clearItems();
+                componentEditor->newThumbName = new QString();
+            }
+        }
+    }
+
+    return false;
+}
+
 void LibWorkspace::openNewCatalogDialog()
 {
     dialogCat = new NewCatalogDialog(libraries, catalogs, componentEditor->iconPaths, this);
@@ -714,4 +750,18 @@ void LibWorkspace::refresh()
         libraryManager->reExpand(treeState.library, treeState.parentCatalog, treeState.catalog);
     }
     reset = false;
+}
+
+void LibWorkspace::saveChanges()
+{
+    bool f5 = !compareParametersLists(currentComponent->parameters, *componentEditor->currentParameterListWidget->parameters);
+    if (currentComponent->thumbName != componentEditor->newThumbName || componentEditor->modelsComboBox->currentText() != currentComponent->ugo.model || f5)
+    {
+        openNewComponentDialog(true);
+    }
+    else
+    {
+        QMessageBox::information(this, QStringLiteral(u"Сохранение"),
+            QStringLiteral(u"Нет изменений, доступных для сохранения"));
+    }
 }

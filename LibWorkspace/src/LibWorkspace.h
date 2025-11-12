@@ -32,6 +32,7 @@ public:
     ~LibWorkspace();
 
 private:
+    void closeEvent(QCloseEvent* event);
     void setupFields();
     void setupUI();
     void setupConnections();
@@ -71,13 +72,12 @@ private:
     QList<Component>* components;
     QList<Parameters>* parameters;
 
-
     QPushButton* resetButton;
 
     bool clearDirectory(const QString& dirPath);
     bool copyDirectoryContents(const QString& sourceDirPath, const QString& targetDirPath);
     bool openNewComponentDialog(bool editing);
-
+    bool checkChanges();
 
 private slots:
     void RequestWithSelectedItem(const QModelIndex& index);
@@ -90,5 +90,6 @@ private slots:
     void openMoveDownDialog();
     void openMoveUpDialog();
     void refresh();
+    void saveChanges();
 };
 
