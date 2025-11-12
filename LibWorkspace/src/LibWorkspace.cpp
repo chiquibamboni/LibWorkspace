@@ -300,6 +300,7 @@ void LibWorkspace::RequestWithSelectedItem(const QModelIndex& index)
             for (auto& subCat : catalog.catalogs)
             {
                 if (subCat.name == selectedItem) {
+                    componentEditor->saveButton->setVisible(false);
                     currentCatalog = libraryManager->currentCatalog = &subCat;
                     //Обновление данных компонентов таблицы
                     if (!libraryManager->currentCatalog->components.isEmpty())

@@ -106,7 +106,7 @@ void ComponentEditor::setupUi()
 
     VLayout->addWidget(buttonsContainer);
 
-    saveButton = new QPushButton(QStringLiteral(u"Сохранить"));
+    saveButton = new QPushButton(QStringLiteral(u"Сохранить изменения"));
     VLayout->addWidget(saveButton);
     saveButton->setVisible(false);
 
