@@ -137,6 +137,7 @@ void LibWorkspace::setupUI()
 
     libraryManager = new LibraryManager(libraries, catalogs);
     libraryManager->setIconSize(iconSize);
+    libraryManager->installEventFilter(this);
 
     componentsTable = new ComponentsTable();
     componentsTable->setIconSize(iconSize);
@@ -765,4 +766,37 @@ void LibWorkspace::saveChanges()
         QMessageBox::information(this, QStringLiteral(u"Сохранение"),
             QStringLiteral(u"Нет изменений, доступных для сохранения"));
     }
+}
+
+bool LibWorkspace::eventFilter(QObject* obj, QEvent* event)
+{
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
+
+        switch (keyEvent->key()) {
+        case Qt::Key_Return:
+        case Qt::Key_Enter:
+            if (obj == libraryManager) {
+                QModelIndex currentIndex = libraryManager->currentIndex();
+                if (currentIndex.isValid()) {
+                    bool hasChildren = libraryManager->model->hasChildren(currentIndex);
+
+                    if (hasChildren) {
+                        if (libraryManager->isExpanded(currentIndex)) {
+                            libraryManager->collapse(currentIndex);
+                        }
+                        else {
+                            libraryManager->expand(currentIndex);
+                        }
+                    }
+                    else {
+                        RequestWithSelectedItem(currentIndex);
+                    }
+                    return true;
+                }
+            }
+            break;
+        }
+    }
+    return QMainWindow::eventFilter(obj, event);
 }

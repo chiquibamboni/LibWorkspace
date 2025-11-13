@@ -79,6 +79,9 @@ private:
     bool openNewComponentDialog(bool editing);
     bool checkChanges();
 
+protected:
+    bool eventFilter(QObject* obj, QEvent* event) override;
+
 private slots:
     void RequestWithSelectedItem(const QModelIndex& index);
     bool compareParametersLists(const QList<Parameters>& list1, const QList<Parameters>& list2);
