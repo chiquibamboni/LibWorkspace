@@ -23,6 +23,7 @@ list(APPEND SOURCES ${RESOURCES_FILE})
 
 set(ICONS_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/icons)
 set(LIBRARIES_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/Libraries)
+set(DEFAULTLIBRARIES_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/DefaultLibraries)
 
 add_custom_target(copy_icons ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
@@ -35,7 +36,14 @@ add_custom_target(copy_libraries ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${LIBRARIES_SOURCE_DIR}
         $<TARGET_FILE_DIR:${PROJECT_NAME}>/Libraries
-    COMMENT "Copying icons directory to output directory"
+    COMMENT "Copying libraries directory to output directory"
+)
+
+add_custom_target(copy_libraries ALL
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${DEFAULTLIBRARIES_SOURCE_DIR}
+        $<TARGET_FILE_DIR:${PROJECT_NAME}>/DefaultLibraries
+    COMMENT "Copying default libraries directory to output directory"
 )
 
 #add_library(${PROJECT_NAME} SHARED ${SOURCES})
