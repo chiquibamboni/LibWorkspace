@@ -41,7 +41,7 @@ private:
     QList<Catalog>* catalogsList;
 
     void setupTree();
-    void updateTree(const nlohmann::json& jsonData);
-    void addLibraryToModel(const nlohmann::json& jsonObj, QStandardItem* parentItem);
+    void updateTree(const nlohmann::ordered_json& jsonData);
+    void addLibraryToModel(const nlohmann::ordered_json& jsonObj, QStandardItem* parentItem);
     QStandardItem* findItemByText(QStandardItem* parent, const QString& text);
 };

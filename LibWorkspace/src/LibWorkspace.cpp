@@ -712,7 +712,7 @@ void LibWorkspace::createNewCatalog(QString name, QString library, QString direc
         }
     }
 
-    nlohmann::json jsonObj = FillFromJsons::readJson(libPath, this);
+    nlohmann::ordered_json jsonObj = FillFromJsons::readJson(libPath, this);
 
     FillFromJsons::AddNewCatalogToJson(jsonObj, library, directory, name, mainPath, thumb);
 

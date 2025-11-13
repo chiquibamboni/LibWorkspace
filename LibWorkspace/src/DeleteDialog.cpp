@@ -159,13 +159,13 @@ void DeleteDialog::onAccept()
         FillFromJsons::deleteJsonFile(filePath, fileName);
         FillFromJsons::deleteJsonFile(ugoPath, fileName);
         QString libraryPath = "./Libraries/" + lib->dir + "/library.json";
-        nlohmann::json jsonObj = FillFromJsons::readJson(libraryPath, this);
+        nlohmann::ordered_json jsonObj = FillFromJsons::readJson(libraryPath, this);
         FillFromJsons::deleteComponentFromJson(jsonObj, libraryPath, *cat, comp->model);
     }
     else if (currentType == QStringLiteral(u"каталог")) {
         QString filePath = "./Libraries/" + lib->dir + "/" + lib->components_location;
         QString libraryPath = "./Libraries/" + lib->dir + "/library.json";
-        nlohmann::json jsonObj = FillFromJsons::readJson(libraryPath, this);
+        nlohmann::ordered_json jsonObj = FillFromJsons::readJson(libraryPath, this);
         FillFromJsons::deleteCatalogFromJson(jsonObj, *cat, libraryPath);
     }
     else if (currentType == QStringLiteral(u"библиотеку")) {

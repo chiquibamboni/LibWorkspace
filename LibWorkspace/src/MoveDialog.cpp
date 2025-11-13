@@ -138,7 +138,7 @@ void MoveDialog::onReject()
 void MoveDialog::onAccept()
 {
     QString libraryPath = "./Libraries/" + lib->dir + "/library.json";
-    nlohmann::json jsonObj = FillFromJsons::readJson(libraryPath, this);
+    nlohmann::ordered_json jsonObj = FillFromJsons::readJson(libraryPath, this);
     FillFromJsons::moveComponent(jsonObj, libraryPath, *cat, *nextCat, *comp);
     accept();
 }

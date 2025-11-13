@@ -26,7 +26,7 @@ void LibraryManager::setupTree()
 }
 
 //Обновление QTreeView после получения данных с сервера
-void LibraryManager::updateTree(const nlohmann::json& jsonData)
+void LibraryManager::updateTree(const nlohmann::ordered_json& jsonData)
 {
     if (currentPath == "./Libraries")
     {
@@ -60,7 +60,7 @@ void LibraryManager::updateTree(const nlohmann::json& jsonData)
     }
 }
 
-void LibraryManager::addLibraryToModel(const nlohmann::json& jsonObj, QStandardItem* parentItem)
+void LibraryManager::addLibraryToModel(const nlohmann::ordered_json& jsonObj, QStandardItem* parentItem)
 {
     parentItem->removeRows(0, parentItem->rowCount());
     if (jsonObj.contains("components_location"))
@@ -95,7 +95,7 @@ void LibraryManager::addLibraryToModel(const nlohmann::json& jsonObj, QStandardI
 
 void LibraryManager::request()
 {
-    nlohmann::json jsonData = FillFromJsons::readJson(currentPath, this);
+    nlohmann::ordered_json jsonData = FillFromJsons::readJson(currentPath, this);
     if (jsonData.is_null()) {
         QString message = QString(QStringLiteral(u"Не удалось загрузить данные из: %1")).arg(currentPath);
         FillFromJsons::showError(this, message);

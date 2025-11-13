@@ -179,7 +179,7 @@ void NewComponentDialog::createNewComponent(QString name, QString library, QStri
         }
     }
 
-    nlohmann::json jsonObj = FillFromJsons::readJson(libPath, this);
+    nlohmann::ordered_json jsonObj = FillFromJsons::readJson(libPath, this);
 
     FillFromJsons::AddNewComponentToJson(jsonObj, mainPath, *newComponent, directory, category);
 }
@@ -206,7 +206,7 @@ void NewComponentDialog::editComponent(QString currentName, QString currentDesc)
                         QString fileName = comp.model + ".json";
                         FillFromJsons::deleteJsonFile(filePath, fileName);
                         QString libraryPath = "./Libraries/" + lib.dir + "/library.json";
-                        nlohmann::json jsonObj = FillFromJsons::readJson(libraryPath, this);
+                        nlohmann::ordered_json jsonObj = FillFromJsons::readJson(libraryPath, this);
                         FillFromJsons::deleteComponentFromJson(jsonObj, libraryPath, cat, comp.model);
                         createNewComponent(comp.model, foundLib, foundDur, foundCat, currentDesc);
                         return;
@@ -231,7 +231,7 @@ void NewComponentDialog::editComponent(QString currentName, QString currentDesc)
                                 QString fileName = comp.model + ".json";
                                 FillFromJsons::deleteJsonFile(filePath, fileName);
                                 QString libraryPath = "./Libraries/" + lib.dir + "/library.json";
-                                nlohmann::json jsonObj = FillFromJsons::readJson(libraryPath, this);
+                                nlohmann::ordered_json jsonObj = FillFromJsons::readJson(libraryPath, this);
                                 FillFromJsons::deleteComponentFromJson(jsonObj, libraryPath, Subcat, comp.model);
                                 createNewComponent(comp.model, foundLib, foundDur, foundCat, currentDesc);
                                 return;

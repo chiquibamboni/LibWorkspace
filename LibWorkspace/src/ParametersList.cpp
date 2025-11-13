@@ -32,7 +32,7 @@ void ParametersList::setItems()
 
     for (const QString& fileName : fileList) {
         QString filePath = dir.filePath(fileName);
-        nlohmann::json parametersJson = FillFromJsons::readJson(filePath, this);
+        nlohmann::ordered_json parametersJson = FillFromJsons::readJson(filePath, this);
         
         if (parametersJson.is_null()) {
             continue;
