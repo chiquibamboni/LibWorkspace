@@ -35,7 +35,7 @@ void MoveDialog::setupUI(QString direction)
         else  if (direction == "down")
             directionStr = QStringLiteral(u"вниз");
 
-        message = QStringLiteral(u"Перемещение компонента <b>%1</b> %2 невозможно.")
+        message = QStringLiteral(u"Перемещение компонента <b>%1</b> %2 невозможно")
             .arg(comp->model)
             .arg(directionStr);
     }
