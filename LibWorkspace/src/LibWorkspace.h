@@ -66,6 +66,7 @@ private:
         QString parentCatalog;
         QString catalog;
     } treeState;
+    Catalog* nextCatalog;
 
     QList<Library>* libraries;
     QList<Catalog>* catalogs;

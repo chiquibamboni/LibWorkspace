@@ -550,7 +550,7 @@ void LibWorkspace::openMoveDownDialog()
     MoveDialog* moveDialog = new MoveDialog(currentLibrary, currentCatalog, currentComponent, direction, this);
 
     if (moveDialog->exec() == QDialog::Accepted) {
-
+        nextCatalog = moveDialog->getNextCatalog();
         refresh();
     }
 
@@ -570,7 +570,7 @@ void LibWorkspace::openMoveUpDialog()
     MoveDialog* moveDialog = new MoveDialog(currentLibrary, currentCatalog, currentComponent, direction, this);
 
     if (moveDialog->exec() == QDialog::Accepted) {
-
+        nextCatalog = moveDialog->getNextCatalog();
         refresh();
     }
 
@@ -727,6 +727,10 @@ void LibWorkspace::refresh()
         treeState.library = currentLibrary->name;
         if (currentCatalog)
         {
+            if (nextCatalog)
+            {
+                currentCatalog = nextCatalog;
+            }
             treeState.catalog = currentCatalog->name;
             if (!currentCatalog->parent.isEmpty())
             {
@@ -736,6 +740,7 @@ void LibWorkspace::refresh()
     }
     currentLibrary = nullptr;
     currentCatalog = nullptr;
+    nextCatalog = nullptr;
     currentComponent = nullptr;
     componentEditor->clearWidget();
     componentEditor->iconPaths.clear();

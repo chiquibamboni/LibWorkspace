@@ -19,6 +19,7 @@ public:
     MoveDialog(Library* currentLibrary, Catalog* currentCatalog, Component* currentComponent, QString direction, QWidget* parent = nullptr);
     ~MoveDialog();
 
+    Catalog* getNextCatalog() const { return nextCat; }
 private:
     void setupUI(QString direction);
     void setupConnections();
