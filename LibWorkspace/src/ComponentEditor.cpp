@@ -148,7 +148,7 @@ void ComponentEditor::setupConnections()
     connect(parameterEditor->netlistedCheckBox, &QCheckBox::stateChanged, this, &ComponentEditor::onParameterChanged);
     connect(modelsComboBox, &QComboBox::currentTextChanged, this, &ComponentEditor::selectModel);
     connect(selectIconBtn, &QPushButton::clicked, [&]() {
-        ThumbSelectDialog dlg(iconPaths);
+        ThumbSelectDialog dlg(iconPaths, "component");
         if (dlg.exec() == QDialog::Accepted) {
             QIcon icon = dlg.selectedIcon();
             newThumbName = dlg.newThumbName;

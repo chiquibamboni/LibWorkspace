@@ -1,7 +1,7 @@
 ﻿#include "ThumbSelectDialog.h"
 
-ThumbSelectDialog::ThumbSelectDialog(const QList<QString>& iconsPaths, QWidget* parent)
-    : QDialog(parent)
+ThumbSelectDialog::ThumbSelectDialog(const QList<QString>& iconsPaths, QString iconType, QWidget* parent)
+    : type(iconType), QDialog(parent)
 {
     setWindowTitle(QStringLiteral(u"Выберите иконку"));
 
@@ -41,7 +41,8 @@ QIcon ThumbSelectDialog::selectedIcon() const{
     return QIcon();
 }
 
-void ThumbSelectDialog::loadIcons(const QString& path) {
+void ThumbSelectDialog::loadIcons(const QString& path)
+{
     QDir dir(path);
     QStringList filters;
     filters << "*.png" << "*.jpg" << "*.bmp" << "*.ico" << "*.svg";
@@ -52,9 +53,23 @@ void ThumbSelectDialog::loadIcons(const QString& path) {
 
     for (const QString& fileName : files) {
         QString filePath = dir.absoluteFilePath(fileName);
-        QIcon icon(filePath);
         QString baseName = QFileInfo(fileName).fileName();
-        QListWidgetItem* item = new QListWidgetItem(icon, baseName);
-        listWidget->addItem(item);
+        QString nameWithoutExt = QFileInfo(baseName).completeBaseName();
+        if (type == "component")
+        {
+            if (!nameWithoutExt.isEmpty() && nameWithoutExt[0].isUpper()) {
+                QIcon icon(filePath);
+                QListWidgetItem* item = new QListWidgetItem(icon, baseName);
+                listWidget->addItem(item);
+            }
+        }
+        else if (type == "catalog")
+        {
+            if (!nameWithoutExt.isEmpty() && nameWithoutExt[0].isLower()) {
+                QIcon icon(filePath);
+                QListWidgetItem* item = new QListWidgetItem(icon, baseName);
+                listWidget->addItem(item);
+            }
+        }
     }
 }

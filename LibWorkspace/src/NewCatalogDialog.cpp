@@ -77,7 +77,7 @@ void NewCatalogDialog::setupConnections()
 
 void NewCatalogDialog::openThumbDialog()
 {
-    ThumbSelectDialog dlg(iconPaths);
+    ThumbSelectDialog dlg(iconPaths, "catalog");
     if (dlg.exec() == QDialog::Accepted) {
         QIcon icon = dlg.selectedIcon();
         newThumbName = dlg.newThumbName;
